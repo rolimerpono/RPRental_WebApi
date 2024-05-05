@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataServices.Common.Static
 {
-    public class SD
+    public static class SD
     {
         public enum ApiType
         { 

@@ -5,23 +5,22 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataServices.Common.RepositoryInterface
+namespace Repository.Interface
 {
     public interface IRepository<T> where T : class
     {
-
-        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? IncludeProperties = null,
-           int pageSize = 0, int pageNumber = 1, bool isTracking = false);
+        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false);
 
         Task<T> GetAsync(Expression<Func<T, bool>> filter, string? IncludeProperties = null, bool isTracking = false);
 
-        Task AddAsync(T objEntity);
-
-        Task<bool> AnyAsync(Expression<Func<T, Boolean>>? Filter);
+        Task CreateAync(T objEntity);
 
         Task RemoveAsync(T objEntity);
 
         Task SaveAsync();
 
+        Task AnyAsync(Expression<Func<T, Boolean>>? Filter);
+
+ 
     }
 }

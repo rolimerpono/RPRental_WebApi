@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataServices.Common.RepositoryInterface
+namespace Repository.Interface
 {
-    public interface IWorker
+    public interface IRoomRepository
     {
-        IRoomRepository tbl_Rooms { get; }
-
     }
 }

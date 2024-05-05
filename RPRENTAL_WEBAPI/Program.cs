@@ -1,6 +1,4 @@
 using DatabaseAccess;
-using DatabaseAccess.Repository;
-using DataServices.Common.RepositoryInterface;
 using DataServices.Services.Implementation;
 using DataServices.Services.Interface;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDBContext>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-builder.Services.AddScoped<IWorker, Worker>();
+
 builder.Services.AddScoped<IRoomService,RoomService>();
 
 
