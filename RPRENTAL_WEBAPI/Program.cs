@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Model;
 using RPRENTAL_WEBAPI;
 using Serilog;
+using System.IO.Pipes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDBContext>();
+builder.Services.AddScoped<IWorker,Worker>();
+builder.Services.AddScoped<IRoomService,RoomService>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
-builder.Services.AddScoped<IRoomService,RoomService>();
 
 
 

@@ -26,13 +26,12 @@ namespace Repository.Implementation
 
         public async Task AnyAsync(Expression<Func<T, bool>>? Filter)
         {          
-            _dbSet.Any(Filter);
+            await _dbSet.AnyAsync(Filter);
         }
 
         public async Task CreateAync(T objEntity)
         {
-            await _dbSet.AddAsync(objEntity);
-            await SaveAsync();
+            await _dbSet.AddAsync(objEntity);        
         }
 
         public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false)
@@ -73,8 +72,7 @@ namespace Repository.Implementation
 
         public async Task RemoveAsync(T objEntity)
         {          
-            _dbSet.Remove(objEntity);
-            await SaveAsync();
+            _dbSet.Remove(objEntity);          
         }
 
         public async Task SaveAsync()

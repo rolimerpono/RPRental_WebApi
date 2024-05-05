@@ -1,4 +1,4 @@
-﻿//using Repository.Interface;
+﻿using Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace DataServices.Services.Interface
 {
     public interface IWorker
     {
-        //IRoomRepository tbl_Rooms { get; }
+        IRoomRepository tbl_Rooms { get; }
     }
 }

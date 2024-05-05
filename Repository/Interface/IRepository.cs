@@ -17,9 +17,7 @@ namespace Repository.Interface
 
         Task RemoveAsync(T objEntity);
 
-        Task SaveAsync();
-
-        Task AnyAsync(Expression<Func<T, Boolean>>? Filter);
+        Task SaveAsync();    
 
  
     }

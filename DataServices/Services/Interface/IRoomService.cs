@@ -10,15 +10,17 @@ namespace DataServices.Services.Interface
 {
     public interface IRoomService
     {
-        //Task<IEnumerable<Room>> GetAllAsync();
+        Task<IEnumerable<Room>> GetAllAsync();
 
-        //Task<Room> GetAsync(int Id);
+        Task<Room> GetAsync(int Id);
 
-        //Task<Boolean> CreateAsync(Room objRoom);
+        Task<Boolean> CreateAsync(Room objRoom);
 
-        //Task<Boolean> UpdateAsync(Room objRoom);
+        Task<Boolean> UpdateAsync(Room objRoom);
 
-        //Task<Boolean> DeleteAsync(int Id);
+        Task<Boolean> RemoveAsync(int Id);
+
+        Task SaveAsync();
     }
 
 }
