@@ -34,12 +34,21 @@ namespace Repository.Implementation
             await _dbSet.AddAsync(objEntity);        
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false)
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {
 
             IQueryable<T> objQuery = isTracking ? _dbSet.AsQueryable() : _dbSet.AsNoTracking();
 
             objQuery = filter != null ? objQuery.Where(filter) : objQuery;
+
+            if(pageSize > 0)
+            {
+                if(pageSize > 100)
+                {
+                    pageSize = 100;
+                }
+                objQuery = objQuery.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            }
 
             if (!string.IsNullOrEmpty(IncludeProperties))
             {
@@ -67,7 +76,7 @@ namespace Repository.Implementation
                 }
             }
 
-            return await objQuery.FirstOrDefaultAsync();
+            return await objQuery.FirstOrDefaultAsync()!;
         }
 
         public async Task RemoveAsync(T objEntity)

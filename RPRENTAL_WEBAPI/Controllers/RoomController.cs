@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using DataServices.Common.DTO;
 using DataServices.Services.Interface;
 using Microsoft.AspNetCore.JsonPatch;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Writers;
 using Model;
 using System.Net;
+using System.Text.Json;
 
 
 
@@ -13,7 +15,7 @@ using System.Net;
 namespace RPRENTAL_WEBAPI.Controllers
 {
 
-    [Route("api/RoomAPI")]
+    [Route("api/Room")]
     [ApiController]
     public class RoomController : ControllerBase
     {
@@ -70,6 +72,54 @@ namespace RPRENTAL_WEBAPI.Controllers
 
             return _Response;
         }
+
+
+        [HttpGet(Name = "GetRooms")]        
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<APIResponse>> GetRooms(int PageSize = 0, int PageNumber = 1)
+        {
+           
+            try
+            {
+                IEnumerable<Room> objRooms = new List<Room>();
+
+                objRooms = await _IRoomService.GetAllAsync(pageSize: PageSize, pageNumber: PageNumber);
+
+                if (objRooms == null)
+                {
+                    _Response.StatusCode = HttpStatusCode.BadRequest;
+                    return BadRequest(_Response);
+                }
+
+                if (objRooms == null)
+                {
+                    _Response.StatusCode = HttpStatusCode.NotFound;
+                    return NotFound(_Response);
+                }
+
+                Pagination _pagination = new() 
+                { 
+                    PageNumber = PageNumber, 
+                    PageSize = PageSize 
+                };
+
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(_pagination));
+                _Response.Result = _IMapper.Map<List<RoomDTO>>(objRooms);
+                _Response.StatusCode = HttpStatusCode.OK;
+                return Ok(_Response);
+
+            }
+            catch (Exception ex)
+            {
+                _Response.IsSuccess = false;
+                _Response.ErrorMessages = new List<string>() { ex.Message };
+            }
+
+            return _Response;
+        }
+
 
 
         [HttpPost]

@@ -6,6 +6,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,15 +48,13 @@ namespace DataServices.Services.Implementation
             return false;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<Room>> GetAllAsync()
+        public async Task<IEnumerable<Room>> GetAllAsync(Expression<Func<Room, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {
             IEnumerable<Room> objRooms;
 
             try
             {
-
-                objRooms = await _IWorker.tbl_Rooms.GetAllAsync();
+                objRooms = await _IWorker.tbl_Rooms.GetAllAsync(filter,IncludeProperties,isTracking,pageSize,pageNumber);
 
                 if (objRooms != null)
                 {
@@ -66,7 +65,7 @@ namespace DataServices.Services.Implementation
             {
 
             }
-            return null;
+            return null!;
         }
 
         public async Task<Room> GetAsync(int Id)
@@ -76,11 +75,13 @@ namespace DataServices.Services.Implementation
             {
 
                 objRoom = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == Id);
+
                 if (objRoom != null)
                 {
                     return objRoom;
                 }
-                return null;
+
+                return null!;
 
             }
             catch (Exception ex)
@@ -88,6 +89,7 @@ namespace DataServices.Services.Implementation
                 throw;
             }
         }
+
 
         public Task<bool> RemoveAsync(int Id)
         {
