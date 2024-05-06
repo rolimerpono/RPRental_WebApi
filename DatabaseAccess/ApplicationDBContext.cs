@@ -13,7 +13,18 @@ namespace DatabaseAccess
 
         }
 
+        public DbSet<Booking> tbl_Bookings { get; set; }
+
         public DbSet<Room> tbl_Rooms { get; set; }
+
+        public DbSet<Amenity> tbl_Amenity { get; set; }
+        public DbSet<RoomAmenity> tbl_RoomAmenity { get; set; }
+
+        public DbSet<RoomNumber> tbl_RoomNumber { get; set; }
+
+        public DbSet<ResetPassword> tbl_ResetPassword { get; set; }
+       
+        public DbSet<ApplicationUser> tbl_User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

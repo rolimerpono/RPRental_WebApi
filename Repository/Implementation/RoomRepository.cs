@@ -24,7 +24,6 @@ namespace Repository.Implementation
             _db.tbl_Rooms.Update(objEntity);
           
         }
-
        
 
     }

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Repository.Interface
 {
-    public interface IRoomRepository : IRepository<Room>
+    public interface IResetPasswordRepository : IRepository<ResetPassword>
     {
-        Task UpdateAsync(Room objEntity);
-       
+        
     }
 }

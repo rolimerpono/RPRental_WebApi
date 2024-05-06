@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Repository.Interface
 {
-    public interface IRoomRepository : IRepository<Room>
+    public interface IRoomNumberRepository : IRepository<RoomNumber>
     {
-        Task UpdateAsync(Room objEntity);
-       
+        Task UpdateAsync(RoomNumber objEntity);
+
     }
 }

@@ -15,16 +15,16 @@ namespace RPRENTAL_WEBAPI.Controllers
 
     [Route("api/RoomAPI")]
     [ApiController]
-    public class RoomAPIController : ControllerBase
+    public class RoomController : ControllerBase
     {
 
 
-        private readonly ILogger<RoomAPIController> _logger;
+        private readonly ILogger<RoomController> _logger;
         private APIResponse _Response;
         private readonly IMapper _IMapper;
         private readonly IRoomService _IRoomService;
 
-        public RoomAPIController(ILogger<RoomAPIController> logger, IRoomService RoomService, IMapper mapper)
+        public RoomController(ILogger<RoomController> logger, IRoomService RoomService, IMapper mapper)
         {
             _logger = logger;
             _IRoomService = RoomService;
