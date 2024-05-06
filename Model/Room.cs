@@ -15,7 +15,7 @@ namespace Model
 
         public string? Description { get; set; }
 
-        public double Price { get; set; }   
+        public double RoomPrice { get; set; }   
 
         public int MaxOccupancy { get; set; }
 
