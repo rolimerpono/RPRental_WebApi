@@ -208,6 +208,45 @@ namespace RPRENTAL_WEBAPI.Controllers
 
         }
 
+        [HttpDelete("{id:int}", Name = "DeleteRoom")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> DeleteRoom(int id)
+        {
+            {
+                try
+                {
+                    if (id == 0)
+                    {
+                        _Response.StatusCode = HttpStatusCode.BadRequest;
+                        return BadRequest(_Response);
+                    }
+                    
+                    bool is_success = await _IRoomService.RemoveAsync(id);
+
+                    if (is_success)
+                    {                       
+                        _Response.StatusCode = HttpStatusCode.NoContent;
+                        _Response.IsSuccess = true;
+                        return Ok(_Response);
+                    }
+
+                    _Response.IsSuccess = false;
+                    _Response.StatusCode = HttpStatusCode.BadRequest;
+                    _Response.ErrorMessages = new List<string>() { "Room not exists." };
+
+                }
+                catch (Exception ex)
+                {
+                    _Response.IsSuccess = false;
+                    _Response.ErrorMessages = new List<string>() { ex.Message };
+                }
+
+                return _Response;
+            }
+
+        }
+
 
         [HttpPatch("{id:int}", Name = "UpdatePartialRoom")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

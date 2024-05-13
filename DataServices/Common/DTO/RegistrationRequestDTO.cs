@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Interface
+namespace DataServices.Common.DTO
 {
-    public interface IApplicationUserRepository : IRepository<ApplicationUser>
-    {      
-
-
+    public class RegistrationRequestDTO
+    {
+        public ApplicationUser User { get; set; }      
     }
 }

@@ -1,5 +1,7 @@
 ﻿using DatabaseAccess;
 using DataServices.Services.Interface;
+using Microsoft.AspNetCore.Identity;
+using Model;
 using Repository.Implementation;
 using Repository.Interface;
 using System;
@@ -12,8 +14,9 @@ namespace DataServices.Services.Implementation
 {
     public class Worker : IWorker
     {
+        
         private readonly ApplicationDBContext _db;
-
+    
         public IRoomRepository tbl_Rooms { get; private set; }
         public IApplicationUserRepository tbl_User { get; private set; }
         public IRoomNumberRepository tbl_RoomNumber { get; private set; }
