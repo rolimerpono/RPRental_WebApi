@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDBContext>();
 builder.Services.AddScoped<IWorker,Worker>();
+builder.Services.AddScoped<IApplicationUserService,ApplicationUserService>();
 builder.Services.AddScoped<IRoomService,RoomService>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 

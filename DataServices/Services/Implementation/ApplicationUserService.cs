@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Model;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,7 +16,7 @@ using Utility;
 
 namespace DataServices.Services.Implementation
 {
-    internal class ApplicationUserService : IApplicationUserService
+    public class ApplicationUserService : IApplicationUserService
     {
         private readonly IWorker _IWorker;
         private readonly UserManager<ApplicationUser> _UserManager;
@@ -51,17 +52,28 @@ namespace DataServices.Services.Implementation
         {
 
             var signInResult = await _SignInManager.PasswordSignInAsync(loginRequestDTO.Username, loginRequestDTO.Password, loginRequestDTO.IsRemember, false);
+            var loginResponse = new LoginResponseDTO();
 
             if (signInResult.Succeeded)
             {
                 var user = await _UserManager.FindByEmailAsync(loginRequestDTO.Username);
 
-                if (user != null)
+                if (user == null)
                 {
-                    var claims = new[]
+
+                    return loginResponse = new LoginResponseDTO
                     {
-                        new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim(ClaimTypes.Role, user.Role)
+                        Token = string.Empty,
+                        User = null
+                    };
+
+                }
+
+             
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Role, user.Role)
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
@@ -77,20 +89,22 @@ namespace DataServices.Services.Implementation
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(tokenDescriptor);
 
-                var loginResponse = new LoginResponseDTO
+                loginResponse = new LoginResponseDTO
                 {
                     Token = tokenHandler.WriteToken(token),
                     User = user
                 };
 
-                    return loginResponse;
-                }
+                return loginResponse;                
             }
-
-            return null;
-
-
-
+            else
+            {
+                return loginResponse = new LoginResponseDTO
+                {
+                    Token = string.Empty,
+                    User = null
+                };
+            }
         }
 
         public async Task<ApplicationUser> Register(RegistrationRequestDTO registrationRequestDTO)
