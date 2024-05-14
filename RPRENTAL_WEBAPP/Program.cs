@@ -1,10 +1,15 @@
 using RPRENTAL_WEBAPP;
+using RPRENTAL_WEBAPP.Services.Implementation;
+using RPRENTAL_WEBAPP.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-
+builder.Services.AddScoped<IBaseService,BaseService>();
+builder.Services.AddHttpClient<IRoomService, RoomService>();
+builder.Services.AddScoped<IRoomService,RoomService>();
+   
 
 
 // Add services to the container.

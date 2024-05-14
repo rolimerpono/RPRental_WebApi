@@ -1,4 +1,4 @@
-﻿using DataServices.Common.DTO;
+﻿using DataServices.Common.DTO.ApplicationUsers;
 using Model;
 using System;
 using System.Collections.Generic;

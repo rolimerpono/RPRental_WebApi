@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataServices.Common.DTO
+namespace RPRENTAL_WEBAPP.Models.DTO.ApplicationUsers
 {
     public class loginRequestDTO
     {

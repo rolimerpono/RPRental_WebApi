@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DataServices.Common.DTO;
+using DataServices.Common.DTO.Room;
 using Model;
 
 

@@ -1,4 +1,4 @@
-﻿using DataServices.Common.DTO;
+﻿using DataServices.Common.DTO.ApplicationUsers;
 using DataServices.Services.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;

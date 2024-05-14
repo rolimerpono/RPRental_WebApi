@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Azure;
 using DataServices.Common.DTO;
+using DataServices.Common.DTO.Room;
 using DataServices.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;

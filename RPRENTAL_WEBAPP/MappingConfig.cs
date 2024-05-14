@@ -1,16 +1,18 @@
 ﻿using AutoMapper;
 using Model;
-using RPRENTAL_WEBAPP.Models.DTO;
+using RPRENTAL_WEBAPP.Models.DTO.Room;
 
 
-namespace RPRENTAL_WEBAPP{
+namespace RPRENTAL_WEBAPP
+{
     public class MappingConfig : Profile
     {
         public MappingConfig() 
         {
-            CreateMap<RoomDTO, Room>().ReverseMap();
+            CreateMap<Room, RoomDTO>().ReverseMap();
+            CreateMap<Room, RoomCreateDTO>().ReverseMap();
+            CreateMap<Room, RoomUpdateDTO>().ReverseMap();
 
-        
         }
     }
 }

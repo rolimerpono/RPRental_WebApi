@@ -31,4 +31,12 @@
 
 
 
+  <ItemGroup>
+    <Folder Include="Common\DTO\Amenity\" />
+    <Folder Include="Common\DTO\RoomAmenity\" />
+    <Folder Include="Common\DTO\RoomNumber\" />
+  </ItemGroup>
+
+
+
 </Project>

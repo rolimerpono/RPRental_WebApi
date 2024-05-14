@@ -2,14 +2,17 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
-namespace RPRENTAL_WEBAPP.Models.DTO
+
+namespace RPRENTAL_WEBAPP.Models.DTO.Room
 {
-    public class RoomCreateDTO
+    public class RoomUpdateDTO
     {
- 
 
         [Required]
-        public String RoomName { get; set; }
+        public int RoomId { get; set; }
+
+        [Required]
+        public string RoomName { get; set; }
 
         public string? Description { get; set; }
 
@@ -30,7 +33,7 @@ namespace RPRENTAL_WEBAPP.Models.DTO
         public IFormFile Image { get; set; }
 
         [NotMapped]
-        public Boolean IsRoomAvailable { get; set; }
+        public bool IsRoomAvailable { get; set; }
 
 
         [NotMapped]

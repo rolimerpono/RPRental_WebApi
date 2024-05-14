@@ -2,14 +2,16 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
-namespace DataServices.Common.DTO
+namespace DataServices.Common.DTO.Room
 {
-    public class RoomCreateDTO
+    public class RoomUpdateDTO
     {
- 
 
         [Required]
-        public String RoomName { get; set; }
+        public int RoomId { get; set; }
+
+        [Required]
+        public string RoomName { get; set; }
 
         public string? Description { get; set; }
 
@@ -22,7 +24,7 @@ namespace DataServices.Common.DTO
 
         public string? ImageUrl { get; set; }
 
-        public DateTime? CreatedDate { get; set; }    
+        public DateTime? UpdatedDate { get; set; } = DateTime.Now;
 
 
     }

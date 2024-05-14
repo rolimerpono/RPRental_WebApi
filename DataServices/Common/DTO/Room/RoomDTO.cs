@@ -2,15 +2,15 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
-namespace DataServices.Common.DTO
+namespace DataServices.Common.DTO.Room
 {
     public class RoomDTO
     {
- 
+
         public int RoomId { get; set; }
 
         [Required]
-        public String RoomName { get; set; }
+        public string RoomName { get; set; }
 
         public string? Description { get; set; }
 
@@ -31,7 +31,7 @@ namespace DataServices.Common.DTO
         public IFormFile Image { get; set; }
 
         [NotMapped]
-        public Boolean IsRoomAvailable { get; set; }
+        public bool IsRoomAvailable { get; set; }
 
 
         [NotMapped]
