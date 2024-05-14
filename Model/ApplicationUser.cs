@@ -13,6 +13,7 @@ namespace Model
 
         public string? Fullname { get; set; }
 
+        
         [NotMapped]
         public string Password { get; set;}
         [NotMapped]

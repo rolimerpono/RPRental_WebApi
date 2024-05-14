@@ -37,112 +37,142 @@ namespace DataServices.Services.Implementation
 
         public async Task<bool> IsUniqueUsername(string username)
         {
-            var objUser = await _IWorker.tbl_User.GetAsync(fw => fw.Email!.ToLower() == username.ToLower());
+            try
+            {
+                var objUser = await _IWorker.tbl_User.GetAsync(fw => fw.Email!.ToLower() == username.ToLower());
 
-            if (objUser == null)
+                if (objUser == null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
             {
                 return true;
-            }
-
-            return false;
-           
+            }           
         }
 
         public async Task<LoginResponseDTO> Login(loginRequestDTO loginRequestDTO)
         {
-
-            var signInResult = await _SignInManager.PasswordSignInAsync(loginRequestDTO.Username, loginRequestDTO.Password, loginRequestDTO.IsRemember, false);
             var loginResponse = new LoginResponseDTO();
-
-            if (signInResult.Succeeded)
+            try
             {
-                var user = await _UserManager.FindByEmailAsync(loginRequestDTO.Username);
 
-                if (user == null)
+                var signInResult = await _SignInManager.PasswordSignInAsync(loginRequestDTO.Username, loginRequestDTO.Password, loginRequestDTO.IsRemember, false);
+
+
+                if (signInResult.Succeeded)
                 {
+                    var user = await _UserManager.FindByEmailAsync(loginRequestDTO.Username);
+                    user.Role = _UserManager.GetRolesAsync(user).GetAwaiter().GetResult().FirstOrDefault()!;
+           
 
-                    return loginResponse = new LoginResponseDTO
+                    if (user == null)
                     {
-                        Token = string.Empty,
-                        User = null
-                    };
 
-                }
+                        return loginResponse = new LoginResponseDTO
+                        {
+                            Token = string.Empty,
+                            User = null!
+                        };
 
-             
-                var claims = new[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
+                    }
+
+
+                    var claims = new[]
+                    {
+                    new Claim(ClaimTypes.Name, user.UserName!),
                     new Claim(ClaimTypes.Role, user.Role)
                 };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
-                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
+                    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
-                var tokenDescriptor = new SecurityTokenDescriptor
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity(claims),
+                        Expires = DateTime.UtcNow.AddDays(7),
+                        SigningCredentials = credentials
+                    };
+
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var token = tokenHandler.CreateToken(tokenDescriptor);
+
+                    loginResponse = new LoginResponseDTO
+                    {
+                        Token = tokenHandler.WriteToken(token),
+                        User = user
+                    };
+
+                    return loginResponse;
+                }
+                else
                 {
-                    Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    SigningCredentials = credentials
-                };
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-
-                loginResponse = new LoginResponseDTO
-                {
-                    Token = tokenHandler.WriteToken(token),
-                    User = user
-                };
-
-                return loginResponse;                
+                    return loginResponse = new LoginResponseDTO
+                    {
+                        Token = string.Empty,
+                        User = null!
+                    };
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return loginResponse = new LoginResponseDTO
-                {
-                    Token = string.Empty,
-                    User = null
-                };
+                return null!;
             }
         }
 
         public async Task<ApplicationUser> Register(RegistrationRequestDTO registrationRequestDTO)
-        {          
-            ApplicationUser objUser = new ApplicationUser()
+        {
+            ApplicationUser objUser;
+
+            try
             {
-                Fullname = registrationRequestDTO.User.Fullname,
-                Email = registrationRequestDTO.User.Email,
-                PhoneNumber = registrationRequestDTO.User.PhoneNumber,
-                NormalizedEmail = registrationRequestDTO.User.Email,
-                EmailConfirmed = true,
-                UserName = registrationRequestDTO.User.Email,
-                CreatedDate = DateTime.Now,
 
-            };
-                    
 
-            var objUserManager = await _UserManager.CreateAsync(objUser, registrationRequestDTO.User.Password);
-
-            if (objUserManager.Succeeded)
-            {
-                if (!string.IsNullOrEmpty(registrationRequestDTO.User.Role))
+                objUser = new ApplicationUser()
                 {
-                    await _UserManager.AddToRoleAsync(objUser, registrationRequestDTO.User.Role);
-                }
-                else
-                {
-                    await _UserManager.AddToRoleAsync(objUser, SD.UserRole.Customer.ToString());
-                }
+                    Fullname = registrationRequestDTO.FullName,
+                    Email = registrationRequestDTO.Email,
+                    PhoneNumber = registrationRequestDTO.PhoneNumber,
+                    NormalizedEmail = registrationRequestDTO.Email,
+                    EmailConfirmed = true,
+                    UserName = registrationRequestDTO.Email,
+                    CreatedDate = DateTime.Now,
 
-                objUser.Password = "";
-                objUser.ConfirmPassword = "";
+                };
+
+                var objUserRole = _UserManager.GetRolesAsync(objUser).GetAwaiter().GetResult().FirstOrDefault() ?? "Customer";
+
+
+                var objUserManager = await _UserManager.CreateAsync(objUser, registrationRequestDTO.Password);
+
+                if (objUserManager.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(registrationRequestDTO.Role))
+                    {
+                        await _UserManager.AddToRoleAsync(objUser, registrationRequestDTO.Role);
+                    }
+                    else
+                    {
+                        await _UserManager.AddToRoleAsync(objUser, SD.UserRole.Customer.ToString());
+                    }
+
+                    objUser.Password = "";
+                    objUser.ConfirmPassword = "";
+
+                    return objUser;
+                }
 
                 return objUser;
             }
+            catch(Exception ex)
+            {
+                return null!;
+            }
 
-            return objUser;
-
+           
         }
     }
 }

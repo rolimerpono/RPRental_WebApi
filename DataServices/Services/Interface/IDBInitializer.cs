@@ -8,6 +8,6 @@ namespace DataServices.Services.Interface
 {
     public interface IDBInitializer
     {
-        Task DBInitializer();
+        void Initialize();
     }
 }

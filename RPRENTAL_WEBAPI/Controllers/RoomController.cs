@@ -2,6 +2,7 @@
 using Azure;
 using DataServices.Common.DTO;
 using DataServices.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Writers;
@@ -34,6 +35,8 @@ namespace RPRENTAL_WEBAPI.Controllers
             _Response = new APIResponse();
         }
 
+
+        [Authorize]
         [HttpGet("{id:int}", Name = "GetRoom")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -74,10 +77,14 @@ namespace RPRENTAL_WEBAPI.Controllers
         }
 
 
+
+        [Authorize]
         [HttpGet(Name = "GetRooms")]        
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetRooms(int PageSize = 0, int PageNumber = 1)
         {
            
@@ -122,7 +129,11 @@ namespace RPRENTAL_WEBAPI.Controllers
 
 
 
+
+        [Authorize]
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -166,7 +177,10 @@ namespace RPRENTAL_WEBAPI.Controllers
         }
 
 
+        [Authorize]
         [HttpPut("{id:int}", Name = "UpdateRoom")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> UpdateRoom(int id, [FromBody] RoomUpdateDTO roomDTO)
@@ -208,7 +222,11 @@ namespace RPRENTAL_WEBAPI.Controllers
 
         }
 
+
+        [Authorize]
         [HttpDelete("{id:int}", Name = "DeleteRoom")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> DeleteRoom(int id)
@@ -248,7 +266,10 @@ namespace RPRENTAL_WEBAPI.Controllers
         }
 
 
+        [Authorize]
         [HttpPatch("{id:int}", Name = "UpdatePartialRoom")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> UpdatePartialRoom(int id, JsonPatchDocument<RoomUpdateDTO> roomDTO)
