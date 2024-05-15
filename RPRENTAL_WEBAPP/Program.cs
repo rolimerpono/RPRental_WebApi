@@ -1,3 +1,7 @@
+using DatabaseAccess;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Model;
 using RPRENTAL_WEBAPP;
 using RPRENTAL_WEBAPP.Services.Implementation;
 using RPRENTAL_WEBAPP.Services.Interface;
@@ -5,11 +9,42 @@ using RPRENTAL_WEBAPP.Services.Interface;
 var builder = WebApplication.CreateBuilder(args);
 
 
+
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IBaseService,BaseService>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddHttpClient<IApplicationUserService, ApplicationUserService>();
+builder.Services.AddScoped<IApplicationUserService,ApplicationUserService>();
+
+
 builder.Services.AddHttpClient<IRoomService, RoomService>();
 builder.Services.AddScoped<IRoomService,RoomService>();
-   
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(option =>
+{
+    option.IdleTimeout = TimeSpan.FromMinutes(5);
+    option.Cookie.HttpOnly = true;
+    option.Cookie.IsEssential = true;
+});
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => 
+{
+    options.Cookie.HttpOnly = true;    
+    options.SlidingExpiration = true;
+    options.LoginPath = "/ApplicationUser/Login/";
+    options.AccessDeniedPath = "/ApplicationUser/AccessDenied/";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+});
+
+builder.Services.Configure<IdentityOptions>(opt =>
+{
+    opt.Password.RequiredLength = 6;
+    opt.Password.RequiredUniqueChars = 1;
+    opt.Password.RequireUppercase = true;
+});
 
 
 // Add services to the container.
@@ -29,7 +64,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -33,6 +33,7 @@ namespace Utility
             Refunded
         }
 
+        public static string TokenSession = "JWTToken";
 
         public struct CrudTransactionsMessage
         {

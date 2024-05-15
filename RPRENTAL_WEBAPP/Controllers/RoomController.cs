@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Newtonsoft.Json;
@@ -20,7 +21,8 @@ namespace RPRENTAL_WEBAPP.Controllers
             _IMapper = Mapper;
         }
 
-        public async Task<IActionResult> GetRooms()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
             List<RoomDTO> objRooms = new List<RoomDTO>();
             var response = await _IRoomService.GetAllAsync<APIResponse>();
@@ -31,14 +33,9 @@ namespace RPRENTAL_WEBAPP.Controllers
  
             }      
             
-            return View(objRooms);
-        }
-
-
-
-        public IActionResult Index()
-        {
             return View();
         }
+
+       
     }
 }

@@ -11,20 +11,19 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
     {
         public APIResponse _responseModel { get; set; }
         public IHttpClientFactory _httpClient { get; set; }
-        public APIResponse responseModel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public APIResponse responseModel { get; set; }
 
         public BaseService(IHttpClientFactory httpClient)
         {
-
-            _responseModel = new APIResponse();
             _httpClient = httpClient;
+            _responseModel = new APIResponse();
         }
 
         public async Task<T> SendAsync<T>(APIRequest apiRequest)
         {
             try
             {
-                var client = _httpClient.CreateClient("RPRENTAL_API");
+                var client = _httpClient.CreateClient("RPRentalApi");
                 HttpRequestMessage message = new HttpRequestMessage();
                 message.Headers.Add("Accept", "application/json");
                 message.RequestUri = new Uri(apiRequest.Url);

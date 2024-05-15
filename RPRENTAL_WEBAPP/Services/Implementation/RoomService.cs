@@ -30,7 +30,7 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
                 ApiType = SD.ApiType.POST,
                 Data= objRoom,
                 Url = apiUrl + "/api/Room/"            
-            });;
+            });
         }
 
         public Task<T> DeleteAsync<T>(int id)
@@ -48,7 +48,7 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             {
                 ApiType = SD.ApiType.GET,              
                 Url = apiUrl + "/api/Room/"
-            }); ;
+            });
         }
 
         public Task<T> GetAsync<T>(int id)
@@ -57,7 +57,7 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             {
                 ApiType = SD.ApiType.GET,              
                 Url = apiUrl + "/api/Room/" + id
-            }); ;
+            });
         }
 
         public Task<T> UpdateAsync<T>(RoomDTO objRoom)
@@ -67,7 +67,7 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
                 ApiType = SD.ApiType.PUT,
                 Data = objRoom,
                 Url = apiUrl + "/api/Room/" + objRoom.RoomId
-            }); ;
+            });
         }
     }
 }
