@@ -11,5 +11,7 @@ namespace RPRENTAL_WEBAPP.Models.DTO
 
         public object Data { get; set; }
 
+        public string Token { get;set; }
+
     }
 }

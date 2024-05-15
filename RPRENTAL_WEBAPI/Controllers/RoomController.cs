@@ -64,6 +64,7 @@ namespace RPRENTAL_WEBAPI.Controllers
                 }
 
                 _Response.Result = _IMapper.Map<RoomDTO>(objRoom);
+                _Response.IsSuccess = true;
                 _Response.StatusCode = HttpStatusCode.OK;
                 return Ok(_Response);
 
@@ -115,6 +116,7 @@ namespace RPRENTAL_WEBAPI.Controllers
 
                 Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(_pagination));
                 _Response.Result = _IMapper.Map<List<RoomDTO>>(objRooms);
+                _Response.IsSuccess = true;
                 _Response.StatusCode = HttpStatusCode.OK;
                 return Ok(_Response);
 

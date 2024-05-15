@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using RPRENTAL_WEBAPP.Models.DTO;
 using RPRENTAL_WEBAPP.Models.DTO.Room;
 using RPRENTAL_WEBAPP.Services.Interface;
+using Utility;
 
 namespace RPRENTAL_WEBAPP.Controllers
 {
@@ -25,7 +26,7 @@ namespace RPRENTAL_WEBAPP.Controllers
         public async Task<IActionResult> Index()
         {
             List<RoomDTO> objRooms = new List<RoomDTO>();
-            var response = await _IRoomService.GetAllAsync<APIResponse>();
+            var response = await _IRoomService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession)!);
 
             if(response != null && response.IsSuccess)
             {

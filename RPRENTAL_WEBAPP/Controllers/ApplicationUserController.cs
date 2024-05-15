@@ -49,16 +49,15 @@ namespace RPRENTAL_WEBAPP.Controllers
                 };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-
+                var cp = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, cp);
                 HttpContext.Session.SetString(SD.TokenSession, objResponse.Token);
+
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                ModelState.AddModelError("Error", response.ErrorMessages.FirstOrDefault()!);
+                ModelState.AddModelError("Error", response!.ErrorMessages.FirstOrDefault()!);
             }
 
             return View(loginRequest);

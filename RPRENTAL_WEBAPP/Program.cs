@@ -25,7 +25,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(option =>
 {
-    option.IdleTimeout = TimeSpan.FromMinutes(5);
+    option.IdleTimeout = TimeSpan.FromMinutes(100);
     option.Cookie.HttpOnly = true;
     option.Cookie.IsEssential = true;
 });
@@ -36,7 +36,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.SlidingExpiration = true;
     options.LoginPath = "/ApplicationUser/Login/";
     options.AccessDeniedPath = "/ApplicationUser/AccessDenied/";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(100);
 });
 
 builder.Services.Configure<IdentityOptions>(opt =>

@@ -2,6 +2,7 @@
 using RPRENTAL_WEBAPP.Models;
 using RPRENTAL_WEBAPP.Models.DTO;
 using RPRENTAL_WEBAPP.Services.Interface;
+using System.Net.Http.Headers;
 using System.Text;
 using Utility;
 
@@ -47,6 +48,11 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
                     case SD.ApiType.DELETE:
                         message.Method = HttpMethod.Delete;
                         break;
+                }
+
+                if(!String.IsNullOrEmpty(apiRequest.Token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
                 }
 
                 HttpResponseMessage apiResponse = null!;

@@ -4,16 +4,16 @@ namespace RPRENTAL_WEBAPP.Services.Interface
 {
     public interface IRoomService
     {
-        Task<T> GetAllAsync<T>();
+        Task<T> GetAllAsync<T>(string Token);
 
-        Task<T> GetAsync<T>(int id);
+        Task<T> GetAsync<T>(int id, string Token);
 
-        Task<T> AnyAsync<T>(RoomDTO objRoom);
+        Task<T> AnyAsync<T>(RoomDTO objRoom, string Token);
 
-        Task<T> CreateAsync<T>(RoomDTO objRoom);
+        Task<T> CreateAsync<T>(RoomDTO objRoom , string Token);
 
-        Task<T> UpdateAsync<T>(RoomDTO objRoom);
+        Task<T> UpdateAsync<T>(RoomDTO objRoom, string Token);
 
-        Task<T> DeleteAsync<T>(int id);
+        Task<T> DeleteAsync<T>(int id, string Token);
     }
 }
