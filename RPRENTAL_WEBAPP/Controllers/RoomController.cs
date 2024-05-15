@@ -10,7 +10,6 @@ using Utility;
 
 namespace RPRENTAL_WEBAPP.Controllers
 {
-
     public class RoomController : Controller
     {
         private readonly IRoomService _IRoomService;
