@@ -6,9 +6,6 @@ namespace RPRENTAL_WEBAPI.Controllers
     [ApiController]
     public class RoomAmenityController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+      
     }
 }

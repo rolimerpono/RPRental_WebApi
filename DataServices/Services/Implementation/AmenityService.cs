@@ -1,4 +1,5 @@
 ﻿using DataServices.Services.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,11 @@ namespace DataServices.Services.Implementation
         private readonly IWorker _IWorker;
         public AmenityService(IWorker iWorker)
         {
-
             _IWorker = iWorker;
-
         }
+
+
+        [HttpPost]
         public async Task<bool> CreateAsync(Amenity objAmenity)
         {
             try
@@ -40,9 +42,10 @@ namespace DataServices.Services.Implementation
 
         }
 
+        [HttpGet]
         public async Task<IEnumerable<Amenity>> GetAllAsync(Expression<Func<Amenity, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {
-            IEnumerable<Amenity> objAmenities;
+            IEnumerable<Amenity> objAmenities = new List<Amenity>();
 
             try
             {
@@ -60,9 +63,11 @@ namespace DataServices.Services.Implementation
             return null!;
         }
 
+        [HttpGet]
         public async Task<Amenity> GetAsync(int Id)
         {
-            Amenity objAmenity;
+            Amenity objAmenity = new();
+
             try
             {
 
@@ -82,11 +87,14 @@ namespace DataServices.Services.Implementation
             }
         }
 
+        [HttpPost]
         public async Task<bool> RemoveAsync(int Id)
         {
+            Amenity objAmenity = new();
+
             try
             {
-                var objAmenity = await _IWorker.tbl_Amenity.GetAsync(fw => fw.AmenityId == Id);
+                objAmenity = await _IWorker.tbl_Amenity.GetAsync(fw => fw.AmenityId == Id);
                 if (objAmenity != null)
                 {
                     await _IWorker.tbl_Amenity.RemoveAsync(objAmenity);
@@ -102,6 +110,7 @@ namespace DataServices.Services.Implementation
             }
         }
 
+        [HttpPost]
         public async Task<bool> UpdateAsync(Amenity objAmenity)
         {
             try

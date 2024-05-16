@@ -1,6 +1,7 @@
 ﻿using DataServices.Common.DTO.ApplicationUsers;
 using DataServices.Services.Interface;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Model;
@@ -35,11 +36,15 @@ namespace DataServices.Services.Implementation
             JwtKey = config.GetValue<string>("JwtSettings:JwtKey")!;
         }
 
+
+        [HttpGet]
         public async Task<bool> IsUniqueUsername(string username)
         {
+            ApplicationUser objUser = new();
+
             try
             {
-                var objUser = await _IWorker.tbl_User.GetAsync(fw => fw.Email!.ToLower() == username.ToLower());
+                objUser = await _IWorker.tbl_User.GetAsync(fw => fw.Email!.ToLower() == username.ToLower());
 
                 if (objUser == null)
                 {
@@ -54,9 +59,10 @@ namespace DataServices.Services.Implementation
             }           
         }
 
+        [HttpPost]
         public async Task<LoginResponseDTO> Login(loginRequestDTO loginRequestDTO)
         {
-            var loginResponse = new LoginResponseDTO();
+            LoginResponseDTO loginResponse = new();
             try
             {
 
@@ -66,7 +72,7 @@ namespace DataServices.Services.Implementation
                 if (signInResult.Succeeded)
                 {
                     var user = await _UserManager.FindByEmailAsync(loginRequestDTO.Username);
-                    user.Role = _UserManager.GetRolesAsync(user).GetAwaiter().GetResult().FirstOrDefault()!;
+                    user!.Role = _UserManager.GetRolesAsync(user).GetAwaiter().GetResult().FirstOrDefault()!;
            
 
                     if (user == null)
@@ -83,9 +89,9 @@ namespace DataServices.Services.Implementation
 
                     var claims = new[]
                     {
-                    new Claim(ClaimTypes.Name, user.UserName!),
-                    new Claim(ClaimTypes.Role, user.Role)
-                };
+                        new Claim(ClaimTypes.Name, user.UserName!),
+                        new Claim(ClaimTypes.Role, user.Role)
+                    };
 
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
                     var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
@@ -123,13 +129,13 @@ namespace DataServices.Services.Implementation
             }
         }
 
+        [HttpPost]
         public async Task<ApplicationUser> Register(RegistrationRequestDTO registrationRequestDTO)
         {
-            ApplicationUser objUser;
+            ApplicationUser objUser = new();
 
             try
             {
-
 
                 objUser = new ApplicationUser()
                 {
@@ -141,9 +147,7 @@ namespace DataServices.Services.Implementation
                     UserName = registrationRequestDTO.Email,
                     CreatedDate = DateTime.Now,
 
-                };
-
-                var objUserRole = _UserManager.GetRolesAsync(objUser).GetAwaiter().GetResult().FirstOrDefault() ?? "Customer";
+                };               
 
 
                 var objUserManager = await _UserManager.CreateAsync(objUser, registrationRequestDTO.Password);

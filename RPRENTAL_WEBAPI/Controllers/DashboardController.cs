@@ -8,9 +8,6 @@ namespace RPRENTAL_WEBAPI.Controllers
     [ApiController]
     public class DashboardController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+       
     }
 }

@@ -44,7 +44,7 @@ namespace DataServices.Services.Implementation
 
         public async Task<IEnumerable<RoomNumber>> GetAllAsync(Expression<Func<RoomNumber, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {
-            IEnumerable<RoomNumber> objRoomNo;
+            IEnumerable<RoomNumber> objRoomNo = new List<RoomNumber>();
 
             try
             {
@@ -65,7 +65,8 @@ namespace DataServices.Services.Implementation
 
         public async Task<RoomNumber> GetAsync(int RoomNo)
         {
-            RoomNumber objRoomNo;
+            RoomNumber objRoomNo = new();
+
             try
             {
                 objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo);
@@ -86,9 +87,11 @@ namespace DataServices.Services.Implementation
 
         public async Task<bool> RemoveAsync(int RoomNo)
         {
+            RoomNumber objRoomNo = new();
+
             try
             {
-                var objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo);
+                objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo);
                 if (objRoomNo != null)
                 {
                     await _IWorker.tbl_RoomNumber.RemoveAsync(objRoomNo);

@@ -42,7 +42,7 @@ namespace DataServices.Services.Implementation
 
         public async Task<IEnumerable<RoomAmenity>> GetAllAsync(Expression<Func<RoomAmenity, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {
-            IEnumerable<RoomAmenity> objRoomAmenities;
+            IEnumerable<RoomAmenity> objRoomAmenities = new List<RoomAmenity>();
 
             try
             {
@@ -62,7 +62,8 @@ namespace DataServices.Services.Implementation
 
         public async Task<RoomAmenity> GetAsync(int Id)
         {
-            RoomAmenity objRoomAmenity;
+            RoomAmenity objRoomAmenity  = new();
+
             try
             {
                 objRoomAmenity = await _IWorker.tbl_RoomAmenity.GetAsync(fw => fw.RoomId == Id);
@@ -83,9 +84,11 @@ namespace DataServices.Services.Implementation
 
         public async Task<bool> RemoveAsync(int Id)
         {
+            RoomAmenity objRoomAmenity = new();
+
             try
             {
-                var objRoomAmenity = await _IWorker.tbl_RoomAmenity.GetAsync(fw => fw.RoomId == Id);
+                objRoomAmenity = await _IWorker.tbl_RoomAmenity.GetAsync(fw => fw.RoomId == Id);
                 if (objRoomAmenity != null)
                 {
                     await _IWorker.tbl_RoomAmenity.RemoveAsync(objRoomAmenity);

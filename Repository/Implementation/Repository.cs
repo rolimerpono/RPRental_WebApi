@@ -26,7 +26,7 @@ namespace Repository.Implementation
 
         public async Task AnyAsync(Expression<Func<T, bool>>? Filter)
         {          
-            await _dbSet.AnyAsync(Filter);
+            await _dbSet.AnyAsync(Filter!);
         }
 
         public async Task CreateAync(T objEntity)
@@ -76,12 +76,12 @@ namespace Repository.Implementation
                 }
             }
 
-            return await objQuery.FirstOrDefaultAsync()!;
+            return await objQuery.FirstOrDefaultAsync();
         }
 
         public async Task RemoveAsync(T objEntity)
         {          
-            _dbSet.Remove(objEntity);          
+           _dbSet.Remove(objEntity);          
         }
 
         public async Task SaveAsync()

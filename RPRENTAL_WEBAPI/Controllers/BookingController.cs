@@ -8,9 +8,6 @@ namespace RPRENTAL_WEBAPI.Controllers
     [ApiController]
     public class BookingController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+
     }
 }
