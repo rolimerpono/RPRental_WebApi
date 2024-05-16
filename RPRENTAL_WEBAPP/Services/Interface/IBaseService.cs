@@ -10,6 +10,5 @@ namespace RPRENTAL_WEBAPP.Services.Interface
 
         Task<T> SendAsync<T>(APIRequest apiRequest);
 
-
     }
 }
