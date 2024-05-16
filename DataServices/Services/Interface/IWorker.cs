@@ -15,7 +15,6 @@ namespace DataServices.Services.Interface
         IAmenityRepository tbl_Amenity { get; }
         IRoomAmenityRepository tbl_RoomAmenity { get; }
         IBookingRepository tbl_Bookings { get; }
-
         IResetPasswordRepository tbl_ResetPassword { get; }
 
        

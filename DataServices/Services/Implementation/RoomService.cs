@@ -28,26 +28,26 @@ namespace DataServices.Services.Implementation
         [HttpPost]
         public async Task<bool> CreateAsync(Room objRoom)
         {
-            var is_exists = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomName.ToLower() == objRoom.RoomName.ToLower());
-
-            if (is_exists != null || objRoom == null)            
+            try
             {
+                var is_exists = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomName.ToLower() == objRoom.RoomName.ToLower());
+
+                if (is_exists != null || objRoom == null)
+                {
+                    return false;
+                }
+
+                await _IWorker.tbl_Rooms.CreateAync(objRoom);
+                await _IWorker.tbl_Rooms.SaveAsync();
+                return true;
+            }
+            catch (Exception ex) {
                 return false;
             }
 
-            await _IWorker.tbl_Rooms.CreateAync(objRoom);
-            await _IWorker.tbl_Rooms.SaveAsync();
-            return true;          
-
         }
 
-        [HttpPost]
-        public async Task<bool> DeleteAsync(int Id)
-        {
-
-            return false;
-        }
-
+        [HttpGet]
         public async Task<IEnumerable<Room>> GetAllAsync(Expression<Func<Room, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {
             IEnumerable<Room> objRooms;
@@ -63,11 +63,12 @@ namespace DataServices.Services.Implementation
             }
             catch (Exception ex)
             {
-
+                return null!;
             }
             return null!;
         }
 
+        [HttpGet]
         public async Task<Room> GetAsync(int Id)
         {
             Room objRoom;
@@ -86,33 +87,53 @@ namespace DataServices.Services.Implementation
             }
             catch (Exception ex)
             {
-                throw;
+                return null!;
+            }
+           
+        }
+
+
+        [HttpPost]
+        public async Task<bool> RemoveAsync(int Id)
+        {
+            try
+            {
+                var objRoom = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == Id);
+                if (objRoom != null)
+                {
+                    await _IWorker.tbl_Rooms.RemoveAsync(objRoom);
+                    await _IWorker.tbl_Rooms.SaveAsync();
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return true;
             }
         }
 
-
-        public Task<bool> RemoveAsync(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveAsync()
-        {
-            throw new NotImplementedException();
-        }
-
+        [HttpPost]
         public async Task<bool> UpdateAsync(Room objRoom)
         {
-            var is_exists = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == objRoom.RoomId);
+            try
+            {
+                var is_exists = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == objRoom.RoomId);
 
-            if (is_exists == null || objRoom == null)
+                if (is_exists == null || objRoom == null)
+                {
+                    return false;
+                }
+
+                await _IWorker.tbl_Rooms.UpdateAsync(objRoom);
+                await _IWorker.tbl_Rooms.SaveAsync();
+                return true;
+            }
+            catch (Exception ex)
             {
                 return false;
             }
-
-            await _IWorker.tbl_Rooms.UpdateAsync(objRoom);
-            await _IWorker.tbl_Rooms.SaveAsync();
-            return true;          
 
         }
     }

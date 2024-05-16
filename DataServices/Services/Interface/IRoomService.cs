@@ -20,8 +20,7 @@ namespace DataServices.Services.Interface
         Task<Boolean> UpdateAsync(Room objRoom);
 
         Task<Boolean> RemoveAsync(int Id);
-
-        Task SaveAsync();
+      
     }
 
 }

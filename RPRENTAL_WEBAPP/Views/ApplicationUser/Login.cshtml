@@ -1,31 +1,63 @@
 ﻿@model loginRequestDTO
 
-
-<form method="post">
-    <div class="container border p-4">
-        <div class="row text-center">
-            <h1>Login</h1>
-        </div>
-        <div class="row text-center">
-            <div asp-validation-summary="All" class="text-danger"></div>
-        </div>
-        <div class="row">
-            <div class="col-6 offset-3 pb-2">
-                <input asp-for="Username" type="text" class="form-control" placeholder="Enter username" />
-            </div>
-
-            <div class="col-6 offset-3 pb-2">
-                <input asp-for="Password" type="text" class="form-control" placeholder="Enter password" />
-
-            </div>
-            <div class="col-6 offset-3 pb-2">
-                <button type="submit" class="form-control btn-success" value="Submit">Login</button>
-
-            </div>
-        </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col"></div>
     </div>
+    <div class="row align-items-center">
+        <div id="main-header" class="col-lg-6 mx-auto text-center d-flex flex-column justify-content-center vh-100">
+            <div class="heading-1">
+                <span>Nice to see you again</span>
+            </div>
 
-</form>
+            <div class="heading-2">
+                <span>WELCOME BACK</span>
+            </div>
+
+            <div class="heading-3">
+                <span>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id eros sed augue ultrices finibus. Duis vel lectus pulvinar,
+                    dignissim libero eget, rhoncus odio. Curabitur facilisis placerat ante vitae consequat.
+                    Fusce volutpat nisl a ligula posuere dictum.
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-6 mx-auto text-center d-flex flex-column justify-content-center vh-100">
+            <form method="post">
+                <div class="container">
+                    <div class="row text-center pb-4">
+                        <h2><span>SIGN IN</span></h2>
+                        <span>Login to your account to start service</span>
+                    </div>
+                    <div class="row text-center">
+                        <!-- Validation summary will be displayed here -->
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2 pb-2">
+                            <!-- Username input field -->
+                            <input asp-for="Username" type="text" class="form-control" placeholder="Enter username" autofocus autocomplete="off" />
+                        </div>
+                        <div class="col-lg-8 offset-lg-2 pb-2">
+                            <!-- Password input field -->
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2 pt-2 text-right">
+                            <!-- Align button to the right -->
+                            <!-- Submit button -->
+                            <button type="submit" class="form-control btn-success w-25">Login</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
