@@ -69,7 +69,7 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             {
                 var dtoResponse = new APIResponse
                 {
-                    ErrorMessages = new List<String> { Convert.ToString(ex.Message) },
+                    ErrorMessages = new List<String> { Convert.ToString(ex.Message) + " " + SD.SystemMessage.ContactAdmin },
                     IsSuccess = false
                 };
 

@@ -51,9 +51,7 @@ function ReloadDataTable(objMainTable) {
 	objMainTable.ajax.reload();
 }
 
-function LoadModal(url, modalContent, data = null) {
-
-	debugger
+function LoadModal(url, modalContent, data = null) {	
 
 	$.ajax({
 		type: 'GET',
