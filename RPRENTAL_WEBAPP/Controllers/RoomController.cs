@@ -10,6 +10,7 @@ using RPRENTAL_WEBAPP.Models.DTO;
 using RPRENTAL_WEBAPP.Models.DTO.Room;
 using RPRENTAL_WEBAPP.Services.Interface;
 using Utility;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RPRENTAL_WEBAPP.Controllers
 {
@@ -168,25 +169,34 @@ namespace RPRENTAL_WEBAPP.Controllers
 
         [Authorize]
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Delete(int RoomId)
+
+        public async Task<IActionResult> Delete(int RoomId)
         {
-            //try
-            //{
-            //    if (RoomId <= 0)
-            //    {
-            //        return Json(new { success = false, message = SD.CrudTransactionsMessage.RecordNotFound });
-            //    }
+            try
+            {               
 
-            //    _IRoomService.Delete(RoomId);
-            //    return Json(new { success = true, message = SD.CrudTransactionsMessage.Delete });
+                if (RoomId == 0)
+                {
+                    return Json(new { success = false, message = SD.CrudTransactionsMessage.RecordNotFound });
+                }
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    return Json(new { success = false, message = ex.Message + " " + SD.SystemMessage.ContactAdmin });
-            //}
+                var response = await _IRoomService.DeleteAsync<APIResponse>(RoomId, HttpContext.Session.GetString(SD.TokenSession)!);
 
-            return View();
+                if (response != null && response.IsSuccess)
+                {
+                    return Json(new { success = true, message = response.Message });
+                }
+                else
+                {
+                    return Json(new { success = false, message = response.Message });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message + " " + SD.SystemMessage.ContactAdmin });
+            }
+
         }
 
 

@@ -113,3 +113,29 @@ function SaveRoom(url, formSelector) {
     });
 
 }
+
+function DeleteRoom() {
+
+
+    let token = $('input[name="__RequestVerificationToken"]').val();
+    let roomId = $('#RoomId').val();
+
+    let data = {
+        RoomId: roomId,
+        __RequestVerificationToken: token
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: '/Room/Delete',
+        data: data,
+        success: function (response) {
+            ReloadDataTable(objRoomTable);
+            HideModal('#modal-delete');
+            ShowToaster('success', 'Room', response.message);
+        },
+        error: function (xhr, status, error) {
+            ShowToaster('error', 'Room', error);
+        }
+    });
+}
