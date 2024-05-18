@@ -16,7 +16,7 @@ namespace DataServices.Common.DTO.Room
 
 
         [Required]
-        public double Price { get; set; }
+        public double RoomPrice { get; set; }
 
         [Required]
         public int MaxOccupancy { get; set; }

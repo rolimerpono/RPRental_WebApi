@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Utility;
 
 namespace DataServices.Services.Implementation
 {
@@ -23,26 +24,37 @@ namespace DataServices.Services.Implementation
         {
             _IWorker = IWorker;
             _Webhost = webhost;
+            _APIResponse  = new();
         }
 
         [HttpPost]
-        public async Task<bool> CreateAsync(Room objRoom)
+        public async Task<APIResponse> CreateAsync(Room objRoom)
         {
+           
             try
-            {
-                var is_exists = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomName.ToLower() == objRoom.RoomName.ToLower());
+            {           
 
-                if (is_exists != null || objRoom == null)
+                var response = await IsUniqueRoom(objRoom.RoomName);
+
+                if (response.IsSuccess == false)
                 {
-                    return false;
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordExists;
+                    return _APIResponse;
                 }
 
                 await _IWorker.tbl_Rooms.CreateAync(objRoom);
                 await _IWorker.tbl_Rooms.SaveAsync();
-                return true;
+                _APIResponse.IsSuccess = true;
+                _APIResponse.Message = SD.CrudTransactionsMessage.Save;
+
+                return _APIResponse;
             }
             catch (Exception ex) {
-                return false;
+
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
             }
 
         }
@@ -93,32 +105,64 @@ namespace DataServices.Services.Implementation
            
         }
 
+        public async Task<APIResponse> IsUniqueRoom(string RoomName)
+        {
+            
+            try
+            {
+                var objRoom = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomName.ToLower() == RoomName.ToLower());
+
+                if (objRoom != null)
+                {
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordExists;
+                    return _APIResponse;
+                }
+
+                _APIResponse.IsSuccess = true;
+                return _APIResponse; 
+            }
+            catch (Exception ex)
+            {
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message =  ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
+            }
+        }
 
         [HttpPost]
-        public async Task<bool> RemoveAsync(int Id)
+        public async Task<APIResponse> RemoveAsync(int Id)
         {
             Room objRoom = new();
 
             try
             {
                 objRoom = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == Id);
+
                 if (objRoom != null)
                 {
                     await _IWorker.tbl_Rooms.RemoveAsync(objRoom);
                     await _IWorker.tbl_Rooms.SaveAsync();
-                    return true;
+
+                    _APIResponse.IsSuccess = true;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.Delete;
+                    return _APIResponse;
                 }
 
-                return false;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
+                return _APIResponse;
             }
             catch (Exception ex)
             {
-                return true;
+                _APIResponse.IsSuccess= false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin; 
+                return _APIResponse;
             }
         }
 
         [HttpPost]
-        public async Task<bool> UpdateAsync(Room objRoom)
+        public async Task<APIResponse> UpdateAsync(Room objRoom)
         {
             try
             {
@@ -126,16 +170,23 @@ namespace DataServices.Services.Implementation
 
                 if (is_exists == null || objRoom == null)
                 {
-                    return false;
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;
                 }
 
                 await _IWorker.tbl_Rooms.UpdateAsync(objRoom);
                 await _IWorker.tbl_Rooms.SaveAsync();
-                return true;
+
+                _APIResponse.IsSuccess = true;
+                _APIResponse.Message = SD.CrudTransactionsMessage.Save;
+                return _APIResponse;
             }
             catch (Exception ex)
             {
-                return false;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
             }
 
         }

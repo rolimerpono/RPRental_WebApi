@@ -6,7 +6,7 @@ namespace RPRENTAL_WEBAPI.Controllers
 
     [Route("api/Home")]
     [ApiController]
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
        
     }

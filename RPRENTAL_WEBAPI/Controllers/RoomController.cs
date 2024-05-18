@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Writers;
 using Model;
 using System.Net;
 using System.Text.Json;
+using Utility;
 
 
 
@@ -34,7 +35,7 @@ namespace RPRENTAL_WEBAPI.Controllers
             _IRoomService = RoomService;
             _IMapper = mapper;
             _Response = new APIResponse();
-        }
+        }  
 
 
         [Authorize]
@@ -72,7 +73,7 @@ namespace RPRENTAL_WEBAPI.Controllers
             catch (Exception ex)
             {
                 _Response.IsSuccess = false;
-                _Response.ErrorMessages = new List<string>() { ex.Message };
+                _Response.ErrorMessages = new List<string>() { ex.Message  + " " + SD.SystemMessage.ContactAdmin};
             }
 
             return _Response;
@@ -124,12 +125,11 @@ namespace RPRENTAL_WEBAPI.Controllers
             catch (Exception ex)
             {
                 _Response.IsSuccess = false;
-                _Response.ErrorMessages = new List<string>() { ex.Message };
+                _Response.ErrorMessages = new List<string>() { ex.Message  + " " + SD.SystemMessage.ContactAdmin};
             }
 
             return _Response;
-        }
-
+        }      
 
 
 
@@ -153,25 +153,27 @@ namespace RPRENTAL_WEBAPI.Controllers
 
                     var objRoom = _IMapper.Map<Room>(roomDTO);
 
-                    bool is_success = await _IRoomService.CreateAsync(objRoom);
+                   var response = await _IRoomService.CreateAsync(objRoom);
 
-                    if (is_success)
+                    if (response.IsSuccess)
                     {
                         _Response.Result = objRoom;
                         _Response.IsSuccess = true;
                         _Response.StatusCode = HttpStatusCode.Created;
+                        _Response.Message = SD.CrudTransactionsMessage.Save;
                         return CreatedAtRoute("GetRoom", new { Id = objRoom.RoomId }, _Response);
                     }
 
                     _Response.IsSuccess = false;
                     _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.ErrorMessages = new List<string>() { "Room name already exists." };
+                    _Response.Message = response.Message;
+                    _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
 
                 }
                 catch (Exception ex)
                 {
                     _Response.IsSuccess = false;
-                    _Response.ErrorMessages = new List<string>() { ex.Message };
+                    _Response.ErrorMessages = new List<string>() { ex.Message + " " + SD.SystemMessage.ContactAdmin };
                 }
 
                 return _Response;
@@ -199,11 +201,12 @@ namespace RPRENTAL_WEBAPI.Controllers
 
                     var objRoom = _IMapper.Map<Room>(roomDTO);
 
-                    bool is_success = await _IRoomService.UpdateAsync(objRoom);
+                    var response = await _IRoomService.UpdateAsync(objRoom);
 
-                    if (is_success)
+                    if (response.IsSuccess)
                     {
                         _Response.Result = objRoom;
+                        _Response.Message = response.Message;
                         _Response.StatusCode = HttpStatusCode.NoContent;
                         _Response.IsSuccess = true;
                         return Ok(_Response);
@@ -211,7 +214,7 @@ namespace RPRENTAL_WEBAPI.Controllers
 
                     _Response.IsSuccess = false;
                     _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.ErrorMessages = new List<string>() { "Room not exists." };
+                    _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
 
                 }
                 catch (Exception ex)
@@ -243,24 +246,25 @@ namespace RPRENTAL_WEBAPI.Controllers
                         return BadRequest(_Response);
                     }
                     
-                    bool is_success = await _IRoomService.RemoveAsync(id);
+                    var response = await _IRoomService.RemoveAsync(id);
 
-                    if (is_success)
+                    if (response.IsSuccess)
                     {                       
                         _Response.StatusCode = HttpStatusCode.NoContent;
+                        _Response.Message = response.Message;
                         _Response.IsSuccess = true;
                         return Ok(_Response);
                     }
 
                     _Response.IsSuccess = false;
                     _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.ErrorMessages = new List<string>() { "Room not exists." };
+                    _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
 
                 }
                 catch (Exception ex)
                 {
                     _Response.IsSuccess = false;
-                    _Response.ErrorMessages = new List<string>() { ex.Message };
+                    _Response.ErrorMessages = new List<string>() { ex.Message + " " + SD.SystemMessage.ContactAdmin};
                 }
 
                 return _Response;
@@ -306,9 +310,9 @@ namespace RPRENTAL_WEBAPI.Controllers
                 roomDTO.ApplyTo(objData, ModelState);
                 Room model = _IMapper.Map<Room>(objData);
 
-                bool is_success = await _IRoomService.UpdateAsync(model);
+                var response = await _IRoomService.UpdateAsync(model);
 
-                if (is_success)
+                if (response.IsSuccess)
                 {
                     _Response.StatusCode = HttpStatusCode.NoContent;
                     _Response.IsSuccess = true;

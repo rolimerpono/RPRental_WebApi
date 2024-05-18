@@ -8,12 +8,11 @@ namespace RPRENTAL_WEBAPP.Services.Interface
 
         Task<T> GetAsync<T>(int id, string Token);
 
-        Task<T> AnyAsync<T>(RoomDTO objRoom, string Token);
-
         Task<T> CreateAsync<T>(RoomDTO objRoom , string Token);
 
         Task<T> UpdateAsync<T>(RoomDTO objRoom, string Token);
 
         Task<T> DeleteAsync<T>(int id, string Token);
+
     }
 }

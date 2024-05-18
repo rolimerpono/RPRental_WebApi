@@ -11,7 +11,12 @@ namespace RPRENTAL_WEBAPP.Models.DTO
     {
         public APIResponse()
         {
+            StatusCode = new HttpStatusCode();
+            IsSuccess = false;
+            Message = String.Empty;
             ErrorMessages = new List<string>();
+            Result = new object();
+
         }
         public HttpStatusCode StatusCode { get; set; }
         public bool IsSuccess { get; set; }

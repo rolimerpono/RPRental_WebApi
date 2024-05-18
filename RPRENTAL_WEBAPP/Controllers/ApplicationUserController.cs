@@ -28,39 +28,46 @@ namespace RPRENTAL_WEBAPP.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            loginRequestDTO loginRequest = new();
-        
+            loginRequestDTO loginRequest = new();        
             return View(loginRequest);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(loginRequestDTO loginRequest)
         {
-            APIResponse response = await _IApplicationUserService.LoginAsync<APIResponse> (loginRequest);
-            if (response != null && response.IsSuccess)
+            try
             {
-                LoginResponseDTO objResponse = JsonConvert.DeserializeObject<LoginResponseDTO>(Convert.ToString(response.Result)!)!;
-
-                var claims = new[]
+                APIResponse response = await _IApplicationUserService.LoginAsync<APIResponse>(loginRequest);
+                if (response != null && response.IsSuccess)
                 {
+                    LoginResponseDTO objResponse = JsonConvert.DeserializeObject<LoginResponseDTO>(Convert.ToString(response.Result)!)!;
+
+                    var claims = new[]
+                    {
                     new Claim(ClaimTypes.Name, objResponse.User.UserName!),
                     new Claim(ClaimTypes.Role, objResponse.User.Role!)
                 };
 
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var cp = new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, cp);
-                HttpContext.Session.SetString(SD.TokenSession, objResponse.Token);
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var cp = new ClaimsPrincipal(identity);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, cp);
+                    HttpContext.Session.SetString(SD.TokenSession, objResponse.Token);
 
-                return RedirectToAction("Index", "Home");
+                    return Json(new { success = true, message = SD.SystemMessage.Login });
+
+
+                }
+                else
+                {
+                    return Json(new { success = false, message = SD.SystemMessage.FailUserLogin });
+                }
             }
-            else
+            catch(Exception ex)
             {
-                ModelState.AddModelError("Error", response!.ErrorMessages.FirstOrDefault()!);
+                return Json(new { success = false, message = ex.Message.FirstOrDefault() + " " + SD.SystemMessage.ContactAdmin});
             }
-
-            return View(loginRequest);
         }
 
 

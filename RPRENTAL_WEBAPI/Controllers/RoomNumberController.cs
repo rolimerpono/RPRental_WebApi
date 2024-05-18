@@ -4,7 +4,7 @@ namespace RPRENTAL_WEBAPI.Controllers
 {
     [Route("api/RoomNumber")]
     [ApiController]
-    public class RoomNumber : Controller
+    public class RoomNumberController : ControllerBase
     {
        
     }

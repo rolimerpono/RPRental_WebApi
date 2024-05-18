@@ -1,4 +1,5 @@
 ﻿
+using Newtonsoft.Json.Linq;
 using RPRENTAL_WEBAPP.Models.DTO;
 using RPRENTAL_WEBAPP.Models.DTO.Room;
 using RPRENTAL_WEBAPP.Services.Interface;
@@ -16,12 +17,7 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
         {
             _clientFactory = clientFactory;
             apiUrl = config.GetValue<string>("ApiUrls:RPRentalApi")!;
-        }
-
-        public Task<T> AnyAsync<T>(RoomDTO objRoom, string Token)
-        {
-            throw new NotImplementedException();
-        }
+        }     
 
         public Task<T> CreateAsync<T>(RoomDTO objRoom , string Token)
         {
@@ -63,7 +59,7 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
                 Url = apiUrl + "/api/Room/" + id
                
             });
-        }
+        }    
 
         public Task<T> UpdateAsync<T>(RoomDTO objRoom , string Token)
         {

@@ -11,7 +11,7 @@ namespace RPRENTAL_WEBAPI.Controllers
 
     [Route("api/UserAuth")]
     [ApiController]
-    public class ApplicationUserController : Controller
+    public class ApplicationUserController : ControllerBase
     {
         private readonly IApplicationUserService _IApplicationUserService;
         private readonly APIResponse _Response;

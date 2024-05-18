@@ -6,7 +6,7 @@ namespace RPRENTAL_WEBAPI.Controllers
 
     [Route("api/Dashboard")]
     [ApiController]
-    public class DashboardController : Controller
+    public class DashboardController : ControllerBase
     {
        
     }

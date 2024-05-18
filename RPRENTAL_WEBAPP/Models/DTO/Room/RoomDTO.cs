@@ -1,12 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace RPRENTAL_WEBAPP.Models.DTO.Room
 {
     public class RoomDTO
     {
 
+        public RoomDTO()
+        {
+            ImageUrl = "https://placehold.co/600x400";
+        }
 
         public int RoomId { get; set; }
 
@@ -17,7 +22,7 @@ namespace RPRENTAL_WEBAPP.Models.DTO.Room
 
 
         [Required]
-        public double Price { get; set; }
+        public double RoomPrice { get; set; }
 
         [Required]
         public int MaxOccupancy { get; set; }
@@ -29,7 +34,8 @@ namespace RPRENTAL_WEBAPP.Models.DTO.Room
         public DateTime? UpdateDate { get; set; }
 
         [NotMapped]
-        public IFormFile Image { get; set; }
+        [ValidateNever]
+        public IFormFile? Image { get; set; }
 
         [NotMapped]
         public bool IsRoomAvailable { get; set; }

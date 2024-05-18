@@ -11,8 +11,11 @@ namespace DataServices.Common.DTO
     {
         public APIResponse()
         {
-            ErrorMessages = new List<string>();
+            StatusCode = new HttpStatusCode();        
+            IsSuccess = false;
             Message = string.Empty;
+            ErrorMessages = new List<string>();       
+            Result = new object();
         }
         public HttpStatusCode StatusCode { get; set; }
         public bool IsSuccess { get; set; }

@@ -15,12 +15,14 @@ namespace DataServices.Services.Interface
 
         Task<Room> GetAsync(int Id);
 
-        Task<Boolean> CreateAsync(Room objRoom);
+        Task<APIResponse> CreateAsync(Room objRoom);
 
-        Task<Boolean> UpdateAsync(Room objRoom);
+        Task<APIResponse> UpdateAsync(Room objRoom);
 
-        Task<Boolean> RemoveAsync(int Id);
-      
+        Task<APIResponse> RemoveAsync(int Id);
+
+        Task<APIResponse> IsUniqueRoom(string RoomName);
+
     }
 
 }

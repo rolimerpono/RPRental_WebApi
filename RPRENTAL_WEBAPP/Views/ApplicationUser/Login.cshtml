@@ -23,31 +23,26 @@
             </div>
         </div>
         <div class="col-lg-6 mx-auto text-center d-flex flex-column justify-content-center vh-100">
-            <form method="post">
+            <form id="login-form">
+                @Html.AntiForgeryToken()
                 <div class="container">
                     <div class="row text-center pb-4">
                         <h2><span>SIGN IN</span></h2>
                         <span>Login to your account to start service</span>
-                    </div>
-                    <div class="row text-center">
-                        <!-- Validation summary will be displayed here -->
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                    </div>
+                    </div>                
                     <div class="row">
-                        <div class="col-lg-8 offset-lg-2 pb-2">
-                            <!-- Username input field -->
-                            <input asp-for="Username" type="text" class="form-control" placeholder="Enter username" autofocus autocomplete="off" />
+                        <div class="col-lg-8 offset-lg-2 pb-2">                         
+                            <input id="username" asp-for="Username" type="email" class="form-control" placeholder="Enter username" required autofocus autocomplete="off" />
+                            <div class="invalid-feedback text-start">Please provide a username.</div>
                         </div>
-                        <div class="col-lg-8 offset-lg-2 pb-2">
-                            <!-- Password input field -->
-                            <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" autocomplete="off" />
+                        <div class="col-lg-8 offset-lg-2 pb-2">                         
+                            <input id="password" asp-for="Password" type="password" class="form-control" placeholder="Enter password" required autocomplete="off" />
+                            <div class="invalid-feedback text-start">Please provide a password.</div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-8 offset-lg-2 pt-2 text-right">
-                            <!-- Align button to the right -->
-                            <!-- Submit button -->
-                            <button type="submit" class="form-control btn-success w-25">Login</button>
+                        <div class="col-lg-8 offset-lg-2 pt-2 text-right">                           
+                            <button type="button" class="form-control btn-success w-25 btn-login">Login</button>
                         </div>
                     </div>
                 </div>
@@ -57,8 +52,3 @@
     </div>
 </div>
 
-
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

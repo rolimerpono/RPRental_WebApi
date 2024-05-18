@@ -5,6 +5,7 @@ using Model;
 using RPRENTAL_WEBAPP;
 using RPRENTAL_WEBAPP.Services.Implementation;
 using RPRENTAL_WEBAPP.Services.Interface;
+using System.ComponentModel.Design;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IBaseService,BaseService>();
+builder.Services.AddScoped<IHelperService, HelperService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddHttpClient<IApplicationUserService, ApplicationUserService>();

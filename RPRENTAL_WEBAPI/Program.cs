@@ -1,4 +1,5 @@
 using DatabaseAccess;
+using DataServices.Common.DTO;
 using DataServices.Services.Implementation;
 using DataServices.Services.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -55,6 +56,7 @@ builder.Services.AddAuthentication(options =>
 Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
     .WriteTo.File("log/rprentallogs.txt", rollingInterval: RollingInterval.Day).CreateLogger();
 builder.Host.UseSerilog();
+
 
 
 builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
