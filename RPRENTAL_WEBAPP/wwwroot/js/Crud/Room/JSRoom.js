@@ -1,6 +1,6 @@
 ﻿let objRoomDatable;
 $(document).ready(function () {
-    InitializeDataTable();
+    loadRoomDataTable();
     
     $('.btn-add').click(function () {
         LoadModal('/Room/Create', '#modal-add-content');
@@ -12,8 +12,8 @@ $(document).ready(function () {
         SaveRoom('/Room/Create', '#form-add');
     });
 
-    $('#tbl_Rooms').on('click', '.select-edit-btn', function () {
-        let rowData = GetRowData(objRoomTable, $(this));        
+    $('#tbl_Rooms').on('click', '.select-edit-btn', function () {       
+        let rowData = GetRowData(objRoomDatable, $(this));              
         LoadModal('/Room/Update', '#modal-edit-content', rowData);
         InputBoxFocus('#RoomName', '#modal-edit');
     });
@@ -23,7 +23,7 @@ $(document).ready(function () {
     });
 
     $('#tbl_Rooms').on('click', '.select-delete-btn', function () {
-        let rowData = GetRowData(objRoomTable, $(this));
+        let rowData = GetRowData(objRoomDatable, $(this));
         $('#RoomId').val(rowData.roomId);
         $('#modal-delete').modal('show');
     });
@@ -35,8 +35,8 @@ $(document).ready(function () {
 
 });
 
-function InitializeDataTable() {
-    objRoomTable = $('#tbl_Rooms').DataTable({
+function loadRoomDataTable() {
+    objRoomDatable = $('#tbl_Rooms').DataTable({
         ajax: {
             url: '/Room/GetAll'
         },
@@ -99,7 +99,7 @@ function SaveRoom(url, formSelector) {
         success: function (response) {
 
             if (response.success) {
-                ReloadDataTable(objRoomTable);
+                ReloadDataTable(objRoomDatable);
                 HideModal(formSelector.replace('form', 'modal'));
                 ShowToaster('success', 'Room', response.message);
             } else {
@@ -130,7 +130,7 @@ function DeleteRoom() {
         url: '/Room/Delete',
         data: data,
         success: function (response) {
-            ReloadDataTable(objRoomTable);
+            ReloadDataTable(objRoomDatable);
             HideModal('#modal-delete');
             ShowToaster('success', 'Room', response.message);
         },

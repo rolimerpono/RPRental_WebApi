@@ -1,6 +1,7 @@
 using DatabaseAccess;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Model;
 using RPRENTAL_WEBAPP;
 using RPRENTAL_WEBAPP.Services.Implementation;
@@ -9,6 +10,9 @@ using System.ComponentModel.Design;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+builder.Services.AddMvc().AddViewOptions(options => options.HtmlHelperOptions.FormInputRenderMode = FormInputRenderMode.AlwaysUseCurrentCulture);
 
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));

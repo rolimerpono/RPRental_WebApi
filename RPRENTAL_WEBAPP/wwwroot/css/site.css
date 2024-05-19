@@ -25,3 +25,7 @@ body {
 }
 
 
+.navbar-expand-sm .navbar-nav .dropdown-menu {
+    top: 46px !important;
+    border-radius: 0px !important;
+}

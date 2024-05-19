@@ -9,7 +9,8 @@ namespace RPRENTAL_WEBAPP
     {
         public MappingConfig() 
         {
-            CreateMap<Room, RoomDTO>().ReverseMap();
+
+            CreateMap<Room, RoomCreateDTO>().ReverseMap();
             CreateMap<Room, RoomCreateDTO>().ReverseMap();
             CreateMap<Room, RoomUpdateDTO>().ReverseMap();
 

@@ -8,7 +8,6 @@ namespace DataServices.Common.DTO.Room
     {
 
 
-        [Required]
         public string RoomName { get; set; }
 
         public string? Description { get; set; }

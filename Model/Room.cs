@@ -8,10 +8,10 @@ namespace Model
     public class Room
     {
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  
+        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoomId { get; set; }
-        
+
+        [Required]
         public String RoomName { get;set; }
 
         public string? Description { get; set; }
@@ -28,10 +28,13 @@ namespace Model
         [NotMapped]
         public IFormFile? Image { get; set; }
 
+        [ValidateNever]
         public DateTime? CreatedDate { get; set; }
 
-        public DateTime? UpdatedDate { get; set; }
+        [ValidateNever]
+        public DateTime? UpdatedDate { get; set; }        
 
+ 
 
     }
 }

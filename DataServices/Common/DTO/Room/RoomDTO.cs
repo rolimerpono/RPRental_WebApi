@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace DataServices.Common.DTO.Room
 {
@@ -8,8 +11,6 @@ namespace DataServices.Common.DTO.Room
     {
 
         public int RoomId { get; set; }
-
-        [Required]
         public string RoomName { get; set; }
 
         public string? Description { get; set; }
@@ -39,5 +40,7 @@ namespace DataServices.Common.DTO.Room
 
         [NotMapped]
         public DateOnly? CheckOutDate { get; set; }
+ 
+     
     }
 }

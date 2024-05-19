@@ -11,17 +11,20 @@ namespace DataServices.Services.Interface
 {
     public interface IRoomService
     {
-        Task<IEnumerable<Room>> GetAllAsync(Expression<Func<Room, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1);
+        Task<APIResponse> IsUniqueRoom(string RoomName);
 
-        Task<Room> GetAsync(int Id);
+        Task<Room> GetAsync(int RoomId);
 
+        Task<IEnumerable<Room>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
+
+     
         Task<APIResponse> CreateAsync(Room objRoom);
 
         Task<APIResponse> UpdateAsync(Room objRoom);
 
-        Task<APIResponse> RemoveAsync(int Id);
+        Task<APIResponse> RemoveAsync(int RoomId);
 
-        Task<APIResponse> IsUniqueRoom(string RoomName);
+    
 
     }
 

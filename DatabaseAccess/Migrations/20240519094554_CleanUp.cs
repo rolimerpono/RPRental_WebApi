@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DatabaseAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class cleanUp : Migration
+    public partial class CleanUp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -317,15 +317,15 @@ namespace DatabaseAccess.Migrations
                 columns: new[] { "RoomId", "CreatedDate", "Description", "ImageUrl", "MaxOccupancy", "RoomName", "RoomPrice", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5155), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Single.jpg", 1, "Single Room", 85.0, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5204) },
-                    { 2, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5208), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Double.jpg", 2, "Double Room", 90.0, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5209) },
-                    { 3, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5211), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Deluxed.jpg", 3, "Deluxed Room", 100.0, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5213) },
-                    { 4, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5215), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Queens.jpg", 4, "Queens Room", 120.0, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5216) },
-                    { 5, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5217), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Kings.jpg", 5, "Kings Room", 130.0, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5218) },
-                    { 6, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5220), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Executive.jpg", 10, "Executive Suite", 100.0, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5221) },
-                    { 7, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5223), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Super Deluxed.jpg", 10, "Super Deluxed", 110.0, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5224) },
-                    { 8, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5226), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Diamond Room.jpg", 10, "Diamond Room", 87.0, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5227) },
-                    { 9, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5229), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Emerald Room.jpg", 10, "Emerald Deluxed", 98.0, new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5230) }
+                    { 1, new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6438), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Single.jpg", 1, "Single Room", 85.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6577), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Double.jpg", 2, "Double Room", 90.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6585), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Deluxed.jpg", 3, "Deluxed Room", 100.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6589), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Queens.jpg", 4, "Queens Room", 120.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6594), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Kings.jpg", 5, "Kings Room", 130.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6598), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Executive.jpg", 10, "Executive Suite", 100.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6603), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Super Deluxed.jpg", 10, "Super Deluxed", 110.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6607), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Diamond Room.jpg", 10, "Diamond Room", 87.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6611), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Emerald Room.jpg", 10, "Emerald Deluxed", 98.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -342,7 +342,11 @@ namespace DatabaseAccess.Migrations
                     { 7, 1, 2 },
                     { 8, 5, 3 },
                     { 9, 3, 4 },
-                    { 10, 5, 5 }
+                    { 10, 5, 5 },
+                    { 11, 1, 7 },
+                    { 12, 5, 7 },
+                    { 13, 3, 8 },
+                    { 14, 5, 9 }
                 });
 
             migrationBuilder.InsertData(

@@ -76,10 +76,6 @@ function LoadModal(url, modalContent, data = null) {
 			ShowToaster('error', 'Error', error);
 		}
 	});
-
-	$(document).on('hidden.bs.modal', modalContent.replace('-content', ''), function () {
-		$(modalContent).html('');
-	});
 }
 
 function CloseModal(modal_id) {

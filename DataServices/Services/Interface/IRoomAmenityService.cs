@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using DataServices.Common.DTO;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,16 @@ namespace DataServices.Services.Interface
 {
     public interface IRoomAmenityService
     {
-        Task<IEnumerable<RoomAmenity>> GetAllAsync(Expression<Func<RoomAmenity, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1);
+    
+        Task<RoomAmenity> GetAsync(int RoomId);
 
-        Task<RoomAmenity> GetAsync(int Id);
+        Task<IEnumerable<RoomAmenity>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
+          
+        Task<APIResponse> CreateAsync(RoomAmenity objRoomAmenity);
 
-        Task<Boolean> CreateAsync(RoomAmenity objRoomAmenity);
+        Task<APIResponse> UpdateAsync(RoomAmenity objRoomAmenity);
 
-        Task<Boolean> UpdateAsync(RoomAmenity objRoomAmenity);
-
-        Task<Boolean> RemoveAsync(int Id);
+        Task<APIResponse> RemoveAsync(int RoomId);
 
 
     }

@@ -1,5 +1,7 @@
-﻿using DataServices.Services.Interface;
+﻿using DataServices.Common.DTO;
+using DataServices.Services.Interface;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Mvc;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Utility;
 
 namespace DataServices.Services.Implementation
 {
@@ -15,52 +18,37 @@ namespace DataServices.Services.Implementation
     {
 
         private readonly IWorker _IWorker;
+        private readonly APIResponse _APIResponse;
 
         public RoomNumberService(IWorker IWorker)
         {
             _IWorker = IWorker;
-        }
-        public async Task<bool> CreateAsync(RoomNumber objRoomNo)
-        {
-            try
-            {
-
-                var is_exists = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == objRoomNo.RoomNo);
-
-                if (is_exists != null || objRoomNo == null)
-                {
-                    return false;
-                }
-
-                await _IWorker.tbl_RoomNumber.CreateAync(objRoomNo);
-                await _IWorker.tbl_RoomNumber.SaveAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _APIResponse = new();
         }
 
-        public async Task<IEnumerable<RoomNumber>> GetAllAsync(Expression<Func<RoomNumber, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
+        public async Task<APIResponse> IsUniqueRoomNumber(int RoomNo)
         {
-            IEnumerable<RoomNumber> objRoomNo = new List<RoomNumber>();
 
             try
             {
-                objRoomNo = await _IWorker.tbl_RoomNumber.GetAllAsync(filter, IncludeProperties, isTracking, pageSize, pageNumber);
+                var objRoom = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo);
 
-                if (objRoomNo != null)
+                if (objRoom != null)
                 {
-                    return objRoomNo;
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordExists;
+                    return _APIResponse;
                 }
+
+                _APIResponse.IsSuccess = true;
+                return _APIResponse;
             }
             catch (Exception ex)
             {
-                return null!;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
             }
-            return null!;
-          
         }
 
         public async Task<RoomNumber> GetAsync(int RoomNo)
@@ -85,48 +73,126 @@ namespace DataServices.Services.Implementation
             }
         }
 
-        public async Task<bool> RemoveAsync(int RoomNo)
+        public async Task<IEnumerable<RoomNumber>> GetAllAsync(Expression<Func<RoomNumber, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {
-            RoomNumber objRoomNo = new();
+            IEnumerable<RoomNumber> objRoomNo = new List<RoomNumber>();
 
             try
             {
-                objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo);
+                objRoomNo = await _IWorker.tbl_RoomNumber.GetAllAsync(filter, IncludeProperties, isTracking, pageSize, pageNumber);
+
                 if (objRoomNo != null)
                 {
-                    await _IWorker.tbl_RoomNumber.RemoveAsync(objRoomNo);
-                    await _IWorker.tbl_RoomNumber.SaveAsync();
-                    return true;
+                    return objRoomNo;
                 }
-
-                return false;
             }
             catch (Exception ex)
             {
-                return false;
+                return null!;
             }
+            return null!;
+
         }
 
-        public async Task<bool> UpdateAsync(RoomNumber objRoomNo)
+        [HttpPost]
+        public async Task<APIResponse> CreateAsync(RoomNumber objRoomNumber)
+        {
+
+            try
+            {
+
+                var response = await IsUniqueRoomNumber(objRoomNumber.RoomNo);
+
+                if (response.IsSuccess == false)
+                {
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordExists;
+                    return _APIResponse;
+                }
+
+                await _IWorker.tbl_RoomNumber.CreateAync(objRoomNumber);
+                await _IWorker.tbl_Rooms.SaveAsync();
+                _APIResponse.IsSuccess = true;
+                _APIResponse.Message = SD.CrudTransactionsMessage.Save;
+
+                return _APIResponse;
+            }
+            catch (Exception ex)
+            {
+
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
+            }
+
+        }
+
+
+        [HttpPost]
+        public async Task<APIResponse> UpdateAsync(RoomNumber objRoomNumber)
         {
             try
             {
-                var is_exists = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == objRoomNo.RoomNo);
+                var objData = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == objRoomNumber.RoomNo);
 
-                if (is_exists == null || objRoomNo == null)
+                if (objData == null || objRoomNumber == null)
                 {
-                    return false;
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;
                 }
 
-                await _IWorker.tbl_RoomNumber.UpdateAsync(objRoomNo);
+                await _IWorker.tbl_RoomNumber.UpdateAsync(objRoomNumber);
                 await _IWorker.tbl_RoomNumber.SaveAsync();
-                return true;
+
+                _APIResponse.IsSuccess = true;
+                _APIResponse.Message = SD.CrudTransactionsMessage.Save;
+                return _APIResponse;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return false;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
+            }
+
+        }
+
+
+
+        [HttpPost]
+        public async Task<APIResponse> RemoveAsync(int RoomNo)
+        {
+            Room objRoom = new();
+
+            try
+            {
+                objRoom = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == RoomNo);
+
+                if (objRoom != null)
+                {
+                    await _IWorker.tbl_Rooms.RemoveAsync(objRoom);
+                    await _IWorker.tbl_Rooms.SaveAsync();
+
+                    _APIResponse.IsSuccess = true;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.Delete;
+                    return _APIResponse;
+                }
+
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
+                return _APIResponse;
+            }
+            catch (Exception ex)
+            {
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
             }
         }
+
+
+
     }
     
 }

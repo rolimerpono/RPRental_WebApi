@@ -53,7 +53,7 @@ namespace DatabaseAccess
                 RoomPrice = 85,
                 ImageUrl = @"\img\Rooms\Single.jpg",
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = Convert.ToDateTime("1900-01-01")
             },
             new Room
             {
@@ -64,7 +64,7 @@ namespace DatabaseAccess
                 RoomPrice = 90,
                 ImageUrl = @"\img\Rooms\Double.jpg",
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = Convert.ToDateTime("1900-01-01")
 
 
             },
@@ -77,7 +77,7 @@ namespace DatabaseAccess
                 RoomPrice = 100,
                 ImageUrl = @"\img\Rooms\Deluxed.jpg",
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = Convert.ToDateTime("1900-01-01")
             },
 
             new Room
@@ -89,7 +89,7 @@ namespace DatabaseAccess
                 RoomPrice = 120,
                 ImageUrl = @"\img\Rooms\Queens.jpg",
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = Convert.ToDateTime("1900-01-01")
 
             },
 
@@ -102,7 +102,7 @@ namespace DatabaseAccess
                 RoomPrice = 130,
                 ImageUrl = @"\img\Rooms\Kings.jpg",
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = Convert.ToDateTime("1900-01-01")
 
             },
             new Room
@@ -114,7 +114,7 @@ namespace DatabaseAccess
                 RoomPrice = 100,
                 ImageUrl = @"\img\Rooms\Executive.jpg",
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = Convert.ToDateTime("1900-01-01")
             },
 
             new Room
@@ -126,7 +126,7 @@ namespace DatabaseAccess
                 RoomPrice = 110,
                 ImageUrl = @"\img\Rooms\Super Deluxed.jpg",
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = Convert.ToDateTime("1900-01-01")
 
             },
             new Room
@@ -138,7 +138,7 @@ namespace DatabaseAccess
                 RoomPrice = 87,
                 ImageUrl = @"\img\Rooms\Diamond Room.jpg",
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = Convert.ToDateTime("1900-01-01")
 
             },
             new Room
@@ -150,7 +150,7 @@ namespace DatabaseAccess
                 RoomPrice = 98,
                 ImageUrl = @"\img\Rooms\Emerald Room.jpg",
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = Convert.ToDateTime("1900-01-01")
 
             });
 
@@ -323,7 +323,11 @@ namespace DatabaseAccess
             new RoomAmenity { Id = 7, RoomId = 2, AmenityId = 1 },
             new RoomAmenity { Id = 8, RoomId = 3, AmenityId = 5 },
             new RoomAmenity { Id = 9, RoomId = 4, AmenityId = 3 },
-            new RoomAmenity { Id = 10, RoomId = 5, AmenityId = 5 });
+            new RoomAmenity { Id = 10, RoomId = 5, AmenityId = 5 },
+            new RoomAmenity { Id = 11, RoomId = 7, AmenityId = 1 },
+            new RoomAmenity { Id = 12, RoomId = 7, AmenityId = 5 },
+            new RoomAmenity { Id = 13, RoomId = 8, AmenityId = 3 },
+            new RoomAmenity { Id = 14, RoomId = 9, AmenityId = 5 });
             #endregion
 
         }

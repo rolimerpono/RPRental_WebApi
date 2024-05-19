@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Model;
 
 namespace RPRENTAL_WEBAPP.Models.DTO.Room
 {
@@ -46,5 +47,7 @@ namespace RPRENTAL_WEBAPP.Models.DTO.Room
 
         [NotMapped]
         public DateOnly? CheckOutDate { get; set; }
+
+
     }
 }

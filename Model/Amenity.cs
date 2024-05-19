@@ -22,9 +22,9 @@ namespace Model
 
         public DateOnly UpdatedDate { get; set; }
 
-
         [NotMapped]
         [ValidateNever]
         public Boolean IsCheck { get; set; }
-    }
+   
+       }
 }

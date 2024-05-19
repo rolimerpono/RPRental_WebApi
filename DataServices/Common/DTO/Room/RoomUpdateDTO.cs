@@ -9,12 +9,10 @@ namespace DataServices.Common.DTO.Room
 
         [Required]
         public int RoomId { get; set; }
-
-        [Required]
+     
         public string RoomName { get; set; }
 
         public string? Description { get; set; }
-
 
         [Required]
         public double RoomPrice { get; set; }

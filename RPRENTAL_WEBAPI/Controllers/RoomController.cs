@@ -96,6 +96,7 @@ namespace RPRENTAL_WEBAPI.Controllers
                 IEnumerable<Room> objRooms = new List<Room>();
 
                 objRooms = await _IRoomService.GetAllAsync(pageSize: PageSize, pageNumber: PageNumber);
+            
 
                 if (objRooms == null)
                 {

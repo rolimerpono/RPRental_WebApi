@@ -19,8 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ViewModel\" />
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\img\Room Images\" />
+    <Folder Include="wwwroot\js\Charts\" />
   </ItemGroup>
 
 </Project>

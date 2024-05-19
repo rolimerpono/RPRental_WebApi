@@ -15,7 +15,6 @@ namespace RPRENTAL_WEBAPI
             CreateMap<Room, RoomCreateDTO>().ReverseMap();
             CreateMap<Room, RoomUpdateDTO>().ReverseMap();
 
-
         }
     }
 }

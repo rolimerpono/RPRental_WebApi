@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseAccess.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240518114840_cleanUp")]
-    partial class cleanUp
+    [Migration("20240519094554_CleanUp")]
+    partial class CleanUp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -445,101 +445,101 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 1,
-                            CreatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5155),
+                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6438),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Single.jpg",
                             MaxOccupancy = 1,
                             RoomName = "Single Room",
                             RoomPrice = 85.0,
-                            UpdatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5204)
+                            UpdatedDate = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             RoomId = 2,
-                            CreatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5208),
+                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6577),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Double.jpg",
                             MaxOccupancy = 2,
                             RoomName = "Double Room",
                             RoomPrice = 90.0,
-                            UpdatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5209)
+                            UpdatedDate = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             RoomId = 3,
-                            CreatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5211),
+                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6585),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Deluxed.jpg",
                             MaxOccupancy = 3,
                             RoomName = "Deluxed Room",
                             RoomPrice = 100.0,
-                            UpdatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5213)
+                            UpdatedDate = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             RoomId = 4,
-                            CreatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5215),
+                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6589),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Queens.jpg",
                             MaxOccupancy = 4,
                             RoomName = "Queens Room",
                             RoomPrice = 120.0,
-                            UpdatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5216)
+                            UpdatedDate = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             RoomId = 5,
-                            CreatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5217),
+                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6594),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Kings.jpg",
                             MaxOccupancy = 5,
                             RoomName = "Kings Room",
                             RoomPrice = 130.0,
-                            UpdatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5218)
+                            UpdatedDate = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             RoomId = 6,
-                            CreatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5220),
+                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6598),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Executive.jpg",
                             MaxOccupancy = 10,
                             RoomName = "Executive Suite",
                             RoomPrice = 100.0,
-                            UpdatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5221)
+                            UpdatedDate = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             RoomId = 7,
-                            CreatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5223),
+                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6603),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Super Deluxed.jpg",
                             MaxOccupancy = 10,
                             RoomName = "Super Deluxed",
                             RoomPrice = 110.0,
-                            UpdatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5224)
+                            UpdatedDate = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             RoomId = 8,
-                            CreatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5226),
+                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6607),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Diamond Room.jpg",
                             MaxOccupancy = 10,
                             RoomName = "Diamond Room",
                             RoomPrice = 87.0,
-                            UpdatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5227)
+                            UpdatedDate = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             RoomId = 9,
-                            CreatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5229),
+                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6611),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Emerald Room.jpg",
                             MaxOccupancy = 10,
                             RoomName = "Emerald Deluxed",
                             RoomPrice = 98.0,
-                            UpdatedDate = new DateTime(2024, 5, 18, 23, 48, 39, 929, DateTimeKind.Local).AddTicks(5230)
+                            UpdatedDate = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -625,6 +625,30 @@ namespace DatabaseAccess.Migrations
                             Id = 10,
                             AmenityId = 5,
                             RoomId = 5
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AmenityId = 1,
+                            RoomId = 7
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AmenityId = 5,
+                            RoomId = 7
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AmenityId = 3,
+                            RoomId = 8
+                        },
+                        new
+                        {
+                            Id = 14,
+                            AmenityId = 5,
+                            RoomId = 9
                         });
                 });
 
@@ -848,7 +872,7 @@ namespace DatabaseAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("Model.Room", "Room")
-                        .WithMany()
+                        .WithMany("RoomAmenities")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -867,6 +891,11 @@ namespace DatabaseAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Model.Room", b =>
+                {
+                    b.Navigation("RoomAmenities");
                 });
 #pragma warning restore 612, 618
         }

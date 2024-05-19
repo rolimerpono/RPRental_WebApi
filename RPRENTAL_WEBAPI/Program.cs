@@ -23,6 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IWorker,Worker>();
 builder.Services.AddScoped<IApplicationUserService,ApplicationUserService>();
 builder.Services.AddScoped<IRoomService,RoomService>();
+builder.Services.AddScoped<IRoomNumberService,RoomNumberService>();
 builder.Services.AddScoped<IDBInitializer,DBInitializer>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 

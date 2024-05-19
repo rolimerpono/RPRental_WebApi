@@ -28,14 +28,15 @@ namespace RPRENTAL_WEBAPP.Controllers
             _helper = helper;
             _viewEngine = viewEngine;
         }
-   
+
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Index()
-        {        
-            
+        {                    
             return View();
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -48,6 +49,7 @@ namespace RPRENTAL_WEBAPP.Controllers
                 objRooms = JsonConvert.DeserializeObject<List<RoomDTO>>(Convert.ToString(response.Result)!)!;
 
             }
+            
 
             return Json(new { success = true, message = "", data = objRooms });
 
@@ -104,7 +106,9 @@ namespace RPRENTAL_WEBAPP.Controllers
 
 
         }
-      
+
+
+        [Authorize]      
         [HttpGet]
         public async Task<IActionResult> Update(int RoomId)
         {
