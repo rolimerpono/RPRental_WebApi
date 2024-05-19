@@ -17,7 +17,30 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
         {
             _clientFactory = clientFactory;
             apiUrl = config.GetValue<string>("ApiUrls:RPRentalApi")!;
-        }     
+        }
+
+        public Task<T> GetAsync<T>(int id, string Token)
+        {
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.GET,
+                Token = Token,
+                Url = apiUrl + "/api/Room/" + id
+
+            });
+        }
+
+
+        public Task<T> GetAllAsync<T>(string Token)
+        {
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.GET,
+                Token = Token,
+                Url = apiUrl + "/api/Room/"
+            });
+        }
+
 
         public Task<T> CreateAsync<T>(RoomDTO objRoom , string Token)
         {
@@ -26,7 +49,20 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
                 ApiType = SD.ApiType.POST,
                 Data= objRoom,
                 Token = Token,
-                Url = apiUrl + "/api/Room/"            
+                Url = apiUrl + "/api/Room/",
+                ContentType = SD.ContentType.MultipartFormData                
+            });
+        }
+
+        public Task<T> UpdateAsync<T>(RoomDTO objRoom, string Token)
+        {
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.PUT,
+                Data = objRoom,
+                Token = Token,
+                Url = apiUrl + "/api/Room/" + objRoom.RoomId,
+                ContentType = SD.ContentType.MultipartFormData
             });
         }
 
@@ -40,36 +76,9 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             });
         }
 
-        public Task<T> GetAllAsync<T>(string Token)
-        {
-            return SendAsync<T>(new APIRequest()
-            {
-                ApiType = SD.ApiType.GET,
-                Token = Token,
-                Url = apiUrl + "/api/Room/"
-            });
-        }
 
-        public Task<T> GetAsync<T>(int id, string Token)
-        {
-            return SendAsync<T>(new APIRequest()
-            {
-                ApiType = SD.ApiType.GET,
-                Token = Token,
-                Url = apiUrl + "/api/Room/" + id
-               
-            });
-        }    
+       
 
-        public Task<T> UpdateAsync<T>(RoomDTO objRoom , string Token)
-        {
-            return SendAsync<T>(new APIRequest()
-            {
-                ApiType = SD.ApiType.PUT,
-                Data = objRoom,
-                Token = Token,
-                Url = apiUrl + "/api/Room/" + objRoom.RoomId               
-            });
-        }
+       
     }
 }

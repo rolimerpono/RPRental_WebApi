@@ -22,14 +22,16 @@ namespace DataServices.Common.DTO.Room
         [Required]
         public int MaxOccupancy { get; set; }
 
-        public string? ImageUrl { get; set; }
 
         public DateTime? CreatedDate { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
 
         [NotMapped]
-        public IFormFile Image { get; set; }
+        [ValidateNever]
+        public IFormFile? Image { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? ImageUrlLocalPath { get; set; }
 
         [NotMapped]
         public bool IsRoomAvailable { get; set; }

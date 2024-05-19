@@ -50,7 +50,7 @@ namespace RPRENTAL_WEBAPP.Controllers
 
             }
             
-
+            
             return Json(new { success = true, message = "", data = objRooms });
 
         }
@@ -152,6 +152,7 @@ namespace RPRENTAL_WEBAPP.Controllers
                     return Json(new { success = false, message = SD.CrudTransactionsMessage.InvalidInput });
                 }
 
+              
                 var response = await _IRoomService.UpdateAsync<APIResponse>(objRoom, HttpContext.Session.GetString(SD.TokenSession)!);
 
                 if (response != null && response.IsSuccess)

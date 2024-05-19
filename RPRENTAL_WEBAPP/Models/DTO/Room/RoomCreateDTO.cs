@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace RPRENTAL_WEBAPP.Models.DTO.Room
 {
@@ -19,15 +20,16 @@ namespace RPRENTAL_WEBAPP.Models.DTO.Room
 
         [Required]
         public int MaxOccupancy { get; set; }
-
-        public string? ImageUrl { get; set; }
-
+       
         public DateTime? CreatedDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
 
         [NotMapped]
-        public IFormFile Image { get; set; }
+        [ValidateNever]
+        public IFormFile? Image { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? ImageUrlLocalPath { get; set; }
 
         [NotMapped]
         public bool IsRoomAvailable { get; set; }

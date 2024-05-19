@@ -141,7 +141,7 @@ namespace RPRENTAL_WEBAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> CreateRoom([FromBody] RoomCreateDTO roomDTO)
+        public async Task<ActionResult<APIResponse>> CreateRoom([FromForm] RoomCreateDTO roomDTO)
         {
             {
                 try
@@ -189,7 +189,7 @@ namespace RPRENTAL_WEBAPI.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdateRoom(int id, [FromBody] RoomUpdateDTO roomDTO)
+        public async Task<ActionResult<APIResponse>> UpdateRoom(int id, [FromForm] RoomUpdateDTO roomDTO)
         {
             {
                 try
@@ -201,6 +201,8 @@ namespace RPRENTAL_WEBAPI.Controllers
                     }
 
                     var objRoom = _IMapper.Map<Room>(roomDTO);
+
+                  
 
                     var response = await _IRoomService.UpdateAsync(objRoom);
 

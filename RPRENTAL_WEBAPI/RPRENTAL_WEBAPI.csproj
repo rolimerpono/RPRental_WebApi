@@ -31,6 +31,9 @@
 
   <ItemGroup>
     <Folder Include="log\" />
+    <Folder Include="wwwroot\img\Banner\" />
+    <Folder Include="wwwroot\img\Gallery\" />
+    <Folder Include="wwwroot\img\Room Images\" />
   </ItemGroup>
 
 </Project>

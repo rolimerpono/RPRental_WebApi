@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace DataServices.Common.DTO.Room
 {
@@ -20,7 +21,11 @@ namespace DataServices.Common.DTO.Room
         [Required]
         public int MaxOccupancy { get; set; }
 
+        [NotMapped]
+        [ValidateNever]
+        public IFormFile? Image { get; set; }
         public string? ImageUrl { get; set; }
+        public string? ImageUrlLocalPath { get; set; }
 
         public DateTime? UpdatedDate { get; set; } = DateTime.Now;
 

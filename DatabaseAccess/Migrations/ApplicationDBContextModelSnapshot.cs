@@ -421,6 +421,9 @@ namespace DatabaseAccess.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrlLocalPath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("MaxOccupancy")
                         .HasColumnType("int");
 
@@ -442,7 +445,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 1,
-                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6438),
+                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1012),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Single.jpg",
                             MaxOccupancy = 1,
@@ -453,7 +456,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 2,
-                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6577),
+                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1142),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Double.jpg",
                             MaxOccupancy = 2,
@@ -464,7 +467,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 3,
-                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6585),
+                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1149),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Deluxed.jpg",
                             MaxOccupancy = 3,
@@ -475,7 +478,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 4,
-                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6589),
+                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1154),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Queens.jpg",
                             MaxOccupancy = 4,
@@ -486,7 +489,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 5,
-                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6594),
+                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1159),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Kings.jpg",
                             MaxOccupancy = 5,
@@ -497,7 +500,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 6,
-                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6598),
+                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1163),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Executive.jpg",
                             MaxOccupancy = 10,
@@ -508,7 +511,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 7,
-                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6603),
+                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1168),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Super Deluxed.jpg",
                             MaxOccupancy = 10,
@@ -519,7 +522,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 8,
-                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6607),
+                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1173),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Diamond Room.jpg",
                             MaxOccupancy = 10,
@@ -530,7 +533,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 9,
-                            CreatedDate = new DateTime(2024, 5, 19, 21, 45, 53, 825, DateTimeKind.Local).AddTicks(6611),
+                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1178),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Emerald Room.jpg",
                             MaxOccupancy = 10,
@@ -869,7 +872,7 @@ namespace DatabaseAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("Model.Room", "Room")
-                        .WithMany("RoomAmenities")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -888,11 +891,6 @@ namespace DatabaseAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("Model.Room", b =>
-                {
-                    b.Navigation("RoomAmenities");
                 });
 #pragma warning restore 612, 618
         }

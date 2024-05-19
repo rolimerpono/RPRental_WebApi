@@ -81,7 +81,6 @@ function SaveRoom(url, formSelector) {
 
     let data = new FormData($(formSelector)[0]);
 
-
     let is_true = false;
 
     is_true = IsFieldValid(formSelector);

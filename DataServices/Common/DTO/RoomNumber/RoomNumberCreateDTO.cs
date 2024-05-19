@@ -12,7 +12,6 @@ namespace DataServices.Common.DTO.RoomNumber
         public string? Description { get; set; }
    
         public int RoomId { get; set; }
-
-        public RoomDTO? RoomDTO { get; set; }
+     
     }
 }

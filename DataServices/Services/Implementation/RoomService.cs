@@ -1,5 +1,6 @@
 ﻿using DataServices.Common.DTO;
 using DataServices.Services.Interface;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -9,7 +10,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 using Utility;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
 
 namespace DataServices.Services.Implementation
 {
@@ -18,13 +22,15 @@ namespace DataServices.Services.Implementation
 
         private readonly IWorker _IWorker;
         private readonly IWebHostEnvironment _Webhost;
+        private readonly IHttpContextAccessor _HttpContext;
         private readonly APIResponse _APIResponse;
 
-        public RoomService(IWorker IWorker, IWebHostEnvironment webhost)
+        public RoomService(IWorker IWorker, IWebHostEnvironment webhost, IHttpContextAccessor httpContext)
         {
             _IWorker = IWorker;
-            _Webhost = webhost;
+            _Webhost = webhost;        
             _APIResponse  = new();
+            _HttpContext = httpContext;
         }
 
         public async Task<APIResponse> IsUniqueRoom(string RoomName)
@@ -117,6 +123,24 @@ namespace DataServices.Services.Implementation
                     return _APIResponse;
                 }
 
+                if (objRoom.Image != null)
+                {
+                    string strFilename = Guid.NewGuid().ToString() + ".jpg";
+                    string strImagePath = Path.Combine(_Webhost.WebRootPath, @"img\Room Images");
+
+
+                    var filestream = new FileStream(Path.Combine(strImagePath, strFilename), FileMode.Create);
+
+                    objRoom.Image.CopyTo(filestream);                  
+
+                    var baseUrl = $"{_HttpContext.HttpContext!.Request.Scheme}://{_HttpContext.HttpContext.Request.Host.Value}{_HttpContext.HttpContext.Request.PathBase.Value}";                   
+                    objRoom.ImageUrl = baseUrl + @"\img\Room Images\" + strFilename;
+                    objRoom.ImageUrlLocalPath = strImagePath + strFilename;
+
+                    filestream.Close();
+                    filestream.Dispose();
+                }
+
                 await _IWorker.tbl_Rooms.CreateAync(objRoom);
                 await _IWorker.tbl_Rooms.SaveAsync();
                 _APIResponse.IsSuccess = true;
@@ -147,6 +171,39 @@ namespace DataServices.Services.Implementation
                     _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
                     return _APIResponse;
                 }
+
+                if (objRoom.Image != null)
+                {
+                    string strFilename = Guid.NewGuid().ToString() + ".jpg";
+                    string strImagePath = Path.Combine(_Webhost.WebRootPath, @"img\Room Images");
+
+
+                    if (!String.IsNullOrEmpty(objRoom.ImageUrl))
+                    {
+                        string previous_image = strImagePath + "\\" + Path.GetFileName(objRoom.ImageUrl);
+
+                        if (System.IO.File.Exists(previous_image))
+                        {
+                            System.IO.File.Delete(previous_image);
+                        }
+
+                    }
+
+                    var filestream = new FileStream(Path.Combine(strImagePath, strFilename), FileMode.Create);
+                    objRoom.Image.CopyTo(filestream);
+                  
+
+                    var baseUrl = $"{_HttpContext.HttpContext!.Request.Scheme}://{_HttpContext.HttpContext.Request.Host.Value}{_HttpContext.HttpContext.Request.PathBase.Value}";
+                    objRoom.ImageUrl = baseUrl + @"\img\Room Images\" + strFilename;
+                    objRoom.ImageUrlLocalPath = strImagePath + strFilename;
+
+
+
+                    filestream.Close();
+                    filestream.Dispose();
+
+                }
+
 
                 await _IWorker.tbl_Rooms.UpdateAsync(objRoom);
                 await _IWorker.tbl_Rooms.SaveAsync();

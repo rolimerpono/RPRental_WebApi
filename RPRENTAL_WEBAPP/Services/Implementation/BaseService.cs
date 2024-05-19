@@ -26,33 +26,48 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             {
                 var client = _httpClient.CreateClient("RPRentalApi");
                 HttpRequestMessage message = new HttpRequestMessage();
-                message.Headers.Add("Accept", "application/json");
-                message.RequestUri = new Uri(apiRequest.Url);
 
-                if (apiRequest.Data != null)
-                {
-                    message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data), Encoding.UTF8, "application/json");
-                }
-
-                switch (apiRequest.ApiType)
-                {
-                    case SD.ApiType.GET:
-                        message.Method = HttpMethod.Get;
-                        break;
-                    case SD.ApiType.POST:
-                        message.Method = HttpMethod.Post;
-                        break;
-                    case SD.ApiType.PUT:
-                        message.Method = HttpMethod.Put;
-                        break;
-                    case SD.ApiType.DELETE:
-                        message.Method = HttpMethod.Delete;
-                        break;
-                }
-
-                if(!String.IsNullOrEmpty(apiRequest.Token))
+                if (!String.IsNullOrEmpty(apiRequest.Token))
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+                }
+
+                message = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(apiRequest.Url),
+                    Method = new HttpMethod(apiRequest.ApiType.ToString())
+                };              
+
+                if (apiRequest.ContentType == SD.ContentType.MultipartFormData)
+                {
+                    message.Headers.Add("Accept", "*/*");
+                }
+                else
+                {
+                    message.Headers.Add("Accept", "application/json");
+                }
+
+                if (apiRequest.ContentType == SD.ContentType.MultipartFormData && apiRequest.Data != null)
+                {
+                    var content = new MultipartFormDataContent();
+                    foreach (var prop in apiRequest.Data.GetType().GetProperties())
+                    {
+                        var value = prop.GetValue(apiRequest.Data);
+                        if (value is FormFile file && file != null)
+                        {
+                            content.Add(new StreamContent(file.OpenReadStream()), prop.Name, file.FileName);
+                        }
+                        else
+                        {
+                            content.Add(new StringContent(value?.ToString() ?? string.Empty), prop.Name);
+                        }
+                    }
+                    message.Content = content;
+                }
+                else if (apiRequest.ContentType != SD.ContentType.MultipartFormData && apiRequest.Data != null)
+                {
+                    var jsonContent = JsonConvert.SerializeObject(apiRequest.Data);
+                    message.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 }
 
                 HttpResponseMessage apiResponse = null!;

@@ -20,13 +20,13 @@ namespace Model
         public double RoomPrice { get; set; }
 
         [Range(1, 10)]
-        public int MaxOccupancy { get; set; }
+        public int MaxOccupancy { get; set; }    
 
-        public string? ImageUrl { get; set; }
-
-        [ValidateNever]
         [NotMapped]
+        [ValidateNever]    
         public IFormFile? Image { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? ImageUrlLocalPath { get; set; }
 
         [ValidateNever]
         public DateTime? CreatedDate { get; set; }
