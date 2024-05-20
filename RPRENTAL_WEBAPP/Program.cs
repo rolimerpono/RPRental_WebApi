@@ -27,6 +27,9 @@ builder.Services.AddScoped<IApplicationUserService,ApplicationUserService>();
 builder.Services.AddHttpClient<IRoomService, RoomService>();
 builder.Services.AddScoped<IRoomService,RoomService>();
 
+builder.Services.AddHttpClient<IRoomNumberService, RoomNumberService>();
+builder.Services.AddScoped<IRoomNumberService, RoomNumberService>();
+
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(option =>

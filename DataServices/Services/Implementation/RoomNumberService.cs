@@ -1,4 +1,6 @@
-﻿using DataServices.Common.DTO;
+﻿using AutoMapper;
+using DataServices.Common.DTO;
+using DataServices.Common.DTO.RoomNumber;
 using DataServices.Services.Interface;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +21,12 @@ namespace DataServices.Services.Implementation
 
         private readonly IWorker _IWorker;
         private readonly APIResponse _APIResponse;
+        private readonly IMapper _IMapper;
 
-        public RoomNumberService(IWorker IWorker)
+        public RoomNumberService(IWorker IWorker, IMapper mapper)
         {
             _IWorker = IWorker;
+            _IMapper  = mapper;
             _APIResponse = new();
         }
 
@@ -51,17 +55,19 @@ namespace DataServices.Services.Implementation
             }
         }
 
-        public async Task<RoomNumber> GetAsync(int RoomNo)
+        public async Task<RoomNumberDTO> GetAsync(int RoomNo)
         {
-            RoomNumber objRoomNo = new();
+    
 
             try
             {
-                objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo);
+                var objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo);
 
-                if (objRoomNo != null)
+                RoomNumberDTO model = _IMapper.Map<RoomNumberDTO>(objRoomNo);
+
+                if (model != null)
                 {
-                    return objRoomNo;
+                    return model;
                 }
 
                 return null!;
@@ -73,17 +79,18 @@ namespace DataServices.Services.Implementation
             }
         }
 
-        public async Task<IEnumerable<RoomNumber>> GetAllAsync(Expression<Func<RoomNumber, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
-        {
-            IEnumerable<RoomNumber> objRoomNo = new List<RoomNumber>();
+        public async Task<IEnumerable<RoomNumberDTO>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1)
+        {          
 
             try
             {
-                objRoomNo = await _IWorker.tbl_RoomNumber.GetAllAsync(filter, IncludeProperties, isTracking, pageSize, pageNumber);
+                var objRoomNos = await _IWorker.tbl_RoomNumber.GetAllAsync(null, null, isTracking, pageSize, pageNumber);
 
-                if (objRoomNo != null)
+                IEnumerable<RoomNumberDTO> model = _IMapper.Map<List<RoomNumberDTO>>(objRoomNos);
+
+                if (model != null)
                 {
-                    return objRoomNo;
+                    return model;
                 }
             }
             catch (Exception ex)
@@ -95,7 +102,7 @@ namespace DataServices.Services.Implementation
         }
 
         [HttpPost]
-        public async Task<APIResponse> CreateAsync(RoomNumber objRoomNumber)
+        public async Task<APIResponse> CreateAsync(RoomNumberCreateDTO objRoomNumber)
         {
 
             try
@@ -110,7 +117,9 @@ namespace DataServices.Services.Implementation
                     return _APIResponse;
                 }
 
-                await _IWorker.tbl_RoomNumber.CreateAync(objRoomNumber);
+                RoomNumber model = _IMapper.Map<RoomNumber>(objRoomNumber);
+
+                await _IWorker.tbl_RoomNumber.CreateAync(model);
                 await _IWorker.tbl_Rooms.SaveAsync();
                 _APIResponse.IsSuccess = true;
                 _APIResponse.Message = SD.CrudTransactionsMessage.Save;
@@ -129,7 +138,7 @@ namespace DataServices.Services.Implementation
 
 
         [HttpPost]
-        public async Task<APIResponse> UpdateAsync(RoomNumber objRoomNumber)
+        public async Task<APIResponse> UpdateAsync(RoomNumberUpdateDTO objRoomNumber)
         {
             try
             {
@@ -142,7 +151,9 @@ namespace DataServices.Services.Implementation
                     return _APIResponse;
                 }
 
-                await _IWorker.tbl_RoomNumber.UpdateAsync(objRoomNumber);
+                RoomNumber model = _IMapper.Map<RoomNumber>(objRoomNumber);
+
+                await _IWorker.tbl_RoomNumber.UpdateAsync(model);
                 await _IWorker.tbl_RoomNumber.SaveAsync();
 
                 _APIResponse.IsSuccess = true;

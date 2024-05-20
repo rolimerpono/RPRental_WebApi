@@ -39,32 +39,34 @@ namespace RPRENTAL_WEBAPI.Controllers
 
 
         [Authorize]
-        [HttpGet("{id:int}", Name = "GetRoom")]
+        [HttpGet("{RoomId:int}", Name = "GetRoom")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ResponseCache(Duration = 5)]
-        public async Task<ActionResult<APIResponse>> GetRoom(int id)
+        public async Task<ActionResult<APIResponse>> GetRoom(int RoomId)
         {
             try
             {
-                var objRoom = await _IRoomService.GetAsync(id);
-
-                if (id == 0)
+                if (RoomId == 0)
                 {
                     _Response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_Response);
                 }
 
-                if (objRoom == null)
-                {
-                    _Response.StatusCode = HttpStatusCode.NotFound;
-                    return NotFound(_Response);
-                }
+                var response = await _IRoomService.GetAsync(RoomId);
 
-                _Response.Result = _IMapper.Map<RoomDTO>(objRoom);
+                if(response.IsSuccess == false)
+                {
+                    _Response.StatusCode = response.StatusCode;
+                    _Response.IsSuccess = response.IsSuccess;
+                    _Response.Message = response.Message;
+                    return BadRequest(_Response);
+                }           
+
+                _Response.Result = _IMapper.Map<RoomDTO>(response.Result);
                 _Response.IsSuccess = true;
                 _Response.StatusCode = HttpStatusCode.OK;
                 return Ok(_Response);
@@ -92,22 +94,22 @@ namespace RPRENTAL_WEBAPI.Controllers
         {
            
             try
-            {
-                IEnumerable<Room> objRooms = new List<Room>();
+            {              
 
-                objRooms = await _IRoomService.GetAllAsync(pageSize: PageSize, pageNumber: PageNumber);
+                var response = await _IRoomService.GetAllAsync(pageSize: PageSize, pageNumber: PageNumber);
             
 
-                if (objRooms == null)
+                if (response == null)
                 {
                     _Response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_Response);
                 }
-
-                if (objRooms == null)
+                
+                if(response.IsSuccess == false)
                 {
-                    _Response.StatusCode = HttpStatusCode.NotFound;
-                    return NotFound(_Response);
+                    _Response.IsSuccess = response.IsSuccess;
+                    _Response.Message = response.Message;
+                    _Response.StatusCode = response.StatusCode;
                 }
 
                 Pagination _pagination = new() 
@@ -117,7 +119,7 @@ namespace RPRENTAL_WEBAPI.Controllers
                 };
 
                 Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(_pagination));
-                _Response.Result = _IMapper.Map<List<RoomDTO>>(objRooms);
+                _Response.Result = _IMapper.Map<List<RoomDTO>>(response.Result);
                 _Response.IsSuccess = true;
                 _Response.StatusCode = HttpStatusCode.OK;
                 return Ok(_Response);
@@ -135,7 +137,8 @@ namespace RPRENTAL_WEBAPI.Controllers
 
 
         [Authorize]
-        [HttpPost]
+     
+        [HttpPost(Name = "CreateRoom")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -152,17 +155,16 @@ namespace RPRENTAL_WEBAPI.Controllers
                         return BadRequest(_Response);
                     }
 
-                    var objRoom = _IMapper.Map<Room>(roomDTO);
 
-                   var response = await _IRoomService.CreateAsync(objRoom);
+                   var response = await _IRoomService.CreateAsync(roomDTO);
 
                     if (response.IsSuccess)
                     {
-                        _Response.Result = objRoom;
+                        _Response.Result = roomDTO;
                         _Response.IsSuccess = true;
                         _Response.StatusCode = HttpStatusCode.Created;
                         _Response.Message = SD.CrudTransactionsMessage.Save;
-                        return CreatedAtRoute("GetRoom", new { Id = objRoom.RoomId }, _Response);
+                   
                     }
 
                     _Response.IsSuccess = false;
@@ -184,31 +186,27 @@ namespace RPRENTAL_WEBAPI.Controllers
 
 
         [Authorize]
-        [HttpPut("{id:int}", Name = "UpdateRoom")]
+        [HttpPut("{RoomId:int}", Name = "UpdateRoom")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdateRoom(int id, [FromForm] RoomUpdateDTO roomDTO)
+        public async Task<ActionResult<APIResponse>> UpdateRoom(int RoomId, [FromForm] RoomUpdateDTO roomDTO)
         {
             {
                 try
                 {
-                    if (roomDTO == null || id != roomDTO.RoomId)
+                    if (roomDTO == null || RoomId != roomDTO.RoomId)
                     {
                         _Response.StatusCode = HttpStatusCode.BadRequest;
                         return BadRequest(_Response);
                     }
-
-                    var objRoom = _IMapper.Map<Room>(roomDTO);
-
-                  
-
-                    var response = await _IRoomService.UpdateAsync(objRoom);
+                 
+                    var response = await _IRoomService.UpdateAsync(roomDTO);
 
                     if (response.IsSuccess)
                     {
-                        _Response.Result = objRoom;
+                        _Response.Result = roomDTO;
                         _Response.Message = response.Message;
                         _Response.StatusCode = HttpStatusCode.NoContent;
                         _Response.IsSuccess = true;
@@ -233,23 +231,23 @@ namespace RPRENTAL_WEBAPI.Controllers
 
 
         [Authorize]
-        [HttpDelete("{id:int}", Name = "DeleteRoom")]
+        [HttpDelete("{RoomId:int}", Name = "DeleteRoom")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> DeleteRoom(int id)
+        public async Task<ActionResult<APIResponse>> DeleteRoom(int RoomId)
         {
             {
                 try
                 {
-                    if (id == 0)
+                    if (RoomId == 0)
                     {
                         _Response.StatusCode = HttpStatusCode.BadRequest;
                         return BadRequest(_Response);
                     }
                     
-                    var response = await _IRoomService.RemoveAsync(id);
+                    var response = await _IRoomService.RemoveAsync(RoomId);
 
                     if (response.IsSuccess)
                     {                       
@@ -274,64 +272,7 @@ namespace RPRENTAL_WEBAPI.Controllers
             }
 
         }
-
-
-        [Authorize]
-        [HttpPatch("{id:int}", Name = "UpdatePartialRoom")]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdatePartialRoom(int id, JsonPatchDocument<RoomUpdateDTO> roomDTO)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.IsSuccess = false;
-                    return _Response;
-                }
-
-                if (roomDTO == null || id == 0)
-                {
-                    _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.IsSuccess = false;
-                    return _Response;
-                }
-
-                var ojbRoom = await _IRoomService.GetAsync(id);
-                RoomUpdateDTO objData = _IMapper.Map<RoomUpdateDTO>(ojbRoom);
-
-                if (ojbRoom == null)
-                {
-                    _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.IsSuccess = false;
-                    return _Response;
-                }
-
-                roomDTO.ApplyTo(objData, ModelState);
-                Room model = _IMapper.Map<Room>(objData);
-
-                var response = await _IRoomService.UpdateAsync(model);
-
-                if (response.IsSuccess)
-                {
-                    _Response.StatusCode = HttpStatusCode.NoContent;
-                    _Response.IsSuccess = true;
-                    _Response.Result = model;
-
-                    return _Response;
-                }
-            }
-            catch (Exception ex)
-            {
-                _Response.IsSuccess = false;
-                _Response.ErrorMessages = new List<string>() { ex.Message };
-            }
-
-            return _Response;
-        }
+       
 
     }
 }

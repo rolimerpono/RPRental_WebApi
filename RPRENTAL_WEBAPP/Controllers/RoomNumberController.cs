@@ -8,22 +8,23 @@ using Model;
 using Newtonsoft.Json;
 using RPRENTAL_WEBAPP.Models.DTO;
 using RPRENTAL_WEBAPP.Models.DTO.Room;
+using RPRENTAL_WEBAPP.Models.DTO.RoomNumber;
 using RPRENTAL_WEBAPP.Services.Interface;
 using Utility;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace RPRENTAL_WEBAPP.Controllers
 {
-    public class RoomController : Controller
+    public class RoomNumberController : Controller
     {
-        private readonly IRoomService _IRoomService;
+        private readonly IRoomNumberService _IRoomNumberService;
         private readonly IMapper _IMapper;
         private readonly IHelperService _helper;
         private readonly ICompositeViewEngine _viewEngine;
 
-        public RoomController(IRoomService RoomService , IMapper Mapper, IHelperService helper, ICompositeViewEngine viewEngine)   
+        public RoomNumberController(IRoomNumberService IRoomNumberService , IMapper Mapper, IHelperService helper, ICompositeViewEngine viewEngine)   
         {
-            _IRoomService = RoomService;
+            _IRoomNumberService = IRoomNumberService;
             _IMapper = Mapper;
             _helper = helper;
             _viewEngine = viewEngine;
@@ -40,30 +41,28 @@ namespace RPRENTAL_WEBAPP.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            List<RoomDTO> objRooms = new List<RoomDTO>();
+            List<RoomNumberDTO> objRoomNos = new List<RoomNumberDTO>();
 
-            var response = await _IRoomService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession)!);
+            var response = await _IRoomNumberService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession)!);
 
             if (response != null && response.IsSuccess)
             {
-                objRooms = JsonConvert.DeserializeObject<List<RoomDTO>>(Convert.ToString(response.Result)!)!;
+                objRoomNos = JsonConvert.DeserializeObject<List<RoomNumberDTO>>(Convert.ToString(response.Result)!)!;
 
-            }
+            }            
             
-            
-            return Json(new { success = true, message = "", data = objRooms });
+            return Json(new { success = true, message = "", data = objRoomNos });
 
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            RoomDTO objRoom = new();
+            RoomNumberDTO objRoomNo = new();
             try
-            {
-                objRoom = new RoomDTO { RoomId = 0, Description = "", RoomName = "", RoomPrice = 0, MaxOccupancy = 0, ImageUrl = "https://placehold.co/600x400", CreatedDate = DateTime.Now };
+            {            
 
-                PartialViewResult pvr = PartialView("Create", objRoom);
+                PartialViewResult pvr = PartialView("Create", objRoomNo);
                 string html_string = _helper.ViewToString(this.ControllerContext, pvr, _viewEngine);
 
                 return Json(new { success = true, htmlContent = html_string });
@@ -77,7 +76,7 @@ namespace RPRENTAL_WEBAPP.Controllers
         }
         [Authorize]
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RoomCreateDTO objRoom)
+        public async Task<IActionResult> Create(RoomNumberCreateDTO objRoomNo)
         {
             try
             {
@@ -87,7 +86,7 @@ namespace RPRENTAL_WEBAPP.Controllers
                     return Json(new { success = false, message = SD.CrudTransactionsMessage.InvalidInput });
                 }
 
-                var response = await _IRoomService.CreateAsync<APIResponse>(objRoom, HttpContext.Session.GetString(SD.TokenSession)!);
+                var response = await _IRoomNumberService.CreateAsync<APIResponse>(objRoomNo, HttpContext.Session.GetString(SD.TokenSession)!);
 
                 if (response != null && response.IsSuccess)
                 {
@@ -110,18 +109,18 @@ namespace RPRENTAL_WEBAPP.Controllers
 
         [Authorize]      
         [HttpGet]
-        public async Task<IActionResult> Update(int RoomId)
+        public async Task<IActionResult> Update(int RoomNo)
         {
             try
             {
-                RoomDTO objRoom;
+                RoomNumberDTO objRoomNo;
 
-                var response = await _IRoomService.GetAsync<APIResponse>(RoomId, HttpContext.Session.GetString(SD.TokenSession)!);
+                var response = await _IRoomNumberService.GetAsync<APIResponse>(RoomNo, HttpContext.Session.GetString(SD.TokenSession)!);
 
-                objRoom = JsonConvert.DeserializeObject<RoomDTO>(Convert.ToString(response.Result)!)!;
+                objRoomNo = JsonConvert.DeserializeObject<RoomNumberDTO>(Convert.ToString(response.Result)!)!;
 
 
-                PartialViewResult pvr = PartialView("Update", objRoom);
+                PartialViewResult pvr = PartialView("Update", objRoomNo);
                 string html_string = _helper.ViewToString(this.ControllerContext, pvr, _viewEngine);
 
                 return Json(new { success = true, message = "", htmlContent = html_string });
@@ -138,22 +137,18 @@ namespace RPRENTAL_WEBAPP.Controllers
 
         [Authorize]
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(RoomUpdateDTO objRoom, IFormFile Image)
+        public async Task<IActionResult> Update(RoomNumberUpdateDTO objRoomNo)
         {
             try
             {
-                if(Image == null)
-                {
-                    ModelState.Remove("Image");
-                }
-
+              
                 if (!ModelState.IsValid)
                 {
                     return Json(new { success = false, message = SD.CrudTransactionsMessage.InvalidInput });
                 }
 
               
-                var response = await _IRoomService.UpdateAsync<APIResponse>(objRoom, HttpContext.Session.GetString(SD.TokenSession)!);
+                var response = await _IRoomNumberService.UpdateAsync<APIResponse>(objRoomNo, HttpContext.Session.GetString(SD.TokenSession)!);
 
                 if (response != null && response.IsSuccess)
                 {
@@ -175,17 +170,17 @@ namespace RPRENTAL_WEBAPP.Controllers
         [Authorize]
         [HttpPost, ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Delete(int RoomId)
+        public async Task<IActionResult> Delete(int RoomNo)
         {
             try
             {               
 
-                if (RoomId == 0)
+                if (RoomNo == 0)
                 {
                     return Json(new { success = false, message = SD.CrudTransactionsMessage.RecordNotFound });
                 }
 
-                var response = await _IRoomService.DeleteAsync<APIResponse>(RoomId, HttpContext.Session.GetString(SD.TokenSession)!);
+                var response = await _IRoomNumberService.DeleteAsync<APIResponse>(RoomNo, HttpContext.Session.GetString(SD.TokenSession)!);
 
                 if (response != null && response.IsSuccess)
                 {

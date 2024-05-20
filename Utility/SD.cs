@@ -54,7 +54,7 @@ namespace Utility
             public const string DateRange = "Please provide a valid date range, and choose dates from tomorrow onwards. Thank you.";
             public const string IsUserHasTransactions = "The user you have selected have current transaction.";
             public const string IsDefaultAdmin = "The user you have selected was the default admin of the system.";
-            public const string RecordNotFound = "The record not found.";
+            public const string RecordNotFound = "Record not found.";
             public const string RecordFound = "Record found.";
         }
 

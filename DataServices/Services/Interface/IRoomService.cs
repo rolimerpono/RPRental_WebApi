@@ -1,4 +1,5 @@
 ﻿using DataServices.Common.DTO;
+using DataServices.Common.DTO.Room;
 using Microsoft.AspNetCore.Http;
 using Model;
 using System;
@@ -14,14 +15,13 @@ namespace DataServices.Services.Interface
     {
         Task<APIResponse> IsUniqueRoom(string RoomName);
 
-        Task<Room> GetAsync(int RoomId);
+        Task<APIResponse> GetAsync(int RoomId);
 
-        Task<IEnumerable<Room>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
-
+        Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
      
-        Task<APIResponse> CreateAsync(Room objRoom);
+        Task<APIResponse> CreateAsync(RoomCreateDTO objRoom);
 
-        Task<APIResponse> UpdateAsync(Room objRoom);
+        Task<APIResponse> UpdateAsync(RoomUpdateDTO objRoom);
 
         Task<APIResponse> RemoveAsync(int RoomId);
 

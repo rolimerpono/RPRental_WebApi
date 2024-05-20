@@ -1,4 +1,5 @@
 ﻿using DataServices.Common.DTO;
+using DataServices.Common.DTO.RoomNumber;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ namespace DataServices.Services.Interface
     {
         Task<APIResponse> IsUniqueRoomNumber(int RoomNo);
 
-        Task<RoomNumber> GetAsync(int RoomNo);
-        Task<IEnumerable<RoomNumber>> GetAllAsync(Expression<Func<RoomNumber, bool>>? filter = null, string? IncludeProperties = null, bool isTracking = false, int pageSize = 0, int pageNumber = 1);
+        Task<RoomNumberDTO> GetAsync(int RoomNo);
+        Task<IEnumerable<RoomNumberDTO>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
          
-        Task<APIResponse> CreateAsync(RoomNumber objRoomNo);
+        Task<APIResponse> CreateAsync(RoomNumberCreateDTO objRoomNo);
 
-        Task<APIResponse> UpdateAsync(RoomNumber objRoomNo);
+        Task<APIResponse> UpdateAsync(RoomNumberUpdateDTO objRoomNo);
 
         Task<APIResponse> RemoveAsync(int RoomNo);
 

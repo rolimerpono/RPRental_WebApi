@@ -81,10 +81,9 @@ namespace RPRENTAL_WEBAPI.Controllers
         {
 
             try
-            {
-                IEnumerable<RoomNumber> objRooms = new List<RoomNumber>();
+            {                
 
-                objRooms = await _IRoomNumberService.GetAllAsync(pageSize: PageSize, pageNumber: PageNumber);
+                var objRooms = await _IRoomNumberService.GetAllAsync(pageSize: PageSize, pageNumber: PageNumber);
 
                 if (objRooms == null)
                 {
@@ -136,24 +135,111 @@ namespace RPRENTAL_WEBAPI.Controllers
                     {
                         _Response.StatusCode = HttpStatusCode.BadRequest;
                         return BadRequest(_Response);
-                    }
+                    }                 
 
-                    var objRoom = _IMapper.Map<RoomNumber>(roomNumberDTO);
-
-                    var response = await _IRoomNumberService.CreateAsync(objRoom);
+                    var response = await _IRoomNumberService.CreateAsync(roomNumberDTO);
 
                     if (response.IsSuccess)
                     {
-                        _Response.Result = objRoom;
                         _Response.IsSuccess = true;
+                        _Response.Result = roomNumberDTO;                     
                         _Response.StatusCode = HttpStatusCode.Created;
-                        _Response.Message = SD.CrudTransactionsMessage.Save;
-                        return CreatedAtRoute("GetRoom", new { Id = objRoom.RoomId }, _Response);
+                        _Response.Message = SD.CrudTransactionsMessage.Save;                       
                     }
 
                     _Response.IsSuccess = false;
                     _Response.StatusCode = HttpStatusCode.BadRequest;
                     _Response.Message = response.Message;
+                    _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
+
+                }
+                catch (Exception ex)
+                {
+                    _Response.IsSuccess = false;
+                    _Response.ErrorMessages = new List<string>() { ex.Message + " " + SD.SystemMessage.ContactAdmin };
+                }
+
+                return _Response;
+            }
+
+        }
+
+
+        [Authorize]
+        [HttpPut("{RoomNo:int}", Name = "UpdateRoomNumber")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> UpdateRoomNumber(int RoomNo, [FromBody] RoomNumberUpdateDTO roomDTO)
+        {
+            {
+                try
+                {
+                    if (roomDTO == null || RoomNo != roomDTO.RoomId)
+                    {
+                        _Response.StatusCode = HttpStatusCode.BadRequest;
+                        return BadRequest(_Response);
+                    }
+
+                    var response = await _IRoomNumberService.UpdateAsync(roomDTO);
+
+                    if (response.IsSuccess)
+                    {
+                        _Response.IsSuccess = true;
+                        _Response.Result = roomDTO;
+                        _Response.Message = response.Message;
+                        _Response.StatusCode = HttpStatusCode.NoContent;
+                        return Ok(_Response);
+                    }
+
+                    _Response.IsSuccess = false;
+                    _Response.StatusCode = HttpStatusCode.BadRequest;
+                    _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
+
+                }
+                catch (Exception ex)
+                {
+                    _Response.IsSuccess = false;
+                    _Response.ErrorMessages = new List<string>() { ex.Message };
+                }
+
+                return _Response;
+            }
+
+        }
+
+
+        [Authorize]
+        [HttpDelete("{RoomNo:int}", Name = "DeleteRoomNumber")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> DeleteRoomNumber(int RoomNo)
+        {
+            {
+                try
+                {
+                    if (RoomNo == 0)
+                    {
+                        _Response.IsSuccess = false;
+                        _Response.StatusCode = HttpStatusCode.BadRequest;
+                        return BadRequest(_Response);
+                    }
+
+                    var response = await _IRoomNumberService.RemoveAsync(RoomNo);
+
+                    if (response.IsSuccess)
+                    {
+                        _Response.IsSuccess = true;
+                        _Response.StatusCode = HttpStatusCode.NoContent;
+                        _Response.Message = response.Message;                     
+                        return Ok(_Response);
+                    }
+
+                    _Response.IsSuccess = false;
+                    _Response.StatusCode = HttpStatusCode.BadRequest;
                     _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
 
                 }
