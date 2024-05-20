@@ -8,11 +8,16 @@ namespace RPRENTAL_WEBAPP.Models.DTO.Room
     public class RoomCreateDTO
     {
 
+        public RoomCreateDTO()
+        {
+            Description = string.Empty;
+        }
+
 
         [Required]
         public string RoomName { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
 
         [Required]

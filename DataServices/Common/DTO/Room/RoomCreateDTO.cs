@@ -7,12 +7,13 @@ namespace DataServices.Common.DTO.Room
 {
     public class RoomCreateDTO
     {
-
-
+        public RoomCreateDTO()
+        {
+            Description = String.Empty;
+        }
         public string RoomName { get; set; }
 
-        public string? Description { get; set; }
-
+        public string Description { get; set; }
 
         [Required]
         public double RoomPrice { get; set; }

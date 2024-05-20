@@ -52,7 +52,7 @@ function ReloadDataTable(objMainTable) {
 }
 
 function LoadModal(url, modalContent, data = null) {	
-
+	
 	$.ajax({
 		type: 'GET',
 		url: url,

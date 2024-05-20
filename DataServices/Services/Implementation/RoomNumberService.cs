@@ -62,7 +62,7 @@ namespace DataServices.Services.Implementation
 
             try
             {
-                var objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo,IncludeProperties:"Room");
+                var objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo, IncludeProperties:"Room");
 
                 if (objRoomNo == null)
                 {
@@ -199,16 +199,16 @@ namespace DataServices.Services.Implementation
         [HttpPost]
         public async Task<APIResponse> RemoveAsync(int RoomNo)
         {
-            Room objRoom = new();
+            RoomNumber objRoomNumber = new();
 
             try
             {
-                objRoom = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == RoomNo);
+                objRoomNumber = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo);
 
-                if (objRoom != null)
+                if (objRoomNumber != null)
                 {
-                    await _IWorker.tbl_Rooms.RemoveAsync(objRoom);
-                    await _IWorker.tbl_Rooms.SaveAsync();
+                    await _IWorker.tbl_RoomNumber.RemoveAsync(objRoomNumber);
+                    await _IWorker.tbl_RoomNumber.SaveAsync();
 
                     _APIResponse.IsSuccess = true;
                     _APIResponse.Message = SD.CrudTransactionsMessage.Delete;

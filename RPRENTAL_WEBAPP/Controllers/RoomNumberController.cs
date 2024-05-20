@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Model;
@@ -17,14 +18,17 @@ namespace RPRENTAL_WEBAPP.Controllers
 {
     public class RoomNumberController : Controller
     {
+
+        private readonly IRoomService _IRoomService;
         private readonly IRoomNumberService _IRoomNumberService;
         private readonly IMapper _IMapper;
         private readonly IHelperService _helper;
         private readonly ICompositeViewEngine _viewEngine;
 
-        public RoomNumberController(IRoomNumberService IRoomNumberService , IMapper Mapper, IHelperService helper, ICompositeViewEngine viewEngine)   
+        public RoomNumberController(IRoomNumberService IRoomNumberService, IRoomService IRoomService , IMapper Mapper, IHelperService helper, ICompositeViewEngine viewEngine)   
         {
             _IRoomNumberService = IRoomNumberService;
+            _IRoomService = IRoomService;
             _IMapper = Mapper;
             _helper = helper;
             _viewEngine = viewEngine;
@@ -33,7 +37,9 @@ namespace RPRENTAL_WEBAPP.Controllers
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Index()
-        {                    
+        {
+                
+
             return View();
         }
 
@@ -58,9 +64,28 @@ namespace RPRENTAL_WEBAPP.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            RoomNumberDTO objRoomNo = new();
+            RoomNumberCreateDTO objRoomNo = new();
             try
-            {            
+            {
+
+                var objRoomList = await _IRoomService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession));
+
+                var roomList = JsonConvert.DeserializeObject<List<RoomDTO>>(Convert.ToString(objRoomList.Result)!);
+
+                var selectedListItems = roomList!.Select(room =>
+                new SelectListItem
+                {
+                    Value = room.RoomId.ToString(),
+                    Text = room.RoomName.ToString()
+
+                })
+                .OrderBy(fw => fw.Text)
+                .GroupBy(fw => fw.Text)
+                .Select(fw => fw.First()).ToList();
+
+                objRoomNo.RoomList = selectedListItems;
+
+
 
                 PartialViewResult pvr = PartialView("Create", objRoomNo);
                 string html_string = _helper.ViewToString(this.ControllerContext, pvr, _viewEngine);
@@ -113,11 +138,30 @@ namespace RPRENTAL_WEBAPP.Controllers
         {
             try
             {
-                RoomNumberDTO objRoomNo;
+                RoomNumberUpdateDTO objRoomNo = new();
+              
 
                 var response = await _IRoomNumberService.GetAsync<APIResponse>(RoomNo, HttpContext.Session.GetString(SD.TokenSession)!);
 
-                objRoomNo = JsonConvert.DeserializeObject<RoomNumberDTO>(Convert.ToString(response.Result)!)!;
+                objRoomNo = JsonConvert.DeserializeObject<RoomNumberUpdateDTO>(Convert.ToString(response.Result)!)!;
+
+
+                var objRoomList = await _IRoomService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession));
+
+                var roomList = JsonConvert.DeserializeObject<List<RoomDTO>>(Convert.ToString(objRoomList.Result)!);
+
+                var selectedListItems = roomList!.Select(room =>
+                new SelectListItem
+                {
+                    Value = room.RoomId.ToString(),
+                    Text = room.RoomName.ToString()
+
+                })
+                .OrderBy(fw => fw.Text)
+                .GroupBy(fw => fw.Text)
+                .Select(fw => fw.First()).ToList();
+
+                objRoomNo.RoomList = selectedListItems;
 
 
                 PartialViewResult pvr = PartialView("Update", objRoomNo);
@@ -145,9 +189,9 @@ namespace RPRENTAL_WEBAPP.Controllers
                 if (!ModelState.IsValid)
                 {
                     return Json(new { success = false, message = SD.CrudTransactionsMessage.InvalidInput });
-                }
+                }               
 
-              
+
                 var response = await _IRoomNumberService.UpdateAsync<APIResponse>(objRoomNo, HttpContext.Session.GetString(SD.TokenSession)!);
 
                 if (response != null && response.IsSuccess)
@@ -169,7 +213,6 @@ namespace RPRENTAL_WEBAPP.Controllers
 
         [Authorize]
         [HttpPost, ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Delete(int RoomNo)
         {
             try

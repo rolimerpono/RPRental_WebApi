@@ -7,6 +7,10 @@ namespace Model
 {
     public class Room
     {
+        public Room()
+        {
+            Description = string.Empty;
+        }
 
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoomId { get; set; }
@@ -14,7 +18,7 @@ namespace Model
         [Required]
         public String RoomName { get;set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [Range(10, 150)]
         public double RoomPrice { get; set; }

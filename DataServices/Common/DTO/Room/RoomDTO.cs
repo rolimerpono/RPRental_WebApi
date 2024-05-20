@@ -9,11 +9,14 @@ namespace DataServices.Common.DTO.Room
 {
     public class RoomDTO
     {
-
+        public RoomDTO()
+        {
+            Description = string.Empty;
+        }
         public int RoomId { get; set; }
         public string RoomName { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
 
         [Required]

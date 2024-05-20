@@ -13,7 +13,7 @@ $(document).ready(function () {
     });
 
     $('#tbl_RoomNumber').on('click', '.select-edit-btn', function () {
-        let rowData = GetRowData(objRoomNumberTable, $(this));        
+        let rowData = GetRowData(objRoomNumberTable, $(this));               
         LoadModal('/RoomNumber/Update', '#modal-edit-content', rowData);
         InputBoxFocus('#Description', '#modal-edit');
     });
@@ -23,8 +23,7 @@ $(document).ready(function () {
     });
 
     $('#tbl_RoomNumber').on('click', '.select-delete-btn', function () {
-        let rowData = GetRowData(objRoomNumberTable, $(this));
-        debugger
+        let rowData = GetRowData(objRoomNumberTable, $(this));        
         $('#RoomNo').val(rowData.roomNo);
         $('#modal-delete').modal('show');
     });

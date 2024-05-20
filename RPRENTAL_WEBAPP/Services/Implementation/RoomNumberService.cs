@@ -26,8 +26,8 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             {
                 ApiType = SD.ApiType.GET,
                 Token = Token,
-                Url = apiUrl + "/api/RoomNumber/" + RoomNo
-
+                Url = apiUrl + "/api/RoomNumber/" + RoomNo,
+                ContentType = SD.ContentType.Json
             });
         }
 
@@ -38,7 +38,8 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             {
                 ApiType = SD.ApiType.GET,
                 Token = Token,
-                Url = apiUrl + "/api/RoomNumber/"
+                Url = apiUrl + "/api/RoomNumber/",
+                ContentType = SD.ContentType.Json                
             });
         }
 
@@ -74,6 +75,8 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
                 ApiType = SD.ApiType.DELETE,               
                 Token = Token,
                 Url = apiUrl + "/api/RoomNumber/" + RoomNo,
+                ContentType = SD.ContentType.Json
+                
             });
         }
 

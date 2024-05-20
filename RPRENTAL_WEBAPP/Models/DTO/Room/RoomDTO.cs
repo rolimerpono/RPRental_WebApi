@@ -12,6 +12,7 @@ namespace RPRENTAL_WEBAPP.Models.DTO.Room
         public RoomDTO()
         {
             ImageUrl = "https://placehold.co/600x400";
+            Description = string.Empty;
         }
 
         public int RoomId { get; set; }
@@ -19,7 +20,7 @@ namespace RPRENTAL_WEBAPP.Models.DTO.Room
         [Required]
         public string RoomName { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
 
         [Required]

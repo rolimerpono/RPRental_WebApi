@@ -1,0 +1,37 @@
+﻿@model RoomNumberUpdateDTO
+
+<div class="container">
+    <form id="form-edit">
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12 pt-md-0 pt-3">
+                    <input asp-for="@Model.RoomNo" hidden />
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Room Number:</label>
+                        <input id="RoomNo" type="number" class="form-control" asp-for="@Model.RoomNo" placeholder="Enter Room Number" disabled required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Select Room:</label>
+                        <select class="form-select form-control border shadow" aria-label="Select Room" asp-for="@Model.RoomId" asp-items="@Model.RoomList" required>
+                            <option selected></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Description:</label>
+                        <input id="Description" type="text" class="form-control" asp-for="@Model.Description" placeholder="Enter Description" required autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+

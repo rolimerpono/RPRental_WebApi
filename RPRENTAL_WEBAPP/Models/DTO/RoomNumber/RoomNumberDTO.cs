@@ -8,13 +8,18 @@ namespace RPRENTAL_WEBAPP.Models.DTO.RoomNumber
 {
     public class RoomNumberDTO
     {
+        public RoomNumberDTO()
+        {
+            RoomNo = 0;
+            Description = String.Empty;
+        }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int RoomNo { get; set; }
 
 
         [MaxLength(500)]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [ValidateNever]
         public RoomDTO? Room { get; set; }

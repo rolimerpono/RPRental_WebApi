@@ -10,12 +10,16 @@ namespace Model
 {
     public class RoomNumber
     {
+        public RoomNumber()
+        {
+            Description = string.Empty;
+        }
 
         [Key,DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int RoomNo { get; set; }
 
         [MaxLength(500)]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [ForeignKey("Room")]
         public int RoomId { get; set; } 

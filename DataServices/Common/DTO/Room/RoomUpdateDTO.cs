@@ -7,13 +7,17 @@ namespace DataServices.Common.DTO.Room
 {
     public class RoomUpdateDTO
     {
+        public RoomUpdateDTO()
+        {
+            Description = string.Empty;
+        }
 
         [Required]
         public int RoomId { get; set; }
      
         public string RoomName { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [Required]
         public double RoomPrice { get; set; }
