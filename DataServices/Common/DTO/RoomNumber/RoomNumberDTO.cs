@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+using Model;
 using DataServices.Common.DTO.Room;
 
 namespace DataServices.Common.DTO.RoomNumber
@@ -16,12 +18,7 @@ namespace DataServices.Common.DTO.RoomNumber
         [MaxLength(500)]
         public string? Description { get; set; }
 
-
-        [ForeignKey("RoomDTO")]
-        public int RoomId { get; set; }
-
-        [ValidateNever]
-        public RoomDTO? RoomDTO { get; set; }
+       public RoomDTO? Room { get; set; }
 
     }
 

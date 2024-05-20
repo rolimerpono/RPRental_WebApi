@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Utility;
@@ -50,54 +51,78 @@ namespace DataServices.Services.Implementation
             catch (Exception ex)
             {
                 _APIResponse.IsSuccess = false;
+                _APIResponse.StatusCode = HttpStatusCode.BadRequest;
                 _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
                 return _APIResponse;
             }
         }
 
-        public async Task<RoomNumberDTO> GetAsync(int RoomNo)
-        {
-    
+        public async Task<APIResponse> GetAsync(int RoomNo)
+        {    
 
             try
             {
-                var objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo);
+                var objRoomNo = await _IWorker.tbl_RoomNumber.GetAsync(fw => fw.RoomNo == RoomNo,IncludeProperties:"Room");
+
+                if (objRoomNo == null)
+                {
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.StatusCode = HttpStatusCode.NotFound;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;
+                }
 
                 RoomNumberDTO model = _IMapper.Map<RoomNumberDTO>(objRoomNo);
 
-                if (model != null)
-                {
-                    return model;
-                }
-
-                return null!;
+                _APIResponse.IsSuccess = true;
+                _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
+                _APIResponse.StatusCode = HttpStatusCode.OK;
+                _APIResponse.Result = model;
+                return _APIResponse;
+            
 
             }
             catch (Exception ex)
             {
-                return null!;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.StatusCode = HttpStatusCode.BadRequest;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
             }
         }
 
-        public async Task<IEnumerable<RoomNumberDTO>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1)
+        public async Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {          
 
             try
             {
-                var objRoomNos = await _IWorker.tbl_RoomNumber.GetAllAsync(null, null, isTracking, pageSize, pageNumber);
+                var objRoomNos = await _IWorker.tbl_RoomNumber.GetAllAsync(null, IncludeProperties:"Room", isTracking, pageSize, pageNumber);
+
+                if(objRoomNos == null)
+                {
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.StatusCode = HttpStatusCode.NotFound;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;
+
+                }
 
                 IEnumerable<RoomNumberDTO> model = _IMapper.Map<List<RoomNumberDTO>>(objRoomNos);
 
-                if (model != null)
-                {
-                    return model;
-                }
+                _APIResponse.IsSuccess = true;
+                _APIResponse.StatusCode = HttpStatusCode.OK;
+                _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
+                _APIResponse.Result = model;
+                return _APIResponse;
+              
             }
             catch (Exception ex)
             {
-                return null!;
-            }
-            return null!;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.StatusCode = HttpStatusCode.BadRequest;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
+            }      
 
         }
 

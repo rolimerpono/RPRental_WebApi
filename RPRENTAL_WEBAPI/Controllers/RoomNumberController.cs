@@ -41,7 +41,7 @@ namespace RPRENTAL_WEBAPI.Controllers
         {
             try
             {
-                var objRoom = await _IRoomNumberService.GetAsync(RoomNo);
+                var response = await _IRoomNumberService.GetAsync(RoomNo);
 
                 if (RoomNo == 0)
                 {
@@ -49,15 +49,19 @@ namespace RPRENTAL_WEBAPI.Controllers
                     return BadRequest(_Response);
                 }
 
-                if (objRoom == null)
+                if (response.IsSuccess == false)
                 {
-                    _Response.StatusCode = HttpStatusCode.NotFound;
-                    return NotFound(_Response);
+                    _Response.IsSuccess = response.IsSuccess;
+                    _Response.Message = response.Message;
+                    _Response.StatusCode = response.StatusCode;
+                    return BadRequest(_Response);
+
                 }
 
-                _Response.Result = _IMapper.Map<RoomNumberDTO>(objRoom);
-                _Response.IsSuccess = true;
-                _Response.StatusCode = HttpStatusCode.OK;
+                _Response.Result = _IMapper.Map<RoomNumberDTO>(response.Result);
+                _Response.IsSuccess = response.IsSuccess;
+                _Response.StatusCode = response.StatusCode;
+                _Response.Message = response.Message;
                 return Ok(_Response);
 
             }
@@ -83,17 +87,20 @@ namespace RPRENTAL_WEBAPI.Controllers
             try
             {                
 
-                var objRooms = await _IRoomNumberService.GetAllAsync(pageSize: PageSize, pageNumber: PageNumber);
+                var response = await _IRoomNumberService.GetAllAsync(pageSize: PageSize, pageNumber: PageNumber);
 
-                if (objRooms == null)
+                if (response == null)
                 {
+                    _Response.IsSuccess = false;
                     _Response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_Response);
                 }
 
-                if (objRooms == null)
+                if (response.IsSuccess == false)
                 {
-                    _Response.StatusCode = HttpStatusCode.NotFound;
+                    _Response.IsSuccess = response.IsSuccess;
+                    _Response.Message = response.Message;
+                    _Response.StatusCode = response.StatusCode;                    
                     return NotFound(_Response);
                 }
 
@@ -104,9 +111,12 @@ namespace RPRENTAL_WEBAPI.Controllers
                 };
 
                 Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(_pagination));
-                _Response.Result = _IMapper.Map<List<RoomNumberDTO>>(objRooms);
-                _Response.IsSuccess = true;
-                _Response.StatusCode = HttpStatusCode.OK;
+                _Response.Result = _IMapper.Map<List<RoomNumberDTO>>(response.Result);
+
+                _Response.IsSuccess = response.IsSuccess;
+                _Response.StatusCode = response.StatusCode;
+                _Response.Message = response.Message;
+
                 return Ok(_Response);
 
             }
@@ -139,18 +149,18 @@ namespace RPRENTAL_WEBAPI.Controllers
 
                     var response = await _IRoomNumberService.CreateAsync(roomNumberDTO);
 
-                    if (response.IsSuccess)
+                    if (response.IsSuccess == false)
                     {
-                        _Response.IsSuccess = true;
-                        _Response.Result = roomNumberDTO;                     
-                        _Response.StatusCode = HttpStatusCode.Created;
-                        _Response.Message = SD.CrudTransactionsMessage.Save;                       
-                    }
+                        _Response.IsSuccess = false;
+                        _Response.StatusCode = HttpStatusCode.BadRequest;
+                        _Response.Message = response.Message;
+                        _Response.ErrorMessages = new List<string>() { response.Message };
+                    }                  
 
-                    _Response.IsSuccess = false;
-                    _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.Message = response.Message;
-                    _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
+                    _Response.IsSuccess = true;
+                    _Response.Result = roomNumberDTO;
+                    _Response.StatusCode = HttpStatusCode.Created;
+                    _Response.Message = SD.CrudTransactionsMessage.Save;
 
                 }
                 catch (Exception ex)
@@ -195,7 +205,7 @@ namespace RPRENTAL_WEBAPI.Controllers
 
                     _Response.IsSuccess = false;
                     _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
+                    _Response.ErrorMessages = new List<string>() { response.Message};
 
                 }
                 catch (Exception ex)

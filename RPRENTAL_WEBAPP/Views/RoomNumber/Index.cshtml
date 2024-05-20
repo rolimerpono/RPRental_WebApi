@@ -1,0 +1,38 @@
+﻿
+<div class="container">
+    <div class="row pt-3">
+        <div class="col">
+            <div class="text-center text-white"><h2>ROOM NUMBER LIST</h2></div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <button class="btn btn-primary btn-block btn-add" style="width:150px;" type="button">ADD NEW</button>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <table id="tbl_RoomNumber" class="table table-bordered table-hover text-start" style="border: 1px thin #ccc;">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Room Name</th>
+                        <th>Description</th>
+                        <th class="text-center">Edit</th>
+                        <th class="text-center">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<partial name="Modal/RoomNumber/_RoomNumberModal" />
+
+@section Scripts {
+    <script src="~/js/Common/Common.js"></script>
+    <script src="~/js/Crud/RoomNumber/JSRoomNumber.js"></script>
+}
+

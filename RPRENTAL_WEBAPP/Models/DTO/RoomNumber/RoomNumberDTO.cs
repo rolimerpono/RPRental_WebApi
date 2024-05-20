@@ -16,12 +16,8 @@ namespace RPRENTAL_WEBAPP.Models.DTO.RoomNumber
         [MaxLength(500)]
         public string? Description { get; set; }
 
-
-        [ForeignKey("RoomDTO")]
-        public int RoomId { get; set; }
-
         [ValidateNever]
-        public RoomDTO? RoomDTO { get; set; }
+        public RoomDTO? Room { get; set; }
 
     }
 

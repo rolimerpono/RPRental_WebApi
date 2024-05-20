@@ -1,7 +1,7 @@
 ﻿let objRoomNumberTable;
 
 $(document).ready(function () {
-    InitializeDataTable();
+    loadRoomNumberDataTable();
 
     $('.btn-add').click(function () {
         LoadModal('/RoomNumber/Create', '#modal-add-content');
@@ -34,7 +34,7 @@ $(document).ready(function () {
     });
 });
 
-function InitializeDataTable() {
+function loadRoomNumberDataTable() {
     objRoomNumberTable = $('#tbl_RoomNumber').DataTable({
         ajax: {
             url: '/RoomNumber/GetAll'

@@ -14,8 +14,8 @@ namespace DataServices.Services.Interface
     {
         Task<APIResponse> IsUniqueRoomNumber(int RoomNo);
 
-        Task<RoomNumberDTO> GetAsync(int RoomNo);
-        Task<IEnumerable<RoomNumberDTO>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
+        Task<APIResponse> GetAsync(int RoomNo);
+        Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
          
         Task<APIResponse> CreateAsync(RoomNumberCreateDTO objRoomNo);
 

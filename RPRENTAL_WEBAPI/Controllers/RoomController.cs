@@ -158,19 +158,22 @@ namespace RPRENTAL_WEBAPI.Controllers
 
                    var response = await _IRoomService.CreateAsync(roomDTO);
 
-                    if (response.IsSuccess)
+                    if (response.IsSuccess == false)
                     {
-                        _Response.Result = roomDTO;
-                        _Response.IsSuccess = true;
-                        _Response.StatusCode = HttpStatusCode.Created;
-                        _Response.Message = SD.CrudTransactionsMessage.Save;
-                   
-                    }
+                        _Response.IsSuccess = false;
+                        _Response.StatusCode = HttpStatusCode.BadRequest;
+                        _Response.Message = response.Message;
+                        _Response.ErrorMessages = new List<string>() { response.Message };                   
+                        return Ok(_Response);
 
-                    _Response.IsSuccess = false;
-                    _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.Message = response.Message;
-                    _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
+                    }                  
+
+                    _Response.Result = roomDTO;
+                    _Response.IsSuccess = true;
+                    _Response.StatusCode = HttpStatusCode.Created;
+                    _Response.Message = SD.CrudTransactionsMessage.Save;
+                    return BadRequest(_Response);
+
 
                 }
                 catch (Exception ex)
@@ -204,18 +207,19 @@ namespace RPRENTAL_WEBAPI.Controllers
                  
                     var response = await _IRoomService.UpdateAsync(roomDTO);
 
-                    if (response.IsSuccess)
+                    if (response.IsSuccess == false)
                     {
-                        _Response.Result = roomDTO;
+                        _Response.IsSuccess = false;
+                        _Response.StatusCode = HttpStatusCode.BadRequest;
                         _Response.Message = response.Message;
-                        _Response.StatusCode = HttpStatusCode.NoContent;
-                        _Response.IsSuccess = true;
-                        return Ok(_Response);
+                        _Response.ErrorMessages = new List<string>() { response.Message };
                     }
 
-                    _Response.IsSuccess = false;
-                    _Response.StatusCode = HttpStatusCode.BadRequest;
-                    _Response.ErrorMessages = new List<string>() { response.Message + " " + SD.SystemMessage.ContactAdmin };
+                    _Response.IsSuccess = true;
+                    _Response.Result = roomDTO;
+                    _Response.Message = response.Message;
+                    _Response.StatusCode = HttpStatusCode.NoContent;                
+                    return Ok(_Response);
 
                 }
                 catch (Exception ex)
