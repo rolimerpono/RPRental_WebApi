@@ -13,9 +13,9 @@ namespace DataServices.Services.Interface
     {
         Task<APIResponse> IsUniqueAmenity(string AmenityName);
 
-        Task<IEnumerable<Amenity>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
+        Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
 
-        Task<Amenity> GetAsync(int AmenityId);
+        Task<APIResponse> GetAsync(int AmenityId);
 
         Task<APIResponse> CreateAsync(Amenity objAmenity);
 

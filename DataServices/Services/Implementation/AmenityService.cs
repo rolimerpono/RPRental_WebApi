@@ -1,4 +1,6 @@
-﻿using DataServices.Common.DTO;
+﻿using AutoMapper;
+using DataServices.Common.DTO;
+using DataServices.Common.DTO.Amenity;
 using DataServices.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -6,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Utility;
@@ -16,10 +19,12 @@ namespace DataServices.Services.Implementation
     {
         private readonly IWorker _IWorker;
         private readonly APIResponse _APIResponse;
-        public AmenityService(IWorker iWorker)
+        private readonly IMapper _IMapper;
+        public AmenityService(IWorker iWorker , IMapper mapper)
         {
             _IWorker = iWorker;
             _APIResponse = new();
+            _IMapper = mapper;
         }
 
         public async Task<APIResponse> IsUniqueAmenity(string AmenityName)
@@ -48,50 +53,77 @@ namespace DataServices.Services.Implementation
         }
 
         [HttpGet]
-        public async Task<Amenity> GetAsync(int Id)
+        public async Task<APIResponse> GetAsync(int Id)
         {
-            Amenity objAmenity = new();
+           
 
             try
             {
 
-                objAmenity = await _IWorker.tbl_Amenity.GetAsync(fw => fw.AmenityId == Id);
+                var objAmenity = await _IWorker.tbl_Amenity.GetAsync(fw => fw.AmenityId == Id);
 
-                if (objAmenity != null)
+                if (objAmenity == null)
                 {
-                    return objAmenity;
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.StatusCode = HttpStatusCode.NotFound;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;                
                 }
 
-                return null!;
+                AmenityCreateDTO model = _IMapper.Map<AmenityCreateDTO>(objAmenity);    
+
+                _APIResponse.IsSuccess = true;
+                _APIResponse.StatusCode = HttpStatusCode.OK;
+                _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
+                _APIResponse.Result = model;
+                return _APIResponse; 
+                
 
             }
             catch (Exception ex)
             {
-                return null!;
+                _APIResponse.IsSuccess = false;              
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
             }
         }
 
 
 
         [HttpGet]
-        public async Task<IEnumerable<Amenity>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1)
-        {
-            IEnumerable<Amenity> objAmenities = new List<Amenity>();
+        public async Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1)
+        {           
 
             try
             {
-                objAmenities = await _IWorker.tbl_Amenity.GetAllAsync(null, null, isTracking, pageSize, pageNumber);
+                var objAmenities = await _IWorker.tbl_Amenity.GetAllAsync(null, null, isTracking, pageSize, pageNumber);
 
-                if (objAmenities != null)
+                if (objAmenities == null)
                 {
-                    return objAmenities;
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.StatusCode = HttpStatusCode.NotFound;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;
                 }
+
+                IEnumerable<AmenityDTO> model = _IMapper.Map<List<AmenityDTO>>(objAmenities);
+
+                _APIResponse.IsSuccess = true;
+                _APIResponse.StatusCode  = System.Net.HttpStatusCode.OK;
+                _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
+                _APIResponse.Result = model;
+
+                return _APIResponse;
+
+               
             }
             catch (Exception ex)
             {
-                return null!;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
             }
-            return null!;
+           
         }
 
 
