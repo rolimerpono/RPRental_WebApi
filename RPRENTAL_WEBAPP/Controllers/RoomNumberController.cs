@@ -160,7 +160,8 @@ namespace RPRENTAL_WEBAPP.Controllers
                 .OrderBy(fw => fw.Text)
                 .GroupBy(fw => fw.Text)
                 .Select(fw => fw.First()).ToList();
-
+                
+                objRoomNo.RoomId = objRoomNo.Room!.RoomId;
                 objRoomNo.RoomList = selectedListItems;
 
 
