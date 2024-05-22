@@ -135,7 +135,7 @@ namespace RPRENTAL_WEBAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> CreateRoomAmenity([FromForm] RoomAmenityCreateDTO RoomAmenityDTO)
+        public async Task<ActionResult<APIResponse>> CreateRoomAmenity([FromBody] RoomAmenityCreateDTO RoomAmenityDTO)
         {
             {
                 try
@@ -145,7 +145,6 @@ namespace RPRENTAL_WEBAPI.Controllers
                         _APIResponse.StatusCode = HttpStatusCode.BadRequest;
                         return BadRequest(_APIResponse);
                     }
-
 
                     var response = await _IRoomAmenityService.CreateAsync(RoomAmenityDTO);
 
