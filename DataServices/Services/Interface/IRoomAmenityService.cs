@@ -1,4 +1,5 @@
 ﻿using DataServices.Common.DTO;
+using DataServices.Common.DTO.RoomAmenity;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,13 @@ namespace DataServices.Services.Interface
     public interface IRoomAmenityService
     {
     
-        Task<RoomAmenity> GetAsync(int RoomId);
+        Task<APIResponse> GetAsync(int RoomId);
 
-        Task<IEnumerable<RoomAmenity>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
+        Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
           
-        Task<APIResponse> CreateAsync(RoomAmenity objRoomAmenity);
+        Task<APIResponse> CreateAsync(RoomAmenityCreateDTO objRoomAmenity);
 
-        Task<APIResponse> UpdateAsync(RoomAmenity objRoomAmenity);
+        Task<APIResponse> UpdateAsync(RoomAmenityUpdateDTO objRoomAmenity);
 
         Task<APIResponse> RemoveAsync(int RoomId);
 

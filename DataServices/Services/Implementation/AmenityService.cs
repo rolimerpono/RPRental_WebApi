@@ -128,7 +128,7 @@ namespace DataServices.Services.Implementation
 
 
         [HttpPost]
-        public async Task<APIResponse> CreateAsync(Amenity objAmenity)
+        public async Task<APIResponse> CreateAsync(AmenityCreateDTO objAmenity)
         {
 
             try
@@ -143,7 +143,9 @@ namespace DataServices.Services.Implementation
                     return _APIResponse;
                 }
 
-                await _IWorker.tbl_Amenity.CreateAync(objAmenity);
+                Amenity model = _IMapper.Map<Amenity>(objAmenity);
+
+                await _IWorker.tbl_Amenity.CreateAync(model);
                 await _IWorker.tbl_Amenity.SaveAsync();
                 _APIResponse.IsSuccess = true;
                 _APIResponse.Message = SD.CrudTransactionsMessage.Save;
@@ -162,7 +164,7 @@ namespace DataServices.Services.Implementation
 
 
         [HttpPost]
-        public async Task<APIResponse> UpdateAsync(Amenity objAmenity)
+        public async Task<APIResponse> UpdateAsync(AmenityUpdateDTO objAmenity)
         {
             try
             {
@@ -175,7 +177,9 @@ namespace DataServices.Services.Implementation
                     return _APIResponse;
                 }
 
-                await _IWorker.tbl_Amenity.UpdateAsync(objAmenity);
+                Amenity model = _IMapper.Map<Amenity>(objAmenity);
+
+                await _IWorker.tbl_Amenity.UpdateAsync(model);
                 await _IWorker.tbl_Amenity.SaveAsync();
 
                 _APIResponse.IsSuccess = true;

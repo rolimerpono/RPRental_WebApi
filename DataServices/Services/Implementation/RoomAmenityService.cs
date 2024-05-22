@@ -1,4 +1,7 @@
-﻿using DataServices.Common.DTO;
+﻿using AutoMapper;
+using DataServices.Common.DTO;
+using DataServices.Common.DTO.Amenity;
+using DataServices.Common.DTO.RoomAmenity;
 using DataServices.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -6,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,70 +21,97 @@ namespace DataServices.Services.Implementation
     {
         private readonly IWorker _IWorker;
         private readonly APIResponse _APIResponse;
-        public RoomAmenityService(IWorker iWorker)
+        private readonly IMapper _IMapper;
+        public RoomAmenityService(IWorker iWorker , IMapper mapper)
         {
 
             _IWorker = iWorker;
+            _IMapper = mapper;
             _APIResponse = new();
 
         }
 
         [HttpGet]
-        public async Task<RoomAmenity> GetAsync(int RoomId)
+        public async Task<APIResponse> GetAsync(int RoomId)
         {
-            RoomAmenity objRoomAmenity = new();
-
             try
             {
 
-                objRoomAmenity = await _IWorker.tbl_RoomAmenity.GetAsync(fw => fw.RoomId == RoomId,IncludeProperties:"Room , Amenity");
+                var objRoomAmenity = await _IWorker.tbl_RoomAmenity.GetAsync(fw => fw.RoomId == RoomId, IncludeProperties: "Room,Amenity");
 
-                if (objRoomAmenity != null)
+                if (objRoomAmenity == null)
                 {
-                    return objRoomAmenity;
+                    _APIResponse.StatusCode = HttpStatusCode.NotFound;
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;
+
                 }
 
-                return null!;
+                RoomAmenityDTO model = _IMapper.Map<RoomAmenityDTO>(objRoomAmenity);
+                _APIResponse.IsSuccess = true;
+                _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
+                _APIResponse.Result = model;
+                return _APIResponse;
+
 
             }
             catch (Exception ex)
             {
-                return null!;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
             }
 
         }
 
         [HttpGet]
-        public async Task<IEnumerable<RoomAmenity>> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1)
+        public async Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {
-            IEnumerable<RoomAmenity> objRoomAmenties = new List<RoomAmenity>();
-
             try
             {
-                objRoomAmenties = await _IWorker.tbl_RoomAmenity.GetAllAsync(null,IncludeProperties:"Room, Amenity", isTracking, pageSize,pageNumber);
 
-                if (objRoomAmenties != null)
+                var objRoomAmenities = await _IWorker.tbl_RoomAmenity.GetAllAsync(null, IncludeProperties: "Room,Amenity", isTracking, pageSize, pageNumber);
+
+                if (objRoomAmenities == null)
                 {
-                    return objRoomAmenties;
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.StatusCode = HttpStatusCode.NotFound;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;
                 }
+
+                IEnumerable<RoomAmenityDTO> model = _IMapper.Map<List<RoomAmenityDTO>>(objRoomAmenities);
+
+                _APIResponse.IsSuccess = true;
+                _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
+                _APIResponse.Result = model;
+                return _APIResponse;
+
+
             }
             catch (Exception ex)
             {
-                return null!;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
             }
-            return null!;
         }
 
 
 
         [HttpPost]
-        public async Task<APIResponse> CreateAsync(RoomAmenity objRoomAmenity)
+        public async Task<APIResponse> CreateAsync(RoomAmenityCreateDTO objRoomAmenity)
         {
 
             try
-            {
-               
-                await _IWorker.tbl_RoomAmenity.CreateAync(objRoomAmenity);
+            {           
+
+             
+
+                RoomAmenity model = _IMapper.Map<RoomAmenity>(objRoomAmenity);
+
+                await _IWorker.tbl_RoomAmenity.CreateAync(model);
                 await _IWorker.tbl_RoomAmenity.SaveAsync();
                 _APIResponse.IsSuccess = true;
                 _APIResponse.Message = SD.CrudTransactionsMessage.Save;
@@ -98,7 +129,7 @@ namespace DataServices.Services.Implementation
         }
 
         [HttpPost]
-        public async Task<APIResponse> UpdateAsync(RoomAmenity objRoomAmenity)
+        public async Task<APIResponse> UpdateAsync(RoomAmenityUpdateDTO objRoomAmenity)
         {
             try
             {
@@ -111,7 +142,9 @@ namespace DataServices.Services.Implementation
                     return _APIResponse;
                 }
 
-                await _IWorker.tbl_RoomAmenity.UpdateAsync(objRoomAmenity);
+                RoomAmenity model = _IMapper.Map<RoomAmenity>(objRoomAmenity);
+
+                await _IWorker.tbl_RoomAmenity.UpdateAsync(model);
                 await _IWorker.tbl_RoomAmenity.SaveAsync();
 
                 _APIResponse.IsSuccess = true;

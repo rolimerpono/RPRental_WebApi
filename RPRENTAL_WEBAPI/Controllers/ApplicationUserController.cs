@@ -14,12 +14,12 @@ namespace RPRENTAL_WEBAPI.Controllers
     public class ApplicationUserController : ControllerBase
     {
         private readonly IApplicationUserService _IApplicationUserService;
-        private readonly APIResponse _Response;
+        private readonly APIResponse _APIResponse;
 
         public ApplicationUserController(IApplicationUserService appUserService)
         {
             _IApplicationUserService = appUserService;
-            _Response = new APIResponse();
+            _APIResponse = new();
 
         }
 
@@ -32,17 +32,17 @@ namespace RPRENTAL_WEBAPI.Controllers
             if (loginResponse.User == null || string.IsNullOrEmpty(loginResponse.Token))
             {
 
-                _Response.StatusCode = HttpStatusCode.BadRequest;
-                _Response.IsSuccess = false;
-                _Response.ErrorMessages.Add(SD.SystemMessage.FailUserLogin);
-                return BadRequest(_Response);
+                _APIResponse.StatusCode = HttpStatusCode.BadRequest;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.ErrorMessages.Add(SD.SystemMessage.FailUserLogin);
+                return BadRequest(_APIResponse);
             }
 
-            _Response.StatusCode = HttpStatusCode.OK;
-            _Response.IsSuccess = true;
-            _Response.ErrorMessages.Add(SD.SystemMessage.Login);
-            _Response.Result = loginResponse;
-            return Ok(_Response);
+            _APIResponse.StatusCode = HttpStatusCode.OK;
+            _APIResponse.IsSuccess = true;
+            _APIResponse.ErrorMessages.Add(SD.SystemMessage.Login);
+            _APIResponse.Result = loginResponse;
+            return Ok(_APIResponse);
 
 
 
@@ -54,24 +54,24 @@ namespace RPRENTAL_WEBAPI.Controllers
             bool IsUserUnique = await _IApplicationUserService.IsUniqueUsername(registrationRequestDTO.UserName!);
             if (!IsUserUnique)
             {
-                _Response.StatusCode = HttpStatusCode.BadRequest;
-                _Response.IsSuccess = false;
-                _Response.ErrorMessages.Add(SD.CrudTransactionsMessage.RecordExists);
-                return BadRequest(_Response);
+                _APIResponse.StatusCode = HttpStatusCode.BadRequest;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.ErrorMessages.Add(SD.CrudTransactionsMessage.RecordExists);
+                return BadRequest(_APIResponse);
             }
 
             var objUser = await _IApplicationUserService.Register(registrationRequestDTO);
             if (objUser == null)
             {
-                _Response.StatusCode = HttpStatusCode.BadRequest;
-                _Response.IsSuccess = false;
-                _Response.ErrorMessages.Add(SD.CrudTransactionsMessage.InvalidInput);
-                return BadRequest(_Response);
+                _APIResponse.StatusCode = HttpStatusCode.BadRequest;
+                _APIResponse.IsSuccess = false;
+                _APIResponse.ErrorMessages.Add(SD.CrudTransactionsMessage.InvalidInput);
+                return BadRequest(_APIResponse);
             }
 
-            _Response.StatusCode = HttpStatusCode.OK;
-            _Response.IsSuccess = true;
-            return Ok(_Response);
+            _APIResponse.StatusCode = HttpStatusCode.OK;
+            _APIResponse.IsSuccess = true;
+            return Ok(_APIResponse);
         }
 
     }

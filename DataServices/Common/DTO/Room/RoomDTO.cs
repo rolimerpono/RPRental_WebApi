@@ -13,6 +13,7 @@ namespace DataServices.Common.DTO.Room
         {
             Description = string.Empty;
         }
+
         public int RoomId { get; set; }
         public string RoomName { get; set; }
 

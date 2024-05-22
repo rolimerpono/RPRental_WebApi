@@ -1,4 +1,5 @@
 ﻿using DataServices.Common.DTO;
+using DataServices.Common.DTO.Amenity;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace DataServices.Services.Interface
 
         Task<APIResponse> GetAsync(int AmenityId);
 
-        Task<APIResponse> CreateAsync(Amenity objAmenity);
+        Task<APIResponse> CreateAsync(AmenityCreateDTO objAmenity);
 
-        Task<APIResponse> UpdateAsync(Amenity objAmenity);
+        Task<APIResponse> UpdateAsync(AmenityUpdateDTO objAmenity);
 
         Task<APIResponse> RemoveAsync(int AmenityId);
 
