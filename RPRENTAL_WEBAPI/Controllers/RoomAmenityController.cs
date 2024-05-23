@@ -158,11 +158,11 @@ namespace RPRENTAL_WEBAPI.Controllers
 
                     }
 
-                    _APIResponse.Result = RoomAmenityDTO;
+                    _APIResponse.Result = response.Result;
                     _APIResponse.IsSuccess = true;
                     _APIResponse.StatusCode = HttpStatusCode.Created;
                     _APIResponse.Message = SD.CrudTransactionsMessage.Save;
-                    return BadRequest(_APIResponse);
+                    return Ok(_APIResponse);
 
 
                 }

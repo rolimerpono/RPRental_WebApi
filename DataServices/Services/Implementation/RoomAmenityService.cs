@@ -109,13 +109,25 @@ namespace DataServices.Services.Implementation
 
             try
             {
+
+                var objRoom = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == objRoomAmenity.RoomId);
+
+                if(objRoom == null)
+                {
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.StatusCode = HttpStatusCode.NotFound;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;
+                }
+
+
                 foreach(var Amenity in objRoomAmenity.AmenityId)
                 {
 
-                    var response = await _IWorker.tbl_Amenity.GetAsync(fw => fw.AmenityId == Amenity);
+                    var objAmenity = await _IWorker.tbl_Amenity.GetAsync(fw => fw.AmenityId == Amenity);
 
 
-                    if (response == null)
+                    if (objAmenity == null)
                     {
                         _APIResponse.IsSuccess = false;
                         _APIResponse.StatusCode = HttpStatusCode.NotFound;
@@ -125,24 +137,39 @@ namespace DataServices.Services.Implementation
 
                 }
 
+                var objData = await _IWorker.tbl_RoomAmenity.GetAllAsync(fw => fw.RoomId == objRoomAmenity.RoomId);
+
+                foreach (var data in objData)
+                {
+                    await _IWorker.tbl_RoomAmenity.RemoveAsync(data);
+                    await _IWorker.tbl_RoomAmenity.SaveAsync();
+                }
+
+
+                RoomAmenity model = new();
+
                 foreach (var Amenity in objRoomAmenity.AmenityId)
                 {
 
-                    var response = await _IWorker.tbl_Amenity.GetAsync(fw => fw.AmenityId == Amenity);
+                    objRoomAmenityData = new();                 
 
-                    objRoomAmenityData.Amenity = response;
                     objRoomAmenityData.RoomId = objRoomAmenity.RoomId;
                     objRoomAmenityData.AmenityId = Amenity;
 
 
-                    RoomAmenity model = _IMapper.Map<RoomAmenity>(objRoomAmenityData);
+                    model = _IMapper.Map<RoomAmenity>(objRoomAmenityData);
+
                     await _IWorker.tbl_RoomAmenity.CreateAync(model);
                     await _IWorker.tbl_RoomAmenity.SaveAsync();
 
                 }
-            
+
+                var result = await _IWorker.tbl_RoomAmenity.GetAllAsync(fw => fw.RoomId == objRoomAmenity.RoomId);
+
                 _APIResponse.IsSuccess = true;
+                _APIResponse.Result = result;
                 _APIResponse.Message = SD.CrudTransactionsMessage.Save;
+                _APIResponse.StatusCode = HttpStatusCode.OK;
 
                 return _APIResponse;
             }
