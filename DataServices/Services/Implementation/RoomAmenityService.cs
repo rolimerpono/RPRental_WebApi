@@ -39,6 +39,7 @@ namespace DataServices.Services.Implementation
             {
 
                 var objRoomAmenity = await _IWorker.tbl_RoomAmenity.GetAsync(fw => fw.RoomId == RoomId, IncludeProperties: "Room,Amenity");
+               
 
                 if (objRoomAmenity == null)
                 {

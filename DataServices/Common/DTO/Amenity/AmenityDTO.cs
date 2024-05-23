@@ -23,5 +23,6 @@ namespace DataServices.Common.DTO.Amenity
 
         [ValidateNever]
         public Boolean IsCheck { get; set; }
+     
     }
 }

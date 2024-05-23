@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Model;
 using DataServices.Common.DTO.Room;
 using DataServices.Common.DTO.Amenity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace DataServices.Common.DTO.RoomAmenity
 {
@@ -24,5 +25,7 @@ namespace DataServices.Common.DTO.RoomAmenity
 
         public AmenityDTO? Amenity { get; set; }
 
+
+ 
     }
 }

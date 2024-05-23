@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,9 +21,10 @@ namespace Model
         public Room? Room { get; set; }
 
         [ForeignKey("Amenity")]
-        public int AmenityId { get; set; }  
+        public int AmenityId { get; set; }
 
-        public Amenity? Amenity { get; set; }
+        public Amenity? Amenity { get; set; }   
+
 
     }
 }
