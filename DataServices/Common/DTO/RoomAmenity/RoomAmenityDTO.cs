@@ -25,7 +25,11 @@ namespace DataServices.Common.DTO.RoomAmenity
 
         public AmenityDTO? Amenity { get; set; }
 
+        [NotMapped]
+        [ValidateNever]
+        public IEnumerable<AmenityDTO> Amenities { get; set; }
 
- 
+
+
     }
 }

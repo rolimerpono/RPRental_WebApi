@@ -59,7 +59,7 @@ namespace RPRENTAL_WEBAPI.Controllers
                     return BadRequest(_APIResponse);
                 }
 
-                _APIResponse.Result = _IMapper.Map<RoomAmenityDTO>(response.Result);
+                _APIResponse.Result = _IMapper.Map<List<RoomAmenityDTO>>(response.Result);
                 _APIResponse.IsSuccess = true;
                 _APIResponse.StatusCode = HttpStatusCode.OK;
                 return Ok(_APIResponse);

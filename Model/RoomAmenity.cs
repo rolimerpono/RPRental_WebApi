@@ -23,8 +23,7 @@ namespace Model
         [ForeignKey("Amenity")]
         public int AmenityId { get; set; }
 
-        public Amenity? Amenity { get; set; }   
-
+        public Amenity? Amenity { get; set; }
 
     }
 }

@@ -26,13 +26,6 @@ namespace Model
         [ValidateNever]
         public Boolean IsCheck { get; set; }
 
-        [ForeignKey("RoomAmenity")]
-        [NotMapped]
-        [ValidateNever]
-        public int RoomId { get; set; }
-
-        [ValidateNever]
-        public RoomAmenity? RoomAmenity { get; set; }
    
        }
 }

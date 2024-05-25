@@ -38,7 +38,8 @@ namespace DataServices.Services.Implementation
             try
             {
 
-                var objRoomAmenity = await _IWorker.tbl_RoomAmenity.GetAsync(fw => fw.RoomId == RoomId, IncludeProperties: "Room,Amenity");
+                var objRoomAmenity = await _IWorker.tbl_RoomAmenity.GetAllAsync(fw => fw.RoomId == RoomId, IncludeProperties: "Room,Amenity");               
+              
                
 
                 if (objRoomAmenity == null)
@@ -50,7 +51,7 @@ namespace DataServices.Services.Implementation
 
                 }
 
-                RoomAmenityDTO model = _IMapper.Map<RoomAmenityDTO>(objRoomAmenity);
+                List<RoomAmenityDTO> model = _IMapper.Map<List<RoomAmenityDTO>>(objRoomAmenity);
                 _APIResponse.IsSuccess = true;
                 _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
                 _APIResponse.Result = model;

@@ -53,14 +53,14 @@ namespace DataServices.Services.Implementation
         }
 
         [HttpGet]
-        public async Task<APIResponse> GetAsync(int Id)
+        public async Task<APIResponse> GetAsync(int AmenityId)
         {
            
 
             try
             {
 
-                var objAmenity = await _IWorker.tbl_Amenity.GetAsync(fw => fw.AmenityId == Id);
+                var objAmenity = await _IWorker.tbl_Amenity.GetAsync(fw => fw.AmenityId == AmenityId);
 
                 if (objAmenity == null)
                 {
@@ -70,7 +70,7 @@ namespace DataServices.Services.Implementation
                     return _APIResponse;                
                 }
 
-                AmenityCreateDTO model = _IMapper.Map<AmenityCreateDTO>(objAmenity);    
+                AmenityDTO model = _IMapper.Map<AmenityDTO>(objAmenity);    
 
                 _APIResponse.IsSuccess = true;
                 _APIResponse.StatusCode = HttpStatusCode.OK;

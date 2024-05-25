@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataServices.Common.DTO.RoomAmenity;
 
 namespace DataServices.Common.DTO.Amenity
 {
@@ -23,6 +24,7 @@ namespace DataServices.Common.DTO.Amenity
 
         [ValidateNever]
         public Boolean IsCheck { get; set; }
-     
+
+      
     }
 }
