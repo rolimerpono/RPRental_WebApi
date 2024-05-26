@@ -1,7 +1,7 @@
 ﻿let objAmenityTable;
 
 $(document).ready(function () {
-    InitializedDataTable();
+    loadAmenityDataTable();
 
     $('.btn-add').click(function () {
         LoadModal('/Amenity/Create', '#modal-add-content');      
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 });
 
-function InitializedDataTable() {
+function loadAmenityDataTable() {
     objAmenityTable = $('#tbl_Amenity').DataTable({
         ajax: {
             url: '/Amenity/GetAll'

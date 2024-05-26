@@ -24,8 +24,14 @@ builder.Services.AddHttpClient<IApplicationUserService, ApplicationUserService>(
 builder.Services.AddScoped<IApplicationUserService,ApplicationUserService>();
 
 
+builder.Services.AddHttpClient<IAmenityService, AmenityService>();
+builder.Services.AddScoped<IAmenityService, AmenityService>();
+
 builder.Services.AddHttpClient<IRoomService, RoomService>();
 builder.Services.AddScoped<IRoomService,RoomService>();
+
+builder.Services.AddHttpClient<IRoomAmenityService, RoomAmenityService>();
+builder.Services.AddScoped<IRoomAmenityService, RoomAmenityService>();
 
 builder.Services.AddHttpClient<IRoomNumberService, RoomNumberService>();
 builder.Services.AddScoped<IRoomNumberService, RoomNumberService>();
