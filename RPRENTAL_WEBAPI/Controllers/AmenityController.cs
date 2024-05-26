@@ -179,12 +179,12 @@ namespace RPRENTAL_WEBAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("{AmenityId:int}", Name = "AmenityUpdate")]
+        [HttpPut("{AmenityId:int}", Name = "UpdateAmenity")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> AmenityUpdate(int AmenityId, [FromForm] AmenityUpdateDTO amenityDTO)
+        public async Task<ActionResult<APIResponse>> UpdateAmenity(int AmenityId, [FromBody] AmenityUpdateDTO amenityDTO)
         {
             {
                 try

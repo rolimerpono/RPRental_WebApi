@@ -145,6 +145,8 @@ namespace DataServices.Services.Implementation
 
                 Amenity model = _IMapper.Map<Amenity>(objAmenity);
 
+                model.CreatedDate = DateOnly.FromDateTime(DateTime.Now);
+
                 await _IWorker.tbl_Amenity.CreateAync(model);
                 await _IWorker.tbl_Amenity.SaveAsync();
                 _APIResponse.IsSuccess = true;
@@ -163,7 +165,7 @@ namespace DataServices.Services.Implementation
         }
 
 
-        [HttpPost]
+        [HttpPost]  
         public async Task<APIResponse> UpdateAsync(AmenityUpdateDTO objAmenity)
         {
             try
@@ -178,6 +180,8 @@ namespace DataServices.Services.Implementation
                 }
 
                 Amenity model = _IMapper.Map<Amenity>(objAmenity);
+
+                model.UpdatedDate = DateOnly.FromDateTime(DateTime.Now);
 
                 await _IWorker.tbl_Amenity.UpdateAsync(model);
                 await _IWorker.tbl_Amenity.SaveAsync();

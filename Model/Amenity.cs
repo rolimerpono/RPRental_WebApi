@@ -11,6 +11,7 @@ namespace Model
 {
     public class Amenity
     {
+       
         [Key] 
         public int AmenityId { get; set; }
 
@@ -18,9 +19,9 @@ namespace Model
         [MaxLength(100)]
         public string AmenityName { get; set; }
 
-        public DateOnly CreatedDate { get; set; }
+        public DateOnly? CreatedDate { get; set; }
 
-        public DateOnly UpdatedDate { get; set; }
+        public DateOnly? UpdatedDate { get; set; }
 
         [NotMapped]
         [ValidateNever]

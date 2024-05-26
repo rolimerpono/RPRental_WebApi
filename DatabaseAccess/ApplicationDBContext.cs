@@ -287,27 +287,33 @@ namespace DatabaseAccess
             {
                 AmenityId = 1,
                 AmenityName = "Washing Machine",
+                CreatedDate = DateOnly.FromDateTime(DateTime.Now)             
+
             },
             new Amenity
             {
                 AmenityId = 2,
                 AmenityName = "Electric Fan",
+                CreatedDate = DateOnly.FromDateTime(DateTime.Now)
 
             },
             new Amenity
             {
                 AmenityId = 3,
                 AmenityName = "TV",
+                CreatedDate = DateOnly.FromDateTime(DateTime.Now)
             },
             new Amenity
             {
                 AmenityId = 4,
                 AmenityName = "Internet Wifi",
+                CreatedDate = DateOnly.FromDateTime(DateTime.Now)
             },
             new Amenity
             {
                 AmenityId = 5,
                 AmenityName = "Microwave",
+                CreatedDate = DateOnly.FromDateTime(DateTime.Now)
 
             });
 

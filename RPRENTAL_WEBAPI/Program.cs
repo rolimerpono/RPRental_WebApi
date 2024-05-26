@@ -14,6 +14,7 @@ using RPRENTAL_WEBAPI;
 using Serilog;
 using System.IO.Pipes;
 using System.Text;
+using Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,6 +81,11 @@ builder.Services.Configure<IdentityOptions>(opt =>
     opt.Password.RequireUppercase = true;
 });
 
+builder.Services.AddControllers().AddJsonOptions(options => 
+    {
+        options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+    });
+
 
 
 builder.Services.AddControllers();
@@ -88,6 +94,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
 {
+   
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer abcdefg@1234567890\"",
@@ -111,6 +118,10 @@ builder.Services.AddSwaggerGen(options =>
             new List<string>()
         }
     });
+
+   
+   
+
 });
 
 

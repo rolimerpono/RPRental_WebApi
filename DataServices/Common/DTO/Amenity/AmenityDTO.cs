@@ -11,16 +11,15 @@ using DataServices.Common.DTO.RoomAmenity;
 namespace DataServices.Common.DTO.Amenity
 {
     public class AmenityDTO
-    {
+    {      
         public int AmenityId { get; set; }
-
 
         [MaxLength(100)]
         public string AmenityName { get; set; }
 
-        public DateOnly CreatedDate { get; set; }
+        public DateOnly? CreatedDate { get; set; }
 
-        public DateOnly UpdatedDate { get; set; }
+        public DateOnly? UpdatedDate { get; set; }
 
         [ValidateNever]
         public Boolean IsCheck { get; set; }
