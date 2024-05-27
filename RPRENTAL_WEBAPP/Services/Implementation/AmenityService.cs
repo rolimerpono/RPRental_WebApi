@@ -19,6 +19,7 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
 
         public Task<T> CreateAsync<T>(AmenityCreateDTO objAmenity, string Token)
         {
+            
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.POST,

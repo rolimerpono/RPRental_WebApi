@@ -63,7 +63,7 @@ namespace RPRENTAL_WEBAPP.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            AmenityDTO objAmenity = new();
+            AmenityCreateDTO objAmenity = new();
             try
             {                
 
@@ -120,11 +120,11 @@ namespace RPRENTAL_WEBAPP.Controllers
         {
             try
             {
-                AmenityDTO objAmenity = new();
+                AmenityUpdateDTO objAmenity = new();
 
                 var response = await _IAmenityService.GetAsync<APIResponse>(AmenityId, HttpContext.Session.GetString(SD.TokenSession)!);
 
-                objAmenity = JsonConvert.DeserializeObject<AmenityDTO>(Convert.ToString(response.Result)!)!;
+                objAmenity = JsonConvert.DeserializeObject<AmenityUpdateDTO>(Convert.ToString(response.Result)!)!;
 
 
                 PartialViewResult pvr = PartialView("Update", objAmenity);

@@ -8,8 +8,7 @@ $(document).ready(function () {
         InputBoxFocus('#AmenityName', '#modal-add')
     });
 
-    $('.btn-save').click(function () {
-        
+    $('.btn-save').click(function () {        
         SaveAmenity('/Amenity/Create', '#form-add');
     });
 
@@ -20,8 +19,7 @@ $(document).ready(function () {
 
     });
 
-    $('.btn-edit').click(function () {
-        
+    $('.btn-edit').click(function () {        
         SaveAmenity('/Amenity/Update', '#form-edit');
     });
 
@@ -80,7 +78,7 @@ function SaveAmenity(url, formSelector) {
     {
         return;
     }
-
+    
     $.ajax({
         type: 'POST',
         url: url,
@@ -105,7 +103,7 @@ function DeleteAmenity() {
 
     let amenityId = $('#AmenityId').val();
     let token = $('input[name="__RequestVerificationToken"]').val(); 
-    debugger
+    
 
     let data =
     {
