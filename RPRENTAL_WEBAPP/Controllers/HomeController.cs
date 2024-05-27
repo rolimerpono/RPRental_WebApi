@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using RPRENTAL_WEBAPP.Models;
+using RPRENTAL_WEBAPP.Models.DTO.Home;
 using System.Diagnostics;
+using Utility;
 
 namespace RPRENTAL_WEBAPP.Controllers
 {
@@ -13,10 +15,36 @@ namespace RPRENTAL_WEBAPP.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? iPage)
         {
+
+            //var pageNumber = iPage ?? 1;
+            //var pageSize = 6;
+
+            //var objRoomList = _iWorker.tbl_Rooms
+            // .GetAll(IncludeProperties: "RoomAmenities")
+            // .Select(room_item => new HomeVM
+            // {
+            //     RoomId = room_item.RoomId,
+            //     RoomName = room_item.RoomName,
+            //     Description = room_item.Description,
+            //     RoomPrice = room_item.RoomPrice,
+            //     RoomAmenities = room_item.RoomAmenities?.Select(item => new RoomAmenity
+            //     {
+            //         Id = item.Id,
+            //         RoomId = item.RoomId,
+            //         AmenityId = item.AmenityId,
+            //         Amenity = _iWorker.tbl_Amenity.Get(fw => fw.AmenityId == item.AmenityId),
+            //         Room = item.Room
+            //     }).ToList(),
+            //     MaxOccupancy = room_item.MaxOccupancy,
+            //     ImageUrl = room_item.ImageUrl,
+            // }).ToList();
+
+            //return View("Index", PaginatedList<HomeDTO>.Create(objRoomList.AsQueryable(), pageNumber, pageSize));
             return View();
         }
+
 
         public IActionResult Privacy()
         {
