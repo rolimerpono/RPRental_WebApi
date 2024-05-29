@@ -18,16 +18,18 @@ namespace RPRENTAL_WEBAPP.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IRoomService _IRoomService;
+        private readonly IRoomAmenityService _IRoomAmenityService;
         private readonly IAmenityService _IAmenityService;
         private readonly IHelperService _helper;
         private readonly ICompositeViewEngine _viewEngine;
 
 
-        public HomeController(ILogger<HomeController> logger, IAmenityService iAmenityService, IRoomService iRoomService, IHelperService helper, ICompositeViewEngine viewengine)
+        public HomeController(ILogger<HomeController> logger, IAmenityService iAmenityService, IRoomService iRoomService, IRoomAmenityService iRoomAmenityService, IHelperService helper, ICompositeViewEngine viewengine)
         {
             _logger = logger;
             _IAmenityService = iAmenityService;
             _IRoomService = iRoomService;
+            _IRoomAmenityService = iRoomAmenityService;
             _helper = helper;
             _viewEngine = viewengine;
         }
@@ -38,19 +40,23 @@ namespace RPRENTAL_WEBAPP.Controllers
             var pageNumber = iPage ?? 1;
             var pageSize = 6;
             APIResponse response = new();
-          
+
 
             response = await _IRoomService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession));
+
 
             if (response != null)
             {
                 var objRoomList = JsonConvert.DeserializeObject<List<HomeDTO>>(Convert.ToString(response.Result)!)!;
 
 
+
                 return View("Index", PaginatedList<HomeDTO>.Create(objRoomList.AsQueryable(), pageNumber, pageSize));
             }
 
             return View("Index");
+
+
 
         }
 

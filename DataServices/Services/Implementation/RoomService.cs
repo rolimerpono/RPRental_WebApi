@@ -18,6 +18,10 @@ using DataServices.Common.DTO.Room;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using AutoMapper;
+using DataServices.Common.DTO.RoomAmenity;
+using DataServices.Common.DTO.Amenity;
+using Azure;
+using System.Drawing.Printing;
 
 namespace DataServices.Services.Implementation
 {
@@ -67,22 +71,42 @@ namespace DataServices.Services.Implementation
         [HttpGet]
         public async Task<APIResponse> GetAsync(int RoomId)
         {
-           
             try
             {
 
-                var objRoom = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == RoomId, null);
+                var objRoom = await _IWorker.tbl_Rooms.GetAsync(fw => fw.RoomId == RoomId, IncludeProperties: "RoomAmenities");
 
-                if(objRoom == null)
+                var model = _IMapper.Map<RoomDTO>(objRoom);
+       
+                    if (model.RoomAmenities != null)
+                    {
+                        var roomAmenities = new List<RoomAmenityDTO>();
+
+                        foreach (var item in model.RoomAmenities)
+                        {
+                            var amenity = await _IWorker.tbl_Amenity?.GetAsync(fw => fw.AmenityId == item.AmenityId);
+                            var modelAmenity = _IMapper.Map<AmenityDTO>(amenity);
+                            roomAmenities.Add(new RoomAmenityDTO
+                            {
+                                Id = item.Id,
+                                RoomId = item.RoomId,
+                                AmenityId = item.AmenityId,
+                                Room = item.Room,
+                                Amenity = modelAmenity
+                            });
+                        }
+                    model.RoomAmenities = roomAmenities;
+                    }
+            
+
+                if (objRoom == null)
                 {
                     _APIResponse.StatusCode = HttpStatusCode.NotFound;
                     _APIResponse.IsSuccess = false;
                     _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;                   
                     return _APIResponse;
-
                 }
-
-                RoomDTO model = _IMapper.Map<RoomDTO>(objRoom);
+             
                 _APIResponse.IsSuccess = true;
                 _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
                 _APIResponse.Result = model;
@@ -102,12 +126,56 @@ namespace DataServices.Services.Implementation
 
         [HttpGet]
         public async Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1)
-        {
+        {           
+
+           
 
             try
-            {           
+            {
+                var objRooms = await _IWorker.tbl_Rooms.GetAllAsync(null, IncludeProperties: "RoomAmenities", isTracking, pageSize, pageNumber);
 
-                var objRooms = await _IWorker.tbl_Rooms.GetAllAsync(null,null, isTracking, pageSize, pageNumber);
+                var model = _IMapper.Map<List<RoomDTO>>(objRooms);
+
+                var roomDtos = new List<RoomDTO>();
+
+                foreach (var room in model)
+                {
+                    var roomDto = new RoomDTO
+                    {
+                        RoomId = room.RoomId,
+                        RoomName = room.RoomName,
+                        Description = room.Description,
+                        RoomPrice = room.RoomPrice,
+                        MaxOccupancy = room.MaxOccupancy,
+                        ImageUrl = room.ImageUrl,
+                    };
+
+
+                    if (room.RoomAmenities != null)
+                    {
+                        var roomAmenities = new List<RoomAmenityDTO>();
+
+                        foreach (var item in room.RoomAmenities)
+                        {
+                            var amenity = await _IWorker.tbl_Amenity?.GetAsync(fw => fw.AmenityId == item.AmenityId);
+                            var modelAmenity = _IMapper.Map<AmenityDTO>(amenity);
+                            roomAmenities.Add(new RoomAmenityDTO
+                            {
+                                Id = item.Id,
+                                RoomId = item.RoomId,
+                                AmenityId = item.AmenityId,
+                                Room = item.Room,
+                                Amenity = modelAmenity
+                            });
+                        }
+
+                        room.RoomAmenities = roomAmenities;
+                    }
+
+                    roomDtos.Add(roomDto);
+                }
+
+
 
                 if (objRooms == null)
                 {
@@ -117,7 +185,7 @@ namespace DataServices.Services.Implementation
                     return _APIResponse;
                 }
 
-                IEnumerable<RoomDTO> model = _IMapper.Map<List<RoomDTO>>(objRooms);
+                //IEnumerable<RoomDTO> model = _IMapper.Map<List<RoomDTO>>(objRooms);
 
                 _APIResponse.IsSuccess = true;
                 _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;

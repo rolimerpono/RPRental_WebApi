@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using DataServices.Common.DTO.RoomAmenity;
 
 namespace DataServices.Common.DTO.Room
 {
@@ -30,6 +31,9 @@ namespace DataServices.Common.DTO.Room
         public DateTime? CreatedDate { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
+
+        [ValidateNever]
+        public IEnumerable<RoomAmenityDTO>? RoomAmenities { get; set; }
 
         [NotMapped]
         [ValidateNever]

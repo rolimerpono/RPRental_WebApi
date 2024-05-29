@@ -9,7 +9,7 @@ namespace Model
     {
         public Room()
         {
-            Description = string.Empty;
+            Description = string.Empty;         
         }
 
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -36,9 +36,12 @@ namespace Model
         public DateTime? CreatedDate { get; set; }
 
         [ValidateNever]
-        public DateTime? UpdatedDate { get; set; }        
+        public DateTime? UpdatedDate { get; set; }
+       
+        [ValidateNever]
+        public IEnumerable<RoomAmenity>? RoomAmenities { get; set; }
 
- 
+
 
     }
 }

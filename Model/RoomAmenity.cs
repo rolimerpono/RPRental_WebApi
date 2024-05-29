@@ -23,6 +23,7 @@ namespace Model
         [ForeignKey("Amenity")]
         public int AmenityId { get; set; }
 
+        [ValidateNever]
         public Amenity? Amenity { get; set; }
 
     }

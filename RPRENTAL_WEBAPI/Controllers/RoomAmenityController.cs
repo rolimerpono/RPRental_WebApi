@@ -31,7 +31,7 @@ namespace RPRENTAL_WEBAPI.Controllers
             
         }
 
-        [Authorize]
+    
         [HttpGet("{RoomAmenityId:int}", Name = "GetRoomAmenity")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -75,7 +75,7 @@ namespace RPRENTAL_WEBAPI.Controllers
         }
 
 
-        [Authorize]
+       
         [HttpGet(Name = "GetRoomAmenities")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

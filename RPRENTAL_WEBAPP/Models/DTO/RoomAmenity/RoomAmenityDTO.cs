@@ -7,7 +7,14 @@ namespace RPRENTAL_WEBAPP.Models.DTO.RoomAmenity
 {
     public class RoomAmenityDTO
     {
-   
+        public RoomAmenityDTO()
+        {
+
+            Room = new RoomDTO();
+            Amenity = new AmenityDTO();
+            Amenities = new List<AmenityDTO>();
+        }
+
         public int Id { get; set; }
    
         public int RoomId { get; set; }

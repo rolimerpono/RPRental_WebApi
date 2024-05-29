@@ -10,7 +10,10 @@ namespace Model
 {
     public class ApplicationUser : IdentityUser
     {
-
+        public ApplicationUser()
+        {
+            Role = string.Empty;
+        }
         public string? Fullname { get; set; }
 
         

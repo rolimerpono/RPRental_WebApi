@@ -5,7 +5,12 @@ using System.ComponentModel.DataAnnotations;
 namespace RPRENTAL_WEBAPP.Models.DTO.Amenity
 {
     public class AmenityDTO
-    {      
+    {
+        public AmenityDTO()
+        {
+            AmenityName = String.Empty;
+
+        }
         public int AmenityId { get; set; }
 
         [MaxLength(100)]
