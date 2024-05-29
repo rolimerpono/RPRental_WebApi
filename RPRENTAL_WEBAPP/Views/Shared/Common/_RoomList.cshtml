@@ -1,11 +1,14 @@
 ﻿
 @model PaginatedList<HomeDTO>
 
-<div id="room_list">
-  
+@if(Model != null)
+    {
+
+<div id="room_list">  
     <div class="row gy-2 row-cols-1 row-cols-md-2 row-cols-xl-3 mt-5 pb-3" style="border: 1px thin #dcdcdc;">
 
         @*  DISPLAY ROOM LIST *@
+      
         @foreach (var objRoom in Model.ITEMS)
         {
             
@@ -105,9 +108,9 @@
 
 
         }
-
-
+    
     </div>
+    
 
 
     <div class="row-cols-sm-1 ">
@@ -147,8 +150,11 @@
     </div>   
 </div>
 
+}
+
+
 @section Scripts {
-    <script src="~/js/Crud/JSBooking/JSBookingCrud.js"></script>
+    <script src="~/js/Crud/Booking/JSBooking.js"></script>
     <script src="~/js/Common/Common.js"></script>
 }
 

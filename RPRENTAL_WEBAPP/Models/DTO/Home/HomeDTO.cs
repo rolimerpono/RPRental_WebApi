@@ -5,6 +5,11 @@ namespace RPRENTAL_WEBAPP.Models.DTO.Home
     public class HomeDTO
     {
 
+        public HomeDTO()
+        {
+            RoomAmenities = new List<RoomAmenityDTO>();
+        }
+
         public int RoomId { get; set; }
 
         public string RoomName { get; set; }

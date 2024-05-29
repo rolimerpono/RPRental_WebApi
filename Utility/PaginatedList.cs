@@ -19,12 +19,14 @@ namespace Utility
         public int TOTAL_PAGES { get; set; }
 
 
+      
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PAGE_INDEX = pageIndex;
             TOTAL_PAGES = (int)Math.Ceiling(count / (double)pageSize);
-            ITEMS = items;
-
+            ITEMS = items ?? new List<T>(); 
+            TOTAL_ITEMS = count; 
+            PAGE_SIZE = pageSize;
         }
 
         public Boolean HAS_PREVIOUS_PAGE => (PAGE_INDEX > 1);
@@ -37,11 +39,13 @@ namespace Utility
 
         public static PaginatedList<T> Create(IQueryable<T> source, int pageIndex, int pageSize)
         {
+           
             var count = source.Count();
 
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
+               
 
         }
     }

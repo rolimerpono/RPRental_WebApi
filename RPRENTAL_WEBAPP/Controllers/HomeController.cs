@@ -1,6 +1,14 @@
+using Azure;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Model;
+using Newtonsoft.Json;
 using RPRENTAL_WEBAPP.Models;
+using RPRENTAL_WEBAPP.Models.DTO;
 using RPRENTAL_WEBAPP.Models.DTO.Home;
+using RPRENTAL_WEBAPP.Models.DTO.Room;
+using RPRENTAL_WEBAPP.Services.Interface;
 using System.Diagnostics;
 using Utility;
 
@@ -9,40 +17,83 @@ namespace RPRENTAL_WEBAPP.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IRoomService _IRoomService;
+        private readonly IAmenityService _IAmenityService;
+        private readonly IHelperService _helper;
+        private readonly ICompositeViewEngine _viewEngine;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, IAmenityService iAmenityService, IRoomService iRoomService, IHelperService helper, ICompositeViewEngine viewengine)
         {
             _logger = logger;
+            _IAmenityService = iAmenityService;
+            _IRoomService = iRoomService;
+            _helper = helper;
+            _viewEngine = viewengine;
         }
 
-        public IActionResult Index(int? iPage)
+        public async Task<IActionResult> Index(int? iPage)
         {
 
-            //var pageNumber = iPage ?? 1;
-            //var pageSize = 6;
+            var pageNumber = iPage ?? 1;
+            var pageSize = 6;
+            APIResponse response = new();
+          
 
-            //var objRoomList = _iWorker.tbl_Rooms
-            // .GetAll(IncludeProperties: "RoomAmenities")
-            // .Select(room_item => new HomeVM
-            // {
-            //     RoomId = room_item.RoomId,
-            //     RoomName = room_item.RoomName,
-            //     Description = room_item.Description,
-            //     RoomPrice = room_item.RoomPrice,
-            //     RoomAmenities = room_item.RoomAmenities?.Select(item => new RoomAmenity
-            //     {
-            //         Id = item.Id,
-            //         RoomId = item.RoomId,
-            //         AmenityId = item.AmenityId,
-            //         Amenity = _iWorker.tbl_Amenity.Get(fw => fw.AmenityId == item.AmenityId),
-            //         Room = item.Room
-            //     }).ToList(),
-            //     MaxOccupancy = room_item.MaxOccupancy,
-            //     ImageUrl = room_item.ImageUrl,
-            // }).ToList();
+            response = await _IRoomService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession));
 
-            //return View("Index", PaginatedList<HomeDTO>.Create(objRoomList.AsQueryable(), pageNumber, pageSize));
-            return View();
+            if (response != null)
+            {
+                var objRoomList = JsonConvert.DeserializeObject<List<HomeDTO>>(Convert.ToString(response.Result)!)!;
+
+
+                return View("Index", PaginatedList<HomeDTO>.Create(objRoomList.AsQueryable(), pageNumber, pageSize));
+            }
+
+            return View("Index");
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRoomAvailable(DateOnly CheckinDate, DateOnly CheckoutDate, int? iPage)
+        {
+
+            DateOnly dateToday = DateOnly.FromDateTime(DateTime.Now);
+            APIResponse response = new();
+
+            try
+            {
+
+                if ((CheckoutDate < CheckinDate || CheckinDate <= dateToday) && iPage == null)
+                {
+                    return Json(new { success = false, message = SD.CrudTransactionsMessage.DateRange });
+                }
+
+                response = await _IRoomService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession));
+
+                if (response == null)
+                {
+                    return Json(new { success = false, message = response.Message });
+                }
+
+                var objRoomList = JsonConvert.DeserializeObject<List<HomeDTO>>(Convert.ToString(response.Result)!)!;              
+
+                PartialViewResult pvr = PartialView("Common/_RoomList", GetPaginatedRoomList(iPage, objRoomList.AsQueryable()));
+                string html_result = _helper.ViewToString(this.ControllerContext, pvr, _viewEngine);
+
+                return Json(new { success = true, message = "", htmlContent = html_result });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message + " " + SD.SystemMessage.ContactAdmin });
+            }
+        }
+
+        private PaginatedList<HomeDTO> GetPaginatedRoomList(int? pageNumber, IQueryable<HomeDTO> source = null)
+        {
+            var pageSize = 6;
+            return PaginatedList<HomeDTO>.Create(source.AsQueryable(), pageNumber ?? 1, pageSize);
         }
 
 

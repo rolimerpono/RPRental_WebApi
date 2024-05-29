@@ -141,6 +141,7 @@ function DeleteRoom() {
 }
 
 function GetRoomAvailable(PageId = '') {
+    debugger
     let checkInDate = $('#CheckInDate').val();
     let checkOutDate = $('#CheckOutDate').val();
 

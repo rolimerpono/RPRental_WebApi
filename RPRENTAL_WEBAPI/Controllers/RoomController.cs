@@ -36,9 +36,7 @@ namespace RPRENTAL_WEBAPI.Controllers
             _IMapper = mapper;
             _APIResponse = new();
         }  
-
-
-        [Authorize]
+  
         [HttpGet("{RoomId:int}", Name = "GetRoom")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -83,7 +81,7 @@ namespace RPRENTAL_WEBAPI.Controllers
 
 
 
-        [Authorize]
+ 
         [HttpGet(Name = "GetRooms")]        
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
