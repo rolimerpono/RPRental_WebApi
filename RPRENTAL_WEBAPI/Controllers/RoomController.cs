@@ -130,7 +130,59 @@ namespace RPRENTAL_WEBAPI.Controllers
             }
 
             return _APIResponse;
-        }      
+        }
+
+
+
+        [HttpGet("{CheckInDate:DateTime}/{CheckoutDate:DateTime}", Name = "GetRoomAvailable")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<APIResponse>> GetRoomAvailable(DateTime CheckInDate, DateTime CheckoutDate, int PageSize = 0, int PageNumber = 1)
+        {
+
+            try
+            {
+
+                var response = await _IRoomService.GetRoomAvailable(DateOnly.FromDateTime(CheckInDate), DateOnly.FromDateTime(CheckoutDate));
+
+
+                if (response == null)
+                {
+                    _APIResponse.StatusCode = HttpStatusCode.BadRequest;
+                    return BadRequest(_APIResponse);
+                }
+
+                if (response.IsSuccess == false)
+                {
+                    _APIResponse.IsSuccess = response.IsSuccess;
+                    _APIResponse.Message = response.Message;
+                    _APIResponse.StatusCode = response.StatusCode;
+                }
+
+                Pagination _pagination = new()
+                {
+                    PageNumber = PageNumber,
+                    PageSize = PageSize
+                };
+
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(_pagination));
+                _APIResponse.Result = _IMapper.Map<List<RoomDTO>>(response.Result);
+                _APIResponse.IsSuccess = true;
+                _APIResponse.StatusCode = HttpStatusCode.OK;
+                return Ok(_APIResponse);
+
+            }
+            catch (Exception ex)
+            {
+                _APIResponse.IsSuccess = false;
+                _APIResponse.ErrorMessages = new List<string>() { ex.Message + " " + SD.SystemMessage.ContactAdmin };
+            }
+
+            return _APIResponse;
+        }
 
 
 

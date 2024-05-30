@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseAccess.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240519215736_CleanUp")]
-    partial class CleanUp
+    [Migration("20240529225548_resetMigration")]
+    partial class resetMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,10 +171,10 @@ namespace DatabaseAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateOnly>("CreatedDate")
+                    b.Property<DateOnly?>("CreatedDate")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("UpdatedDate")
+                    b.Property<DateOnly?>("UpdatedDate")
                         .HasColumnType("date");
 
                     b.HasKey("AmenityId");
@@ -186,36 +186,36 @@ namespace DatabaseAccess.Migrations
                         {
                             AmenityId = 1,
                             AmenityName = "Washing Machine",
-                            CreatedDate = new DateOnly(1, 1, 1),
-                            UpdatedDate = new DateOnly(1, 1, 1)
+                            CreatedDate = new DateOnly(2024, 5, 30),
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             AmenityId = 2,
                             AmenityName = "Electric Fan",
-                            CreatedDate = new DateOnly(1, 1, 1),
-                            UpdatedDate = new DateOnly(1, 1, 1)
+                            CreatedDate = new DateOnly(2024, 5, 30),
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             AmenityId = 3,
                             AmenityName = "TV",
-                            CreatedDate = new DateOnly(1, 1, 1),
-                            UpdatedDate = new DateOnly(1, 1, 1)
+                            CreatedDate = new DateOnly(2024, 5, 30),
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             AmenityId = 4,
                             AmenityName = "Internet Wifi",
-                            CreatedDate = new DateOnly(1, 1, 1),
-                            UpdatedDate = new DateOnly(1, 1, 1)
+                            CreatedDate = new DateOnly(2024, 5, 30),
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             AmenityId = 5,
                             AmenityName = "Microwave",
-                            CreatedDate = new DateOnly(1, 1, 1),
-                            UpdatedDate = new DateOnly(1, 1, 1)
+                            CreatedDate = new DateOnly(2024, 5, 30),
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         });
                 });
 
@@ -419,6 +419,7 @@ namespace DatabaseAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
@@ -448,7 +449,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 1,
-                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1012),
+                            CreatedDate = new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1739),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Single.jpg",
                             MaxOccupancy = 1,
@@ -459,7 +460,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 2,
-                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1142),
+                            CreatedDate = new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1856),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Double.jpg",
                             MaxOccupancy = 2,
@@ -470,7 +471,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 3,
-                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1149),
+                            CreatedDate = new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1864),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Deluxed.jpg",
                             MaxOccupancy = 3,
@@ -481,7 +482,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 4,
-                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1154),
+                            CreatedDate = new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1868),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Queens.jpg",
                             MaxOccupancy = 4,
@@ -492,7 +493,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 5,
-                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1159),
+                            CreatedDate = new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1872),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Kings.jpg",
                             MaxOccupancy = 5,
@@ -503,7 +504,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 6,
-                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1163),
+                            CreatedDate = new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1875),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Executive.jpg",
                             MaxOccupancy = 10,
@@ -514,7 +515,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 7,
-                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1168),
+                            CreatedDate = new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1879),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Super Deluxed.jpg",
                             MaxOccupancy = 10,
@@ -525,7 +526,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 8,
-                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1173),
+                            CreatedDate = new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1883),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Diamond Room.jpg",
                             MaxOccupancy = 10,
@@ -536,7 +537,7 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomId = 9,
-                            CreatedDate = new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1178),
+                            CreatedDate = new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1887),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.",
                             ImageUrl = "\\img\\Rooms\\Emerald Room.jpg",
                             MaxOccupancy = 10,
@@ -660,12 +661,19 @@ namespace DatabaseAccess.Migrations
                     b.Property<int>("RoomNo")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("CreatedDate")
+                        .HasColumnType("date");
+
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
+
+                    b.Property<DateOnly>("UpdatedDate")
+                        .HasColumnType("date");
 
                     b.HasKey("RoomNo");
 
@@ -677,122 +685,162 @@ namespace DatabaseAccess.Migrations
                         new
                         {
                             RoomNo = 101,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor.",
-                            RoomId = 1
+                            RoomId = 1,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 102,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 1
+                            RoomId = 1,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 103,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 1
+                            RoomId = 1,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 104,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 1
+                            RoomId = 1,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 201,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 2
+                            RoomId = 2,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 202,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 2
+                            RoomId = 2,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 203,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 2
+                            RoomId = 2,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 204,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 2
+                            RoomId = 2,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 301,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 3
+                            RoomId = 3,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 302,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 3
+                            RoomId = 3,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 303,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 3
+                            RoomId = 3,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 304,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 3
+                            RoomId = 3,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 401,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 4
+                            RoomId = 4,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 402,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 4
+                            RoomId = 4,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 403,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 4
+                            RoomId = 4,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 501,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 5
+                            RoomId = 5,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 502,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 5
+                            RoomId = 5,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 503,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 5
+                            RoomId = 5,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 601,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 6
+                            RoomId = 6,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         },
                         new
                         {
                             RoomNo = 602,
+                            CreatedDate = new DateOnly(2024, 5, 30),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.",
-                            RoomId = 6
+                            RoomId = 6,
+                            UpdatedDate = new DateOnly(1900, 1, 1)
                         });
                 });
 
@@ -875,7 +923,7 @@ namespace DatabaseAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("Model.Room", "Room")
-                        .WithMany()
+                        .WithMany("RoomAmenities")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -894,6 +942,11 @@ namespace DatabaseAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Model.Room", b =>
+                {
+                    b.Navigation("RoomAmenities");
                 });
 #pragma warning restore 612, 618
         }

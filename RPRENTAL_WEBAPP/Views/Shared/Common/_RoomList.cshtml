@@ -4,151 +4,127 @@
 @if(Model != null)
     {
 
-<div id="room_list">  
-    <div class="row gy-2 row-cols-1 row-cols-md-2 row-cols-xl-3 mt-5 pb-3" style="border: 1px thin #dcdcdc;">
-
-        @*  DISPLAY ROOM LIST *@
-      
-        @foreach (var objRoom in Model.ITEMS)
-        {
-            
-            <div class="col">
-                <div class="card h-100">                   
-                    <div class="border">                    
-                        <img src="@objRoom.ImageUrl" class="img-fluid h-100" alt="...">
-                    </div>
-
-                    <div class="card-body" style="min-height:200px;max-height:200px;">
-                        <h5 class="card-title fw-bold">@objRoom.RoomName</h5>
-                        <p class="card-text text-truncate-main" title="@objRoom.Description">@objRoom.Description</p>
-                    </div>
-
-                    <ul class="list-group list-group-flush">
-
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span class="fw-bold text-primary text-start">OCCUPANCY :</span>
-                            <span class="fw-bold text-danger text-end">@objRoom.MaxOccupancy Person</span>
-                        </li>
-
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span class="fw-bold text-primary text-start">PRICE :</span>
-                            <span class="fw-bold text-danger text-end">@objRoom.RoomPrice.ToString("c")</span>
-                        </li>                      
-                    </ul>
-
-                    <div class="card-body d-flex flex-column flex-md-row justify-content-md-between">
-                        <div class="mb-2 mb-md-0">
-                            <button class="btn btn-outline-success rounded-2 w-100 w-md-auto showDetails" type="button" data-bs-toggle="modal" data-bs-target="#room_detail_modal-@(objRoom.RoomId)">DETAILS</button>
+    <div id="room_list">
+        <div class="row gy-2 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 mt-5 pb-3" style="border: 1px thin #dcdcdc;">
+            @* DISPLAY ROOM LIST *@
+            @foreach (var objRoom in Model.ITEMS)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="border">
+                            <img src="@objRoom.ImageUrl" class="img-fluid h-100" alt="...">
                         </div>
-                        @if (objRoom.CheckinDate > DateOnly.FromDateTime(DateTime.Now))
-                        {
-                            @if (objRoom.IsRoomAvailable)
+                        <div class="card-body" style="min-height:200px;max-height:200px;">
+                            <h5 class="card-title fw-bold">@objRoom.RoomName</h5>
+                            <p class="card-text text-truncate-main" title="@objRoom.Description">@objRoom.Description</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="fw-bold text-primary text-start">OCCUPANCY :</span>
+                                <span class="fw-bold text-danger text-end">@objRoom.MaxOccupancy Person</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="fw-bold text-primary text-start">PRICE :</span>
+                                <span class="fw-bold text-danger text-end">@objRoom.RoomPrice.ToString("c")</span>
+                            </li>
+                        </ul>
+                        <div class="card-body d-flex flex-column flex-md-row justify-content-md-between">
+                            <div class="mb-2 mb-md-0">
+                                <button class="btn btn-outline-success rounded-2 w-100 w-md-auto showDetails" type="button" data-bs-toggle="modal" data-bs-target="#room_detail_modal-@(objRoom.RoomId)">DETAILS</button>
+                            </div>
+                            @if (objRoom.CheckinDate > DateOnly.FromDateTime(DateTime.Now))
                             {
-                                <div>
-                                    <button class="btn btn-primary rounded-2 w-100 w-md-auto btn-booknow" type="button" onclick="GetBooking(@objRoom.RoomId)">BOOK NOW</button>
-                                </div>
-
+                                @if (objRoom.IsRoomAvailable)
+                                {
+                                    <div>
+                                        <button class="btn btn-primary rounded-2 w-100 w-md-auto btn-booknow" type="button" onclick="GetBooking(@objRoom.RoomId)">BOOK NOW</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <button class="btn btn-danger disabled rounded-2 w-100 w-md-auto btn-soldout" type="button">SOLD OUT</button>
+                                    </div>
+                                }
                             }
-                            else
-                            {
-                                <div>
-                                    <button class="btn btn-danger disabled  rounded-2 w-100 w-md-auto btn-soldout" type="button">SOLD OUT</button>
-                                </div>
-                            }
-                        }
+                        </div>
                     </div>
-
                 </div>
-            </div>
 
-
-            //DISPLAY MODAL BOOKING DETAIL
-
-            <div class="modal fade" id="modal-booking-@(objRoom.RoomId)" tabindex="-1" aria-labelledby="modal-booking" aria-hidden="true" data-bs-backdrop="static">
-
-                <div class="modal-dialog modal-xl border border-secondary rounded">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white">
-                            <h3 class="modal-title fw-bold" id="modal-booking">BOOKING DETAILS</h3>
+                @* DISPLAY MODAL BOOKING DETAIL *@
+                <div class="modal fade" id="modal-booking-@(objRoom.RoomId)" tabindex="-1" aria-labelledby="modal-booking" aria-hidden="true" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-xl border border-secondary rounded">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h3 class="modal-title fw-bold" id="modal-booking">BOOKING DETAILS</h3>
+                            </div>
+                            <div class="modal-body m-0">
+                                <div class="row pb-3">
+                                    <partial name="Common/_RoomDetails" model="@objRoom" />
+                                </div>
+                                <div id="modal-booking-content-@(objRoom.RoomId)"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" style="width:100px;">Close</button>
+                                <button type="button" onclick="ConfirmBooking(@objRoom.RoomId)" class="btn btn-outline-success" style="width:100px;">Payment</button>
+                            </div>
                         </div>
-                        <div class="modal-body m-0">
-                            <div class="row pb-3">
+                    </div>
+                </div>
+
+                @* DISPLAY MODAL ROOM DETAIL *@
+                <div class="modal fade" id="room_detail_modal-@(objRoom.RoomId)" tabindex="-1" aria-labelledby="room_detail_modal" aria-hidden="true" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-xl border border-secondary rounded">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h3 class="modal-title text-white fw-bold" id="room_detail_modal">ROOM DETAILS</h3>
+                            </div>
+                            <div class="modal-body m-0">
                                 <partial name="Common/_RoomDetails" model="@objRoom" />
                             </div>
-                            <div id="modal-booking-content-@(objRoom.RoomId)"></div>
-                        </div>
-
-                        <div class="modal-footer">                      
-                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" style="width:100px;">Close</button>
-                            <button type="button" onclick="ConfirmBooking(@objRoom.RoomId)" class="btn btn-outline-success" style="width:100px;">Payment</button>                       
-                        </div>                        
-                    </div>
-                </div>
-
-            </div>
-
-
-            //DISPLAY MODAL ROOM DETAIL
-
-            <div class="modal fade" id="room_detail_modal-@(objRoom.RoomId)" tabindex="-1" aria-labelledby="room_detail_modal" aria-hidden="true" data-bs-backdrop="static">
-                <div class="modal-dialog modal-xl border border-secondary rounded">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white">
-                            <h3 class="modal-title text-white fw-bold" id="room_detail_modal">ROOM DETAILS</h3>
-                        </div>
-                        <div class="modal-body m-0">
-                            <partial name="Common/_RoomDetails" model="@objRoom" />
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" style="width:100px;">Close</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" style="width:100px;">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
+        </div>
 
-
-        }
-    
-    </div>
-    
-
-
-    <div class="row-cols-sm-1 ">
-        <nav>
-            <ul class="pagination room_list_pagination">
-                <li class="page-item @(Model.PAGE_INDEX == 1 ? "disabled" : "")">
-                    <a class="page-link pagination-link" onclick="GetRoomAvailable(1)">
-                        <span>First</span>
-                    </a>
-                </li>
-
-                <li class="page-item @(Model.HAS_PREVIOUS_PAGE ? "" : "disabled")">
-                    <a class="page-link pagination-link" onclick="GetRoomAvailable(@(Model.PAGE_INDEX - 1))">
-                        <span>Previous</span>
-                    </a>
-                </li>
-
-                @for (int i = 1; i <= Model.TOTAL_PAGES; i++)
-                {
-                    <li class="page-item @(Model.PAGE_INDEX == i ? "active" : "")">
-                        <a class="page-link pagination-link" onclick="GetRoomAvailable(@i)">@i</a>
+        <div class="row-cols-sm-1">
+            <nav>
+                <ul class="pagination room_list_pagination">
+                    <li class="page-item @(Model.PAGE_INDEX == 1 ? "disabled" : "")">
+                        <a class="page-link pagination-link" onclick="GetRoomAvailable(1)">
+                            <span>First</span>
+                        </a>
                     </li>
-                }
+                    <li class="page-item @(Model.HAS_PREVIOUS_PAGE ? "" : "disabled")">
+                        <a class="page-link pagination-link" onclick="GetRoomAvailable(@(Model.PAGE_INDEX - 1))">
+                            <span>Previous</span>
+                        </a>
+                    </li>
+                    @for (int i = 1; i <= Model.TOTAL_PAGES; i++)
+                    {
+                        <li class="page-item @(Model.PAGE_INDEX == i ? "active" : "")">
+                            <a class="page-link pagination-link" onclick="GetRoomAvailable(@i)">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.HAS_NEXT_PAGE ? "" : "disabled")">
+                        <a class="page-link pagination-link" onclick="GetRoomAvailable(@(Model.PAGE_INDEX + 1))">
+                            <span>Next</span>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.PAGE_INDEX == Model.TOTAL_PAGES ? "disabled" : "")">
+                        <a class="page-link pagination-link" onclick="GetRoomAvailable(@(Model.TOTAL_PAGES))">
+                            <span>Last</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 
-                <li class="page-item @(Model.HAS_NEXT_PAGE ? "" : "disabled")">
-                    <a class="page-link pagination-link" onclick="GetRoomAvailable(@(Model.PAGE_INDEX + 1))">
-                        <span>Next</span>
-                    </a>
-                </li>
-                <li class="page-item @(Model.PAGE_INDEX == Model.TOTAL_PAGES ? "disabled" : "")">
-                    <a class="page-link pagination-link" onclick="GetRoomAvailable(@(Model.TOTAL_PAGES))">
-                        <span>Last</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>   
-</div>
 
 }
 

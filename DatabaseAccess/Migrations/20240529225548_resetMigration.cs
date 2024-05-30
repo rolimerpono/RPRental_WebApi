@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DatabaseAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class CleanUp : Migration
+    public partial class resetMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,8 +20,8 @@ namespace DatabaseAccess.Migrations
                     AmenityId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AmenityName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    UpdatedDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    CreatedDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    UpdatedDate = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,7 +66,7 @@ namespace DatabaseAccess.Migrations
                     RoomId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoomPrice = table.Column<double>(type: "float", nullable: false),
                     MaxOccupancy = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -159,8 +159,10 @@ namespace DatabaseAccess.Migrations
                 columns: table => new
                 {
                     RoomNo = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    RoomId = table.Column<int>(type: "int", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    UpdatedDate = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -306,11 +308,11 @@ namespace DatabaseAccess.Migrations
                 columns: new[] { "AmenityId", "AmenityName", "CreatedDate", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, "Washing Machine", new DateOnly(1, 1, 1), new DateOnly(1, 1, 1) },
-                    { 2, "Electric Fan", new DateOnly(1, 1, 1), new DateOnly(1, 1, 1) },
-                    { 3, "TV", new DateOnly(1, 1, 1), new DateOnly(1, 1, 1) },
-                    { 4, "Internet Wifi", new DateOnly(1, 1, 1), new DateOnly(1, 1, 1) },
-                    { 5, "Microwave", new DateOnly(1, 1, 1), new DateOnly(1, 1, 1) }
+                    { 1, "Washing Machine", new DateOnly(2024, 5, 30), new DateOnly(1900, 1, 1) },
+                    { 2, "Electric Fan", new DateOnly(2024, 5, 30), new DateOnly(1900, 1, 1) },
+                    { 3, "TV", new DateOnly(2024, 5, 30), new DateOnly(1900, 1, 1) },
+                    { 4, "Internet Wifi", new DateOnly(2024, 5, 30), new DateOnly(1900, 1, 1) },
+                    { 5, "Microwave", new DateOnly(2024, 5, 30), new DateOnly(1900, 1, 1) }
                 });
 
             migrationBuilder.InsertData(
@@ -318,15 +320,15 @@ namespace DatabaseAccess.Migrations
                 columns: new[] { "RoomId", "CreatedDate", "Description", "ImageUrl", "ImageUrlLocalPath", "MaxOccupancy", "RoomName", "RoomPrice", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1012), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Single.jpg", null, 1, "Single Room", 85.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1142), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Double.jpg", null, 2, "Double Room", 90.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1149), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Deluxed.jpg", null, 3, "Deluxed Room", 100.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1154), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Queens.jpg", null, 4, "Queens Room", 120.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1159), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Kings.jpg", null, 5, "Kings Room", 130.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1163), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Executive.jpg", null, 10, "Executive Suite", 100.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1168), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Super Deluxed.jpg", null, 10, "Super Deluxed", 110.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1173), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Diamond Room.jpg", null, 10, "Diamond Room", 87.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 9, new DateTime(2024, 5, 20, 9, 57, 36, 407, DateTimeKind.Local).AddTicks(1178), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Emerald Room.jpg", null, 10, "Emerald Deluxed", 98.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1739), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Single.jpg", null, 1, "Single Room", 85.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1856), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Double.jpg", null, 2, "Double Room", 90.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1864), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Deluxed.jpg", null, 3, "Deluxed Room", 100.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1868), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Queens.jpg", null, 4, "Queens Room", 120.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1872), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Kings.jpg", null, 5, "Kings Room", 130.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1875), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Executive.jpg", null, 10, "Executive Suite", 100.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1879), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Super Deluxed.jpg", null, 10, "Super Deluxed", 110.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1883), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Diamond Room.jpg", null, 10, "Diamond Room", 87.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, new DateTime(2024, 5, 30, 10, 55, 48, 487, DateTimeKind.Local).AddTicks(1887), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor, bibendum lacinia urna.", "\\img\\Rooms\\Emerald Room.jpg", null, 10, "Emerald Deluxed", 98.0, new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -352,29 +354,29 @@ namespace DatabaseAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "tbl_RoomNumber",
-                columns: new[] { "RoomNo", "Description", "RoomId" },
+                columns: new[] { "RoomNo", "CreatedDate", "Description", "RoomId", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 101, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor.", 1 },
-                    { 102, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 1 },
-                    { 103, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 1 },
-                    { 104, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 1 },
-                    { 201, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 2 },
-                    { 202, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 2 },
-                    { 203, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 2 },
-                    { 204, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 2 },
-                    { 301, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 3 },
-                    { 302, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 3 },
-                    { 303, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 3 },
-                    { 304, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 3 },
-                    { 401, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 4 },
-                    { 402, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 4 },
-                    { 403, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 4 },
-                    { 501, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 5 },
-                    { 502, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 5 },
-                    { 503, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 5 },
-                    { 601, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 6 },
-                    { 602, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 6 }
+                    { 101, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus sed purus consequat porta. Praesent vitae tincidunt dolor.", 1, new DateOnly(1900, 1, 1) },
+                    { 102, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 1, new DateOnly(1900, 1, 1) },
+                    { 103, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 1, new DateOnly(1900, 1, 1) },
+                    { 104, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 1, new DateOnly(1900, 1, 1) },
+                    { 201, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 2, new DateOnly(1900, 1, 1) },
+                    { 202, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 2, new DateOnly(1900, 1, 1) },
+                    { 203, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 2, new DateOnly(1900, 1, 1) },
+                    { 204, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 2, new DateOnly(1900, 1, 1) },
+                    { 301, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 3, new DateOnly(1900, 1, 1) },
+                    { 302, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 3, new DateOnly(1900, 1, 1) },
+                    { 303, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 3, new DateOnly(1900, 1, 1) },
+                    { 304, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 3, new DateOnly(1900, 1, 1) },
+                    { 401, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 4, new DateOnly(1900, 1, 1) },
+                    { 402, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 4, new DateOnly(1900, 1, 1) },
+                    { 403, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 4, new DateOnly(1900, 1, 1) },
+                    { 501, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 5, new DateOnly(1900, 1, 1) },
+                    { 502, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 5, new DateOnly(1900, 1, 1) },
+                    { 503, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 5, new DateOnly(1900, 1, 1) },
+                    { 601, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 6, new DateOnly(1900, 1, 1) },
+                    { 602, new DateOnly(2024, 5, 30), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed finibus sed purus consequat porta.Praesent vitae tincidunt dolor.", 6, new DateOnly(1900, 1, 1) }
                 });
 
             migrationBuilder.CreateIndex(

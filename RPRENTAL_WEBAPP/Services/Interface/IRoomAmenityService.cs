@@ -6,7 +6,9 @@ namespace RPRENTAL_WEBAPP.Services.Interface
     {
 
         Task<T> GetAsync<T>(int RoomId, string Token);
-        Task<T> GetAllAsync<T>(string Token);  
+        Task<T> GetAllAsync<T>(string Token);
+        Task<T> GetRoomAvailableAsync<T>(DateOnly CheckInDate, DateOnly CheckoutDate, string Token);
+
         Task<T> CreateAsync<T>(RoomCreateDTO objRoomAmenity , string Token);
         Task<T> UpdateAsync<T>(RoomUpdateDTO objRoomAmenity, string Token);
         Task<T> DeleteAsync<T>(int RoomId, string Token);

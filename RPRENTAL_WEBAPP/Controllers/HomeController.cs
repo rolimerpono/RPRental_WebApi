@@ -22,6 +22,7 @@ namespace RPRENTAL_WEBAPP.Controllers
         private readonly IAmenityService _IAmenityService;
         private readonly IHelperService _helper;
         private readonly ICompositeViewEngine _viewEngine;
+        private readonly int _PageSize = 8;
 
 
         public HomeController(ILogger<HomeController> logger, IAmenityService iAmenityService, IRoomService iRoomService, IRoomAmenityService iRoomAmenityService, IHelperService helper, ICompositeViewEngine viewengine)
@@ -37,8 +38,7 @@ namespace RPRENTAL_WEBAPP.Controllers
         public async Task<IActionResult> Index(int? iPage)
         {
 
-            var pageNumber = iPage ?? 1;
-            var pageSize = 6;
+            int pageNumber = iPage ?? 1;           
             APIResponse response = new();
 
 
@@ -51,7 +51,7 @@ namespace RPRENTAL_WEBAPP.Controllers
 
 
 
-                return View("Index", PaginatedList<HomeDTO>.Create(objRoomList.AsQueryable(), pageNumber, pageSize));
+                return View("Index", PaginatedList<HomeDTO>.Create(objRoomList.AsQueryable(), pageNumber, _PageSize));
             }
 
             return View("Index");
@@ -76,13 +76,53 @@ namespace RPRENTAL_WEBAPP.Controllers
                 }
 
                 response = await _IRoomService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession));
+                
 
                 if (response == null)
                 {
                     return Json(new { success = false, message = response.Message });
                 }
 
-                var objRoomList = JsonConvert.DeserializeObject<List<HomeDTO>>(Convert.ToString(response.Result)!)!;              
+                var objRoomList = JsonConvert.DeserializeObject<List<HomeDTO>>(Convert.ToString(response.Result)!)!;
+                
+
+                PartialViewResult pvr = PartialView("Common/_RoomList", GetPaginatedRoomList(iPage, objRoomList.AsQueryable()));
+                string html_result = _helper.ViewToString(this.ControllerContext, pvr, _viewEngine);
+
+                return Json(new { success = true, message = "", htmlContent = html_result });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message + " " + SD.SystemMessage.ContactAdmin });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DisplayRoomAvailable(DateOnly CheckinDate, DateOnly CheckoutDate, int? iPage)
+        {
+
+            DateOnly dateToday = DateOnly.FromDateTime(DateTime.Now);
+            APIResponse response = new();
+
+            try
+            {
+
+                if ((CheckoutDate < CheckinDate || CheckinDate <= dateToday) && iPage == null)
+                {
+                    return Json(new { success = false, message = SD.CrudTransactionsMessage.DateRange });
+                }
+
+                response = await _IRoomService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.TokenSession));
+
+
+                if (response == null)
+                {
+                    return Json(new { success = false, message = response.Message });
+                }
+
+                var objRoomList = JsonConvert.DeserializeObject<List<HomeDTO>>(Convert.ToString(response.Result)!)!;
+
 
                 PartialViewResult pvr = PartialView("Common/_RoomList", GetPaginatedRoomList(iPage, objRoomList.AsQueryable()));
                 string html_result = _helper.ViewToString(this.ControllerContext, pvr, _viewEngine);
@@ -97,9 +137,8 @@ namespace RPRENTAL_WEBAPP.Controllers
         }
 
         private PaginatedList<HomeDTO> GetPaginatedRoomList(int? pageNumber, IQueryable<HomeDTO> source = null)
-        {
-            var pageSize = 6;
-            return PaginatedList<HomeDTO>.Create(source.AsQueryable(), pageNumber ?? 1, pageSize);
+        {          
+            return PaginatedList<HomeDTO>.Create(source.AsQueryable(), pageNumber ?? 1, _PageSize);
         }
 
 

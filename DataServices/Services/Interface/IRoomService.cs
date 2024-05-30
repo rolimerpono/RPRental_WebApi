@@ -18,6 +18,8 @@ namespace DataServices.Services.Interface
         Task<APIResponse> GetAsync(int RoomId);
 
         Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1);
+
+        Task<APIResponse> GetRoomAvailable(DateOnly CheckInDate, DateOnly CheckOutDate, bool isTracking = false, int pageSize = 0, int pageNumber = 1);
      
         Task<APIResponse> CreateAsync(RoomCreateDTO objRoom);
 

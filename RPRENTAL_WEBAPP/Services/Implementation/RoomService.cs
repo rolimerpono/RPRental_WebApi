@@ -78,9 +78,15 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             });
         }
 
-
-       
-
-       
+        public Task<T> GetRoomAvailableAsync<T>(DateOnly CheckInDate, DateOnly CheckoutDate, string Token)
+        {
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.GET,
+                Token = Token,
+                Url = apiUrl + "/api/Room/",
+                ContentType = SD.ContentType.Json
+            });
+        }
     }
 }

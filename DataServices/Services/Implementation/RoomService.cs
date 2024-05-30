@@ -128,8 +128,6 @@ namespace DataServices.Services.Implementation
         public async Task<APIResponse> GetAllAsync(bool isTracking = false, int pageSize = 0, int pageNumber = 1)
         {           
 
-           
-
             try
             {
                 var objRooms = await _IWorker.tbl_Rooms.GetAllAsync(null, IncludeProperties: "RoomAmenities", isTracking, pageSize, pageNumber);
@@ -148,6 +146,7 @@ namespace DataServices.Services.Implementation
                         RoomPrice = room.RoomPrice,
                         MaxOccupancy = room.MaxOccupancy,
                         ImageUrl = room.ImageUrl,
+                 
                     };
 
 
@@ -184,8 +183,6 @@ namespace DataServices.Services.Implementation
                     _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
                     return _APIResponse;
                 }
-
-                //IEnumerable<RoomDTO> model = _IMapper.Map<List<RoomDTO>>(objRooms);
 
                 _APIResponse.IsSuccess = true;
                 _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
@@ -355,5 +352,81 @@ namespace DataServices.Services.Implementation
             }
         }
 
+        public async Task<APIResponse> GetRoomAvailable(DateOnly CheckInDate, DateOnly CheckOutDate, bool isTracking = false, int pageSize = 0, int pageNumber = 1)
+        {
+            Util objUtil = new Util(_IWorker);
+            try
+            {
+                var objRooms = await _IWorker.tbl_Rooms.GetAllAsync(null, IncludeProperties: "RoomAmenities", isTracking, pageSize, pageNumber);
+
+                var model = _IMapper.Map<List<RoomDTO>>(objRooms);
+
+                var roomDtos = new List<RoomDTO>();
+
+                foreach (var room in model)
+                {
+                    int iCounter = await objUtil.GetRoomsAvailableCount(room.RoomId, CheckInDate, CheckOutDate);
+
+                    var roomDto = new RoomDTO
+                    {
+                        RoomId = room.RoomId,
+                        RoomName = room.RoomName,
+                        Description = room.Description,
+                        RoomPrice = room.RoomPrice,
+                        MaxOccupancy = room.MaxOccupancy,
+                        ImageUrl = room.ImageUrl,
+                        
+
+                };
+
+                if (room.RoomAmenities != null)
+                {
+                    var roomAmenities = new List<RoomAmenityDTO>();
+
+                    foreach (var item in room.RoomAmenities)
+                    {
+                        var amenity = await _IWorker.tbl_Amenity?.GetAsync(fw => fw.AmenityId == item.AmenityId);
+                        var modelAmenity = _IMapper.Map<AmenityDTO>(amenity);
+                        roomAmenities.Add(new RoomAmenityDTO
+                        {
+                            Id = item.Id,
+                            RoomId = item.RoomId,
+                            AmenityId = item.AmenityId,
+                            Room = item.Room,
+                            Amenity = modelAmenity
+                        });
+                    }
+                    room.RoomAmenities = roomAmenities;
+                   
+                }
+                    roomDto.IsRoomAvailable = iCounter > 0 ? true : false;
+                    roomDtos.Add(roomDto);                   
+                }
+
+
+
+                if (objRooms == null)
+                {
+                    _APIResponse.IsSuccess = false;
+                    _APIResponse.StatusCode = HttpStatusCode.NotFound;
+                    _APIResponse.Message = SD.CrudTransactionsMessage.RecordNotFound;
+                    return _APIResponse;
+                }
+               
+
+                _APIResponse.IsSuccess = true;
+                _APIResponse.Message = SD.CrudTransactionsMessage.RecordFound;
+                _APIResponse.Result = model;
+                return _APIResponse;
+
+
+            }
+            catch (Exception ex)
+            {
+                _APIResponse.IsSuccess = false;
+                _APIResponse.Message = ex.Message + " " + SD.SystemMessage.ContactAdmin;
+                return _APIResponse;
+            }
+        }
     }
 }
