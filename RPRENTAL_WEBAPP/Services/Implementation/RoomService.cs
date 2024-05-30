@@ -80,11 +80,19 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
 
         public Task<T> GetRoomAvailableAsync<T>(DateOnly CheckInDate, DateOnly CheckoutDate, string Token)
         {
+            // Convert DateOnly to string format (assuming "yyyy-MM-dd" format)
+            string checkInDateStr = CheckInDate.ToString("yyyy-MM-dd");
+            string checkoutDateStr = CheckoutDate.ToString("yyyy-MM-dd");
+
+            // Construct the URL with path parameters
+            string urlWithDates = $"{apiUrl}/api/Room/{checkInDateStr}/{checkoutDateStr}";
+
+            // Make the API request
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.GET,
                 Token = Token,
-                Url = apiUrl + "/api/Room/",
+                Url = urlWithDates,
                 ContentType = SD.ContentType.Json
             });
         }

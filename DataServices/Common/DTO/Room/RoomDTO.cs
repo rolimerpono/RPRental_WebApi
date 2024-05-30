@@ -41,14 +41,14 @@ namespace DataServices.Common.DTO.Room
         public string? ImageUrl { get; set; }
         public string? ImageUrlLocalPath { get; set; }
 
-        [NotMapped]
+        [ValidateNever]
         public bool IsRoomAvailable { get; set; }
 
 
-        [NotMapped]
+        [ValidateNever]
         public DateOnly? CheckInDate { get; set; }
 
-        [NotMapped]
+        [ValidateNever]
         public DateOnly? CheckOutDate { get; set; }
  
      
