@@ -47,11 +47,11 @@ namespace RPRENTAL_WEBAPP.Controllers
 
             if (response != null)
             {
-                var objRoomList = JsonConvert.DeserializeObject<List<RoomDTO>>(Convert.ToString(response.Result)!)!;
+                var objRoomList = JsonConvert.DeserializeObject<List<HomeDTO>>(Convert.ToString(response.Result)!)!;
 
 
 
-                return View("Index", PaginatedList<RoomDTO>.Create(objRoomList.AsQueryable(), pageNumber, _PageSize));
+                return View("Index", PaginatedList<HomeDTO>.Create(objRoomList.AsQueryable(), pageNumber, _PageSize));
             }
 
             return View("Index");
