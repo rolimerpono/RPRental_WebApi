@@ -169,7 +169,7 @@ namespace DataServices.Services.Implementation
                         }
 
                         room.RoomAmenities = roomAmenities;
-                    }
+                    }              
 
                     roomDto.RoomAmenities = room.RoomAmenities;
                     roomDtos.Add(roomDto);
@@ -248,6 +248,8 @@ namespace DataServices.Services.Implementation
                         room.RoomAmenities = roomAmenities;
 
                     }
+                    roomDto.CheckInDate = CheckInDate;
+                    roomDto.CheckOutDate = CheckOutDate;
                     roomDto.RoomAmenities = room.RoomAmenities;
                     roomDto.IsRoomAvailable = iCounter > 0 ? true : false;
                     roomDtos.Add(roomDto);

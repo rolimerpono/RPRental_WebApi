@@ -141,10 +141,9 @@ function DeleteRoom() {
 }
 
 function GetRoomAvailable(PageId = '') {
-    debugger
+    
     let checkInDate = $('#CheckInDate').val();
-    let checkOutDate = $('#CheckOutDate').val();
-
+    let checkOutDate = $('#CheckOutDate').val();    
 
     $.ajax({
         url: '/Home/GetRoomAvailable',
@@ -152,7 +151,8 @@ function GetRoomAvailable(PageId = '') {
         data: { CheckinDate: checkInDate, CheckoutDate: checkOutDate, iPage: PageId },
         success: function (response) {
 
-            if (response.success) {
+            if (response.success)
+            {             
                 room_list_div.innerHTML = '';
                 room_list_div.innerHTML = response.htmlContent;
             }
