@@ -28,28 +28,25 @@
                     <div class="row text-center pb-4">
                         <h2><span>REGISTER</span></h2>
                         <span>Kindly complete all the details in the fields. Thank you.</span>
-                    </div>
-                    <div class="row text-center">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                    </div>
+                    </div>                 
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2 pb-2">
-                            <input id="FullName" asp-for="FullName" type="text" class="form-control" placeholder="Enter fullname" autofocus autocomplete="off"/>
+                            <input id="FullName"  type="text" class="form-control" placeholder="Enter fullname" required autofocus autocomplete="off"/>
                         </div>
                         <div class="col-lg-8 offset-lg-2 pb-2">
-                            <input id="Email" asp-for="Email" type="text" class="form-control" placeholder="Enter email" autocomplete="off"/>
+                            <input id="Email" type="text" class="form-control" placeholder="Enter email" required autocomplete="off"/>
                         </div>
                         <div class="col-lg-8 offset-lg-2 pb-2">
-                            <input id="PhoneNumber" asp-for="PhoneNumber" type="text" class="form-control" placeholder="Enter phonenumber" autocomplete="off"/>
+                            <input id="PhoneNumber" type="text" class="form-control" placeholder="Enter phonenumber" required autocomplete="off"/>
                         </div>
                         <div class="col-lg-8 offset-lg-2 pb-2">
-                            <input id="UserName" asp-for="UserName" type="text" class="form-control" placeholder="Enter username" autocomplete="off"/>
+                            <input id="UserName"  type="text" class="form-control" placeholder="Enter username" required autocomplete="off"/>
                         </div>
                         <div class="col-lg-8 offset-lg-2 pb-2">
-                            <input id="Password" asp-for="Password" type="password" class="form-control" placeholder="Enter password" autocomplete="off" />
+                            <input id="Password" type="password" class="form-control" placeholder="Enter password" required autocomplete="off" />
                         </div>
                         <div class="col-lg-8 offset-lg-2 pb-2">
-                            <input id="ConPassword" asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Re-enter password" autocomplete="off" />
+                            <input id="ConPassword" type="password" class="form-control" placeholder="Re-enter password" required autocomplete="off" />
                         </div>
 
                         <div class="col-lg-8 offset-lg-2 pt-2">

@@ -59,8 +59,7 @@ function LoginUser(url, formSelector) {
 }
 
 function RegisterUser(url, formSelector) {
-
-    debugger
+    
 
     let is_true = false;
 
@@ -70,6 +69,8 @@ function RegisterUser(url, formSelector) {
     if (!is_true) {
         return;
     }
+
+  
 
     let fullname = $('#FullName').val();
     let email = $('#Email').val();

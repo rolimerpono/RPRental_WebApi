@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
-	
+
+		
 	if (localStorage.getItem('loginTriggered')) {		
 		ShowToaster('success', 'LOGIN USER', localStorage.getItem('loginMsg'));
 		localStorage.removeItem('loginTriggered');
