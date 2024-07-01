@@ -26,7 +26,7 @@ namespace RPRENTAL_WEBAPP.Controllers
             _helper = helper;
             _viewEngine = viewEngine;
         }
-
+      
         public IActionResult Index()
         {
             return View();

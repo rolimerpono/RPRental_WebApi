@@ -89,8 +89,6 @@ namespace RPRENTAL_WEBAPP.Controllers
 
                 PartialViewResult pvr = PartialView("Common/_RoomList", GetPaginatedRoomList(iPage, objRoomList.AsQueryable()));
                 string html_result = _helper.ViewToString(this.ControllerContext, pvr, _viewEngine);                
-                
-
                 return Json(new { success = true, message = "", htmlContent = html_result });
 
             }

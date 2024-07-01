@@ -26,5 +26,8 @@ namespace Model
         public string Role { get;set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime UpdateDate { get; set; } = Convert.ToDateTime("1900-01-01");
+
+        [NotMapped]
+        public string? Token { get; set; }
     }
 }

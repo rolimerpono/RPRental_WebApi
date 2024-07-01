@@ -49,7 +49,8 @@ namespace RPRENTAL_WEBAPI.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] RegistrationRequestDTO registrationRequestDTO)
+
+        public async Task<ActionResult> Register([FromBody] RegistrationRequestDTO registrationRequestDTO)     
         {
             bool IsUserUnique = await _IApplicationUserService.IsUniqueUsername(registrationRequestDTO.UserName!);
             if (!IsUserUnique)
@@ -71,6 +72,7 @@ namespace RPRENTAL_WEBAPI.Controllers
 
             _APIResponse.StatusCode = HttpStatusCode.OK;
             _APIResponse.IsSuccess = true;
+            _APIResponse.Result = objUser;
             return Ok(_APIResponse);
         }
 

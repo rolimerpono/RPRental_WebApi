@@ -161,11 +161,40 @@ namespace DataServices.Services.Implementation
                     else
                     {
                         await _UserManager.AddToRoleAsync(objUser, SD.UserRole.Customer.ToString());
+                        objUser.Role = SD.UserRole.Customer.ToString();
                     }
 
+
+
+                    var user = await _UserManager.FindByEmailAsync(objUser.UserName);
+                    user!.Role = _UserManager.GetRolesAsync(user).GetAwaiter().GetResult().FirstOrDefault()!;
+
+
+
+                    var claims = new[]
+                    {
+                        new Claim(ClaimTypes.Name, user.UserName!),
+                        new Claim(ClaimTypes.Role, user.Role)
+                    };
+
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
+                    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity(claims),
+                        Expires = DateTime.UtcNow.AddDays(7),
+                        SigningCredentials = credentials
+                    };
+
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        
                     objUser.Password = "";
                     objUser.ConfirmPassword = "";
 
+                    objUser.Token = tokenHandler.WriteToken(token);
                     return objUser;
                 }
 

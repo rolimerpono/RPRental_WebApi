@@ -48,7 +48,7 @@ namespace RPRENTAL_WEBAPP.Controllers
                     {
                     new Claim(ClaimTypes.Name, objResponse.User.UserName!),
                     new Claim(ClaimTypes.Role, objResponse.User.Role!)
-                };
+                    };
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var cp = new ClaimsPrincipal(identity);
@@ -75,21 +75,42 @@ namespace RPRENTAL_WEBAPP.Controllers
         public IActionResult Register()
         {
             RegistrationRequestDTO loginRequest = new();
-
             return View(loginRequest);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]      
         public async Task<IActionResult> Register(RegistrationRequestDTO regRequest)
         {
+
+            if(regRequest.Role == null)
+            {
+                regRequest.Role = SD.UserRole.Customer.ToString();
+            }
             APIResponse response = await _IApplicationUserService.RegisterAsync<APIResponse>(regRequest);
+
+
             if(response != null && response.IsSuccess)
             {
-                return RedirectToAction("Login", "ApplicationUser");
+
+                RegistrationResponseDTO objResponse = JsonConvert.DeserializeObject<RegistrationResponseDTO>(Convert.ToString(response.Result)!)!;
+
+                var claims = new[]
+                    {
+                    new Claim(ClaimTypes.Email, objResponse.Email!),
+                    new Claim(ClaimTypes.Role, objResponse.Role!)
+                    };
+
+
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var cp = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, cp);
+                HttpContext.Session.SetString(SD.TokenSession, objResponse.Token);
+
+                return Json(new { success = true, message = SD.SystemMessage.Login });
             }
 
-            return View(response);
+            return Json(new { success = false, message = response.Message });
         }
 
         public async Task<IActionResult> Logout()

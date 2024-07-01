@@ -1,7 +1,11 @@
-﻿using RPRENTAL_WEBAPP.Models.DTO;
+﻿using Newtonsoft.Json.Linq;
+using RPRENTAL_WEBAPP.Models.DTO;
 using RPRENTAL_WEBAPP.Models.DTO.ApplicationUsers;
 using RPRENTAL_WEBAPP.Services.Interface;
+using System;
 using Utility;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static Utility.SD;
 
 namespace RPRENTAL_WEBAPP.Services.Implementation
 {
@@ -24,7 +28,9 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             {
                 ApiType = SD.ApiType.POST,
                 Data = loginRequestDTO,
-                Url = apiUrl + "/api/UserAuth/Login/"
+                Url = apiUrl + "/api/UserAuth/Login/",
+                ContentType = ContentType.Json
+                
             });
         }
 
@@ -34,8 +40,10 @@ namespace RPRENTAL_WEBAPP.Services.Implementation
             {
                 ApiType = SD.ApiType.POST,
                 Data = registerRequestDTO,
-                Url = apiUrl + "/api/UserAuth/Register/"
+                Url = apiUrl + "/api/UserAuth/Register/",
+                ContentType = ContentType.Json
             });
         }
     }
 }
+
